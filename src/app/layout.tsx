@@ -122,9 +122,28 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col grain">
+        {/* Scroll Progress Bar — CSS scroll-driven */}
+        <div className="scroll-progress" aria-hidden="true" />
+
         <ReactLenis root options={{ lerp: 0.08, duration: 1.2 }}>
           {children}
         </ReactLenis>
+
+        {/* IntersectionObserver — ativa reveal-fade e reveal-scale no viewport */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+              var RO = window.IntersectionObserver;
+              if(!RO) return;
+              var obs = new RO(function(entries){
+                entries.forEach(function(e){
+                  if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+                });
+              }, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
+              document.querySelectorAll('.reveal-fade,.reveal-scale').forEach(function(el){ obs.observe(el); });
+            })();`,
+          }}
+        />
       </body>
     </html>
   );

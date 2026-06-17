@@ -412,7 +412,7 @@ function PromptCard({ item, index }: { item: PromptItem; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay: index * 0.06, ease: [0.19, 1, 0.22, 1] }}
-      className="card-surface group flex flex-col overflow-hidden transition-all duration-300 hover:border-ios-accent/30"
+      className="card-surface card-3d-inner reveal-scale group flex flex-col overflow-hidden transition-all duration-300 hover:border-ios-accent/30"
     >
       {/* Card Top */}
       <div className="p-5 pb-3">
@@ -490,7 +490,7 @@ export default function BibliotecaPage() {
   return (
     <main className="min-h-screen bg-ios-base">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-ios-border/40 pt-28 pb-16 sm:pt-36 sm:pb-20">
+      <section className="reveal-fade relative overflow-hidden border-b border-ios-border/40 pt-28 pb-16 sm:pt-36 sm:pb-20">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_30%,rgba(61,245,197,0.04),transparent)]" />
         <div className="container-ios relative">
           <motion.div
@@ -530,7 +530,7 @@ export default function BibliotecaPage() {
       </section>
 
       {/* ── Search + Filter ── */}
-      <section className="container-ios py-10">
+      <section className="reveal-fade container-ios py-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
@@ -575,7 +575,7 @@ export default function BibliotecaPage() {
       </section>
 
       {/* ── Grid ── */}
-      <section className="container-ios pb-24 sm:pb-32">
+      <section className="reveal-fade container-ios pb-24 sm:pb-32">
         <div className="grid gap-5 sm:grid-cols-2">
           {filtered.map((item, i) => (
             <PromptCard key={item.id} item={item} index={i} />

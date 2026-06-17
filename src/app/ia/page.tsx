@@ -224,6 +224,11 @@ Gateway → Gemini 2.5 Pro → Streaming → thiagolab.com/ia`,
 
   return (
     <main className="min-h-screen bg-ios-base">
+      {/* Parallax background subtle */}
+      <div className="parallax-bg pointer-events-none fixed inset-0 opacity-30" aria-hidden="true">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_30%,rgba(61,245,197,0.06),transparent)]" />
+      </div>
+
       {/* ── Top Bar ── */}
       <div className="fixed inset-x-0 top-0 z-40 border-b border-ios-border/40 bg-ios-base/80 backdrop-blur-xl">
         <div className="container-ios flex h-14 items-center justify-between">
@@ -291,7 +296,7 @@ Gateway → Gemini 2.5 Pro → Streaming → thiagolab.com/ia`,
       </div>
 
       {/* ── Chat Area ── */}
-      <div className="container-ios pt-20 pb-36">
+      <div className="reveal-fade container-ios pt-20 pb-36">
         <div className="mx-auto max-w-3xl">
           {/* Messages */}
           <div className="space-y-4">

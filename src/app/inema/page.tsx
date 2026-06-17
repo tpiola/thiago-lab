@@ -82,50 +82,52 @@ function RepoIcon({ icon }: { icon: string }) {
 /* ─── Card Component ─── */
 function RepoCard({ repo, index }: { repo: InemaRepo; index: number }) {
   return (
-    <motion.a
-      href={repo.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.19, 1, 0.22, 1] }}
-      className="card-surface group flex flex-col transition-all duration-300 hover:border-ios-accent/30 hover:shadow-ios-glow-sm"
-    >
-      {/* Card header */}
-      <div className="flex items-start justify-between p-5 pb-3">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-ios-border bg-ios-surface-2">
-            <RepoIcon icon={repo.icon} />
+    <div className="card-3d">
+      <motion.a
+        href={repo.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.5, delay: index * 0.06, ease: [0.19, 1, 0.22, 1] }}
+        className="card-surface card-3d-inner group flex flex-col transition-all duration-300 hover:border-ios-accent/30 hover:shadow-ios-glow-sm"
+      >
+        {/* Card header */}
+        <div className="flex items-start justify-between p-5 pb-3">
+          <div className="flex items-center gap-3">
+            <div className="img-zoom flex h-10 w-10 items-center justify-center rounded-lg border border-ios-border bg-ios-surface-2">
+              <RepoIcon icon={repo.icon} />
+            </div>
+            <div>
+              <h3 className="font-mono text-sm font-bold text-ios-text">{repo.name}</h3>
+              <span className="inline-flex items-center gap-1 font-mono text-[10px] text-ios-muted">
+                <GitFork size={10} />
+                {repo.category === 'curso' ? 'Curso' : 'Ferramenta'}
+              </span>
+            </div>
           </div>
-          <div>
-            <h3 className="font-mono text-sm font-bold text-ios-text">{repo.name}</h3>
-            <span className="inline-flex items-center gap-1 font-mono text-[10px] text-ios-muted">
-              <GitFork size={10} />
-              {repo.category === 'curso' ? 'Curso' : 'Ferramenta'}
-            </span>
-          </div>
+          <ExternalLink size={14} className="shrink-0 text-ios-muted transition-colors group-hover:text-ios-accent" />
         </div>
-        <ExternalLink size={14} className="shrink-0 text-ios-muted transition-colors group-hover:text-ios-accent" />
-      </div>
 
-      {/* Description */}
-      <div className="px-5 pb-3">
-        <p className="text-sm leading-relaxed text-ios-text-secondary line-clamp-3">
-          {repo.description}
-        </p>
-      </div>
+        {/* Description */}
+        <div className="px-5 pb-3">
+          <p className="text-sm leading-relaxed text-ios-text-secondary line-clamp-3">
+            {repo.description}
+          </p>
+        </div>
 
-      {/* Card footer */}
-      <div className="mt-auto flex items-center gap-2 border-t border-ios-border/30 px-5 py-3">
-        <span className={`inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wider ${LANG_COLORS[repo.language] || LANG_COLORS['N/A']}`}>
-          {repo.language || 'N/A'}
-        </span>
-        <span className="ml-auto flex items-center gap-1 font-mono text-[10px] text-ios-accent opacity-0 transition-opacity group-hover:opacity-100">
-          Ver repositório <ArrowUpRight size={10} />
-        </span>
-      </div>
-    </motion.a>
+        {/* Card footer */}
+        <div className="mt-auto flex items-center gap-2 border-t border-ios-border/30 px-5 py-3">
+          <span className={`inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wider ${LANG_COLORS[repo.language] || LANG_COLORS['N/A']}`}>
+            {repo.language || 'N/A'}
+          </span>
+          <span className="ml-auto flex items-center gap-1 font-mono text-[10px] text-ios-accent opacity-0 transition-opacity group-hover:opacity-100">
+            Ver repositório <ArrowUpRight size={10} />
+          </span>
+        </div>
+      </motion.a>
+    </div>
   );
 }
 
@@ -151,7 +153,7 @@ export default function InemaPage() {
   return (
     <main className="min-h-screen bg-ios-base">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-ios-border/40 pt-28 pb-20 sm:pt-36 sm:pb-28">
+      <section className="reveal-fade relative overflow-hidden border-b border-ios-border/40 pt-28 pb-20 sm:pt-36 sm:pb-28">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_30%,rgba(61,245,197,0.04),transparent)]" />
         <div className="container-ios relative">
           <motion.div
@@ -213,7 +215,7 @@ export default function InemaPage() {
       </section>
 
       {/* ── Destaques ── */}
-      <section className="container-ios py-16">
+      <section className="reveal-fade container-ios py-16">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -253,7 +255,7 @@ export default function InemaPage() {
       </section>
 
       {/* ── Grid com Filtro ── */}
-      <section className="container-ios pb-24 sm:pb-32">
+      <section className="reveal-fade container-ios pb-24 sm:pb-32">
         {/* Search + Filter */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
