@@ -7,7 +7,6 @@ import { Menu, X } from 'lucide-react';
 const NAV_LINKS = [
   { label: 'Plataforma', href: '#plataforma' },
   { label: 'Áreas', href: '#areas' },
-  { label: 'Biblioteca', href: '#biblioteca' },
   { label: 'Casos', href: '#casos' },
   { label: 'Lab Pro', href: '#lab-pro' },
 ];
