@@ -97,26 +97,27 @@ const TECH_TOTAL = STACK_CATEGORIES.reduce((acc, c) => acc + c.items.length, 0);
 
 function AnimatedCounter({ target, duration = 1500 }: { target: number; duration?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
+  const inView = useInView(ref, { once: true, margin: '0px 0px -100px 0px' });
+  const [count, setCount] = useState(target);
 
   useEffect(() => {
     if (!inView) return;
-    let start = 0;
+    setCount(0);
+    let current = 0;
     const increment = target / (duration / 16);
     const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
+      current += increment;
+      if (current >= target) {
         setCount(target);
         clearInterval(timer);
       } else {
-        setCount(Math.floor(start));
+        setCount(Math.floor(current));
       }
     }, 16);
     return () => clearInterval(timer);
   }, [inView, target, duration]);
 
-  return <span ref={ref}>{count}</span>;
+  return <span ref={ref} className="tabular-nums">{count}</span>;
 }
 
 function TerminalSummary() {
