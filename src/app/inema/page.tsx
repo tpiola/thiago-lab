@@ -15,7 +15,11 @@ import {
   Wrench,
   BookMarked,
   ChevronDown,
+  BrainCircuit,
+  Layers,
 } from 'lucide-react';
+import { KARPATHY_REPOS, KARPATHY_STATS, CATEGORY_LABELS, CATEGORY_COLORS } from '@/data/karpathy-repos';
+import type { KarpathyCategory } from '@/data/karpathy-repos';
 
 /* ─── INEMA Repository Data ─── */
 interface InemaRepo {
@@ -252,6 +256,125 @@ export default function InemaPage() {
             </motion.a>
           ))}
         </div>
+      </section>
+
+      {/* ── KARPATHY LABS ── */}
+      <section className="reveal-fade container-ios py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
+          className="mb-8 flex items-center gap-2"
+        >
+          <BrainCircuit size={16} className="text-purple-400" />
+          <span className="font-mono text-sm font-bold uppercase tracking-wider text-purple-400">Karpathy Labs</span>
+          <div className="h-px flex-1 bg-gradient-to-r from-purple-400/20 to-transparent" />
+        </motion.div>
+
+        {/* Stats bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
+          className="mb-8 flex flex-wrap gap-4"
+        >
+          <div className="flex items-center gap-3 rounded-lg border border-purple-500/20 bg-purple-500/5 px-4 py-3">
+            <span className="font-mono text-2xl font-bold text-purple-400">{KARPATHY_STATS.total}</span>
+            <span className="font-mono text-[11px] uppercase tracking-wider text-purple-400/70">Repositórios</span>
+          </div>
+          <div className="flex items-center gap-3 rounded-lg border border-yellow-500/20 bg-yellow-500/5 px-4 py-3">
+            <span className="font-mono text-2xl font-bold text-yellow-400">{(KARPATHY_STATS.totalStars / 1000).toFixed(0)}M+</span>
+            <span className="font-mono text-[11px] uppercase tracking-wider text-yellow-400/70">Stars</span>
+          </div>
+          <div className="flex items-center gap-3 rounded-lg border border-blue-500/20 bg-blue-500/5 px-4 py-3">
+            <span className="font-mono text-2xl font-bold text-blue-400">{KARPATHY_STATS.totalForks.toLocaleString()}</span>
+            <span className="font-mono text-[11px] uppercase tracking-wider text-blue-400/70">Forks</span>
+          </div>
+          <div className="flex items-center gap-3 rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3">
+            <span className="font-mono text-2xl font-bold text-green-400">{Object.keys(KARPATHY_STATS.categories).length}</span>
+            <span className="font-mono text-[11px] uppercase tracking-wider text-green-400/70">Categorias</span>
+          </div>
+        </motion.div>
+
+        {/* Category breakdown */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
+          className="mb-8 flex flex-wrap gap-2"
+        >
+          {Object.entries(KARPATHY_STATS.categories).map(([cat, count]) => (
+            <span
+              key={cat}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-wider ${CATEGORY_COLORS[cat as KarpathyCategory]}`}
+            >
+              <Layers size={10} />
+              {CATEGORY_LABELS[cat as KarpathyCategory]} ({count})
+            </span>
+          ))}
+        </motion.div>
+
+        {/* Top repos grid */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mb-6 font-mono text-[11px] uppercase tracking-wider text-ios-muted"
+        >
+          Top repositórios por estrelas:
+        </motion.p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {KARPATHY_REPOS.slice(0, 12).map((repo, i) => (
+            <motion.a
+              key={repo.name}
+              href={repo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.05, ease: [0.19, 1, 0.22, 1] }}
+              className="group flex flex-col rounded-xl border border-ios-border/50 bg-ios-surface p-4 transition-all duration-300 hover:border-purple-500/30 hover:bg-ios-surface-2 hover:shadow-ios-glow-sm"
+            >
+              <div className="mb-1 flex items-center justify-between">
+                <span className="font-mono text-sm font-bold text-ios-text group-hover:text-purple-400">{repo.name}</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-mono text-[10px] text-yellow-400">★</span>
+                  <span className="font-mono text-[10px] text-ios-muted">{repo.stars >= 1000 ? `${(repo.stars/1000).toFixed(1)}k` : repo.stars}</span>
+                </div>
+              </div>
+              <p className="mb-3 line-clamp-2 text-[11px] leading-relaxed text-ios-text-secondary">{repo.description || 'No description'}</p>
+              <div className="mt-auto flex items-center gap-2">
+                <span className={`inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[9px] font-medium uppercase tracking-wider ${CATEGORY_COLORS[repo.category as KarpathyCategory]}`}>
+                  {CATEGORY_LABELS[repo.category as KarpathyCategory]}
+                </span>
+                <span className="ml-auto font-mono text-[9px] text-ios-muted">{repo.language}</span>
+              </div>
+            </motion.a>
+          ))}
+        </div>
+
+        {/* See all link */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-6 text-center"
+        >
+          <a
+            href="https://github.com/karpathy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/5 px-5 py-2.5 font-mono text-xs font-medium text-purple-400 transition-all hover:bg-purple-500/10 hover:shadow-ios-glow-sm"
+          >
+            <ExternalLink size={14} />
+            Ver todos os 63 repositórios no GitHub
+            <ArrowUpRight size={12} />
+          </a>
+        </motion.div>
       </section>
 
       {/* ── Grid com Filtro ── */}
