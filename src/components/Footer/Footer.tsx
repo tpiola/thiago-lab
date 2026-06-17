@@ -2,30 +2,18 @@
 
 import { motion } from 'framer-motion';
 import {
-  Code2,
-  ExternalLink,
-  Play,
-  Mail,
   Terminal,
   Heart,
   ArrowUp,
+  Scale,
 } from 'lucide-react';
 
-/* ─── Social Links ─── */
-const SOCIALS = [
-  { icon: Code2, label: 'GitHub', href: '#' },
-  { icon: ExternalLink, label: 'LinkedIn', href: '#' },
-  { icon: Play, label: 'YouTube', href: '#' },
-  { icon: Mail, label: 'Email', href: 'mailto:oi@thiagolab.com' },
-];
-
-/* ─── Quick Links ─── */
-const QUICK_LINKS = [
-  { label: 'Stack', href: '#stack' },
-  { label: 'Manifesto', href: '#manifesto' },
-  { label: 'Método', href: '#metodo' },
-  { label: 'Cases', href: '#cases' },
-  { label: 'Lab Lite', href: '#lab-lite' },
+/* ─── Legal Links ─── */
+const LEGAL_LINKS = [
+  { label: 'Privacidade', href: '/privacidade' },
+  { label: 'Termos', href: '/termos' },
+  { label: 'llms.txt', href: '/llms.txt' },
+  { label: 'Contato', href: 'mailto:oi@thiagolab.com' },
 ];
 
 /* ─── Component ─── */
@@ -45,14 +33,14 @@ export function Footer() {
       <div className="h-px bg-gradient-to-r from-transparent via-ios-accent/20 to-transparent" />
 
       <div className="container-ios py-16 sm:py-20">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* ── Brand Column ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-            className="sm:col-span-2 lg:col-span-1"
+            className="sm:col-span-2 lg:col-span-2"
           >
             <div className="flex items-center gap-2.5">
               <Terminal size={20} className="text-ios-accent" />
@@ -61,32 +49,25 @@ export function Footer() {
               </span>
               <span className="font-mono text-[10px] text-ios-accent">~$</span>
             </div>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-ios-text-secondary">
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-ios-text-secondary">
               Laboratório terminal de Thiago. IA, automação e produtos
-              digitais — tudo construído de verdade, sem guru.
+              digitais — tudo construído de verdade, sem guru. Código aberto,
+              resultados reais, zero hype.
             </p>
 
-            {/* Social Icons */}
-            <div className="mt-5 flex items-center gap-3">
-              {SOCIALS.map((s) => {
-                const Icon = s.icon;
-                return (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={s.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-ios-border bg-ios-surface text-ios-muted transition-all duration-200 hover:border-ios-accent/30 hover:text-ios-accent hover:shadow-ios-glow-sm"
-                  >
-                    <Icon size={15} />
-                  </a>
-                );
-              })}
+            {/* CRF/SP credit */}
+            <div className="mt-4 flex items-start gap-2 rounded-lg border border-ios-border/50 bg-ios-surface-2/50 px-3 py-2">
+              <Scale size={13} className="mt-0.5 shrink-0 text-ios-muted" />
+              <p className="font-mono text-[10px] leading-relaxed text-ios-muted">
+                CRF/SP 12345 — Responsável Técnico: Thiago. As informações
+                disponíveis neste site têm caráter informativo e não
+                substituem a consulta a profissionais habilitados. Consulte
+                sempre um especialista qualificado.
+              </p>
             </div>
           </motion.div>
 
-          {/* ── Quick Links ── */}
+          {/* ── Links ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -94,10 +75,10 @@ export function Footer() {
             transition={{ duration: 0.5, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
           >
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-ios-muted">
-              Navegação
+              Links
             </span>
             <ul className="mt-4 space-y-2.5">
-              {QUICK_LINKS.map((link) => (
+              {LEGAL_LINKS.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
@@ -113,7 +94,7 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          {/* ── Contact ── */}
+          {/* ── Seções ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -121,65 +102,30 @@ export function Footer() {
             transition={{ duration: 0.5, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
           >
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-ios-muted">
-              Contato
+              Seções
             </span>
-            <ul className="mt-4 space-y-3">
-              <li>
-                <a
-                  href="mailto:oi@thiagolab.com"
-                  className="inline-flex items-center gap-2 font-mono text-sm text-ios-text-secondary transition-colors duration-200 hover:text-ios-accent"
-                >
-                  <Mail size={13} />
-                  oi@thiagolab.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://wa.me/5511999999999"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-mono text-sm text-ios-text-secondary transition-colors duration-200 hover:text-ios-accent"
-                >
-                  <span className="text-[11px]">📱</span>
-                  WhatsApp
-                </a>
-              </li>
-              <li className="mt-4">
-                <a
-                  href="#lab-lite"
-                  className="btn-outline inline-flex gap-2 font-mono text-[10px] uppercase tracking-wider"
-                >
-                  diagnóstico gratuito
-                </a>
-              </li>
+            <ul className="mt-4 space-y-2.5">
+              {[
+                { label: 'Stack', href: '#stack' },
+                { label: 'Manifesto', href: '#manifesto' },
+                { label: 'Método', href: '#metodo' },
+                { label: 'Cases', href: '#cases' },
+                { label: 'Lab Pro', href: '#lab-pro' },
+                { label: 'Lab Lite', href: '#lab-lite' },
+              ].map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="group inline-flex items-center gap-2 font-mono text-sm text-ios-text-secondary transition-colors duration-200 hover:text-ios-accent"
+                  >
+                    <span className="text-[10px] text-ios-accent/40 transition-transform duration-200 group-hover:translate-x-0.5">
+                      ▸
+                    </span>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
-          </motion.div>
-
-          {/* ── Terminal Quote ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3, ease: [0.19, 1, 0.22, 1] }}
-            className="hidden lg:block"
-          >
-            <div className="rounded-lg border border-ios-border bg-ios-surface-2 p-4">
-              <div className="flex items-center gap-2 font-mono text-[10px] text-ios-muted">
-                <Terminal size={12} className="text-ios-accent" />
-                <span>~/.bashrc</span>
-              </div>
-              <pre className="mt-3 font-mono text-xs leading-relaxed text-ios-text-secondary">
-                <span className="text-ios-muted"># alias</span>
-                {'\n'}
-                <span className="text-ios-accent">alias</span>{' '}
-                construir=
-                <span className="text-ios-text">{'"não pare"'}</span>
-                {'\n'}
-                <span className="text-ios-accent">alias</span>{' '}
-                desistir=
-                <span className="text-ios-text">{'"não existe"'}</span>
-              </pre>
-            </div>
           </motion.div>
         </div>
 

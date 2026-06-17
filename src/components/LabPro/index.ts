@@ -1,0 +1,1 @@
+export { LabPro } from './LabPro';

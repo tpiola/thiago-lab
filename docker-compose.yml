@@ -1,0 +1,19 @@
+services:
+  thiagolab:
+    build: .
+    container_name: thiagolab
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thiagolab.rule=Host(`thiagolab.com`) || Host(`www.thiagolab.com`)"
+      - "traefik.http.routers.thiagolab.entrypoints=websecure"
+      - "traefik.http.routers.thiagolab.tls.certresolver=letsencrypt"
+      - "traefik.http.services.thiagolab.loadbalancer.server.port=3000"
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    external: true

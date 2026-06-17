@@ -19,10 +19,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Thiago Lab — Intelligence OS",
   description:
-    "Laboratório terminal de Thiago. Inteligência, código, experimentos.",
+    "IA aplicada para transformar perguntas em decisões, sistemas e resultados. Um laboratório de aplicação.",
   openGraph: {
     title: "Thiago Lab — Intelligence OS",
-    description: "Laboratório terminal de Thiago. Inteligência, código, experimentos.",
+    description:
+      "IA aplicada para transformar perguntas em decisões, sistemas e resultados. Um laboratório de aplicação.",
     type: "website",
     locale: "pt_BR",
   },

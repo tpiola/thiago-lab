@@ -1,8 +1,9 @@
 /* ── Página Inicial – Thiago Lab ────────────────────────────────
  *
- *  Seções: Hero, Stack Log, Manifesto, Método, Cases, Lab Lite, Footer
+ *  Seções: Nav, Hero, Stack Log, Manifesto, Método, Cases, Lab Lite, Footer
  */
 
+import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { StackLog } from "@/components/StackLog";
 import { Manifesto } from "@/components/Manifesto";
@@ -14,6 +15,10 @@ import { Footer } from "@/components/Footer";
 export default function HomePage() {
   return (
     <main>
+      {/* Navigation fixa com glassmorphism */}
+      <Nav />
+
+      {/* 1. Hero + Pipeline de validação visual */}
       <Hero />
 
       {/* 2. Prova de que entende de IA — Stack Log */}
