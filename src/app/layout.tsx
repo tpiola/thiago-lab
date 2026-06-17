@@ -25,6 +25,8 @@ export const metadata: Metadata = {
     "Thiago Lab", "Intelligence OS", "IA", "inteligência artificial",
     "agentes AI", "automação", "n8n", "Next.js", "desenvolvimento web",
     "laboratório de aplicação", "transformação digital",
+    "INEMA VIP", "LLM Gateway", "Biblioteca de Prompts", "prompt engineering",
+    "Claude Code", "DeepSeek", "agentes inteligentes",
   ],
   authors: [{ name: "Thiago Lab" }],
   creator: "Thiago Lab",
@@ -82,6 +84,26 @@ export default function RootLayout({
       name: 'Thiago Lab',
     },
     inLanguage: 'pt-BR',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://thiagolab.com/biblioteca?q={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  const jsonLdBreadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    name: 'Thiago Lab',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thiagolab.com' },
+      { '@type': 'ListItem', position: 2, name: 'INEMA VIP', item: 'https://thiagolab.com/inema' },
+      { '@type': 'ListItem', position: 3, name: 'LLM Gateway', item: 'https://thiagolab.com/ia' },
+      { '@type': 'ListItem', position: 4, name: 'Biblioteca de Prompts', item: 'https://thiagolab.com/biblioteca' },
+    ],
   };
 
   return (
@@ -93,6 +115,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
       </head>
       <body className="min-h-full flex flex-col grain">

@@ -12,6 +12,12 @@ const NAV_LINKS = [
   { label: 'Lab Pro', href: '#lab-pro' },
 ];
 
+const NAV_PAGES = [
+  { label: 'INEMA', href: '/inema' },
+  { label: 'IA', href: '/ia' },
+  { label: 'Biblioteca', href: '/biblioteca' },
+];
+
 /* ─── Component ─── */
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -52,8 +58,19 @@ export function Nav() {
           <span className="hidden sm:inline">THIAGO LAB</span>
         </a>
 
-        {/* ── Desktop Links ── */}
+        {/* ── Desktop Links — Páginas ── */}
         <ul className="hidden items-center gap-1 md:flex">
+          {NAV_PAGES.map((link) => (
+            <li key={link.label}>
+              <a
+                href={link.href}
+                className="rounded-md px-3 py-2 text-sm font-medium text-ios-text-secondary transition-colors hover:bg-ios-accent/5 hover:text-ios-text"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+          <li className="mx-1 h-4 w-px bg-ios-border/40" />
           {NAV_LINKS.map((link) => (
             <li key={link.label}>
               <a
@@ -69,10 +86,10 @@ export function Nav() {
         {/* ── Desktop CTA ── */}
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href="#lab-lite"
+            href="/ia"
             className="btn-accent relative overflow-hidden px-5 py-2 text-sm font-semibold"
           >
-            <span className="relative z-10">Acessar Lab Lite</span>
+            <span className="relative z-10">LLM Gateway</span>
             <span className="absolute inset-0 animate-pulse-glow rounded-md opacity-60" />
           </a>
         </div>
@@ -91,11 +108,24 @@ export function Nav() {
       {/* ── Mobile Menu ── */}
       <div
         className={`overflow-hidden transition-all duration-400 ease-out-expo md:hidden ${
-          menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          menuOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="border-t border-ios-border/30 bg-ios-surface/95 px-4 py-4 backdrop-blur-xl">
           <ul className="flex flex-col gap-1">
+            {/* Pages first */}
+            {NAV_PAGES.map((link) => (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="block rounded-md px-3 py-2.5 text-sm font-medium text-ios-accent transition-colors hover:bg-ios-accent/5 hover:text-ios-text"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+            <li className="my-1 h-px bg-ios-border/30" />
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
                 <a
@@ -109,11 +139,11 @@ export function Nav() {
             ))}
           </ul>
           <a
-            href="#lab-lite"
+            href="/ia"
             onClick={() => setMenuOpen(false)}
             className="btn-accent mt-3 w-full justify-center px-5 py-2.5 text-sm font-semibold"
           >
-            Acessar Lab Lite
+            LLM Gateway
           </a>
         </div>
       </div>
