@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  turbopack: {
+    root: "/opt/data/projects/thiago-lab",
+  },
 };
 
 export default nextConfig;

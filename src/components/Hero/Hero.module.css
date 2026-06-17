@@ -1,0 +1,221 @@
+/* ─── Hero Layout ─── */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-bg-hero, #0a0a0a);
+}
+
+/* ─── Spline 3D Scene ─── */
+.splineWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.splineScene {
+  width: 100%;
+  height: 100%;
+}
+
+.splineFallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    rgba(59, 130, 246, 0.08) 0%,
+    transparent 60%
+  );
+}
+
+/* ─── Content Layer ─── */
+.content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 64rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+/* ─── Headline ─── */
+.headline {
+  font-size: clamp(1.75rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: #fafafa;
+  max-width: 14ch;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Terminal Typewriter ─── */
+.terminal {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  width: 100%;
+  max-width: 32rem;
+}
+
+.terminalPrompt {
+  color: #22c55e;
+  font-family: var(--font-mono, 'Geist Mono', monospace);
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.terminalText {
+  color: #e4e4e7;
+  font-family: var(--font-mono, 'Geist Mono', monospace);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.terminalCursor {
+  display: inline-block;
+  width: 0.5rem;
+  height: 1.1em;
+  background: #60a5fa;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ─── CTAs ─── */
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #d4d4d8;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ctaSecondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Subtitle / Secondary text ─── */
+.subtitle {
+  color: #a1a1aa;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  max-width: 32rem;
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .terminalCursor {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .ctaPrimary:hover,
+  .ctaSecondary:hover {
+    transform: none;
+  }
+
+  .splineScene {
+    display: none;
+  }
+
+  .splineFallback {
+    display: none;
+  }
+
+  /* Static gradient background instead */
+  .hero {
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 40%,
+      rgba(59, 130, 246, 0.12) 0%,
+      #0a0a0a 60%
+    );
+  }
+}
+
+/* ─── Mobile: hide Spline, show gradient ─── */
+@media (max-width: 768px) {
+  .splineWrapper {
+    opacity: 0.3;
+  }
+
+  .headline {
+    font-size: clamp(1.5rem, 7vw, 2.25rem);
+  }
+
+  .terminal {
+    max-width: 100%;
+  }
+
+  .terminalText {
+    font-size: 0.8rem;
+  }
+}
