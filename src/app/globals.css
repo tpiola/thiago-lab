@@ -600,3 +600,79 @@ body {
     linear-gradient(90deg, rgba(61,245,197,0.03) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+/* ==========================================================================
+   CONTAINER QUERIES
+   ========================================================================== */
+@container (min-width: 640px) {
+  .cq-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@container (min-width: 960px) {
+  .cq-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==========================================================================
+   PREFERS-REDUCED-MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .grain::before,
+  .grain-overlay::before,
+  .scanline::before {
+    display: none;
+  }
+
+  .terminal-cursor::after {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* ==========================================================================
+   100DVH SAFE AREA
+   ========================================================================== */
+.min-h-dvh-safe {
+  min-height: 100dvh;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   SCROLL SNAP
+   ========================================================================== */
+.snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+.snap-child {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* ==========================================================================
+   TEXT BALANCE — global default
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6, p {
+  text-wrap: pretty;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}

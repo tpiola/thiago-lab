@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { ReactLenis } from "lenis/react";
 
 /* ── Geist Sans (primary sans) ──────────────────────────────────────────── */
 const geistSans = Geist({
@@ -20,12 +21,42 @@ export const metadata: Metadata = {
   title: "Thiago Lab — Intelligence OS",
   description:
     "IA aplicada para transformar perguntas em decisões, sistemas e resultados. Um laboratório de aplicação.",
+  keywords: [
+    "Thiago Lab", "Intelligence OS", "IA", "inteligência artificial",
+    "agentes AI", "automação", "n8n", "Next.js", "desenvolvimento web",
+    "laboratório de aplicação", "transformação digital",
+  ],
+  authors: [{ name: "Thiago Lab" }],
+  creator: "Thiago Lab",
+  publisher: "Thiago Lab",
+  robots: "index, follow",
+  metadataBase: new URL("https://thiagolab.com"),
   openGraph: {
     title: "Thiago Lab — Intelligence OS",
     description:
       "IA aplicada para transformar perguntas em decisões, sistemas e resultados. Um laboratório de aplicação.",
     type: "website",
     locale: "pt_BR",
+    siteName: "Thiago Lab",
+    url: "https://thiagolab.com",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Thiago Lab — Intelligence OS",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Thiago Lab — Intelligence OS",
+    description:
+      "IA aplicada para transformar perguntas em decisões, sistemas e resultados. Um laboratório de aplicação.",
+    images: ["/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://thiagolab.com",
   },
 };
 
@@ -39,13 +70,35 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Thiago Lab — Intelligence OS',
+    url: 'https://thiagolab.com',
+    description:
+      'IA aplicada para transformar perguntas em decisões, sistemas e resultados. Um laboratório de aplicação.',
+    author: {
+      '@type': 'Person',
+      name: 'Thiago Lab',
+    },
+    inLanguage: 'pt-BR',
+  };
+
   return (
     <html
       lang="pt-BR"
       className={`${geistSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col grain">
-        {children}
+        <ReactLenis root options={{ lerp: 0.08, duration: 1.2 }}>
+          {children}
+        </ReactLenis>
       </body>
     </html>
   );

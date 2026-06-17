@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
   Braces,
@@ -95,6 +95,30 @@ function StackCard({
 /* ─── Terminal Summary Bar ─── */
 const TECH_TOTAL = STACK_CATEGORIES.reduce((acc, c) => acc + c.items.length, 0);
 
+function AnimatedCounter({ target, duration = 1500 }: { target: number; duration?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const increment = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, target, duration]);
+
+  return <span ref={ref}>{count}</span>;
+}
+
 function TerminalSummary() {
   return (
     <motion.div
@@ -106,7 +130,9 @@ function TerminalSummary() {
     >
       <span className="text-ios-accent">$</span>
       <span className="text-ios-muted">du -sh ~/stack</span>
-      <span className="text-ios-text-secondary">{TECH_TOTAL} techs · 6 domínios</span>
+      <span className="text-ios-text-secondary">
+        <AnimatedCounter target={TECH_TOTAL} /> techs · 6 domínios
+      </span>
       <span className="text-ios-accent/40">||</span>
       <span className="text-ios-accent">✓</span>
       <span className="text-ios-text-secondary">production ready</span>
