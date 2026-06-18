@@ -83,7 +83,7 @@ const FOLDERS: DriveFolder[] = [
     description: "Posts, vídeos, artigos e materiais de marketing",
     recentFiles: [
       { name: "Post Instagram - Produto.mp4", type: "image", size: "45 MB", modified: "3h atrás" },
-      { name: "Artigo SEO - NEXUS.docx", type: "doc", size: "2.1 MB", modified: "1 dia atrás" },
+      { name: "Artigo SEO - Intelligence OS.docx", type: "doc", size: "2.1 MB", modified: "1 dia atrás" },
       { name: "Banner campanha.png", type: "image", size: "5.3 MB", modified: "2 dias atrás" },
     ],
   },
@@ -140,7 +140,7 @@ function FolderCard({
 
   return (
     <div
-      className="nexus-card p-4 cursor-pointer hover:border-[rgba(201,162,39,0.15)] transition-all duration-200 group"
+      className="intelligence-os-card p-4 cursor-pointer hover:border-[rgba(201,162,39,0.15)] transition-all duration-200 group"
       onClick={() => onOpen(folder)}
     >
       <div className="flex items-start justify-between mb-3">
@@ -198,7 +198,7 @@ function FolderDetail({
       </div>
 
       {/* Folder Header */}
-      <div className="nexus-card p-4 mb-4">
+      <div className="intelligence-os-card p-4 mb-4">
         <div className="flex items-center gap-3">
           <div
             className="w-12 h-12 rounded-xl flex items-center justify-center"
@@ -225,7 +225,7 @@ function FolderDetail({
           return (
             <div
               key={i}
-              className="nexus-card p-3 flex items-center justify-between hover:border-[rgba(201,162,39,0.12)] transition-all"
+              className="intelligence-os-card p-3 flex items-center justify-between hover:border-[rgba(201,162,39,0.12)] transition-all"
             >
               <div className="flex items-center gap-3">
                 <FileIcon size={16} className="text-[#6B7280]" />
@@ -262,12 +262,12 @@ export default function DrivePage() {
   const totalFiles = FOLDERS.reduce((acc, f) => acc + f.files, 0);
 
   return (
-    <div className="p-4 lg:p-6 min-h-full nexus-grid-bg">
+    <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="nexus-section-title text-2xl">Google Drive</h1>
-          <p className="nexus-section-subtitle mt-1">
+          <h1 className="intelligence-os-section-title text-2xl">Google Drive</h1>
+          <p className="intelligence-os-section-subtitle mt-1">
             Todos os seus arquivos e documentos centralizados
           </p>
         </div>
@@ -275,26 +275,26 @@ export default function DrivePage() {
 
       {/* ── Stats ────────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <HardDrive size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Total</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total</span>
           </div>
-          <div className="nexus-metric-value text-xl">{totalSize.toFixed(1)} GB</div>
+          <div className="intelligence-os-metric-value text-xl">{totalSize.toFixed(1)} GB</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Folder size={14} className="text-[#60A5FA]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Pastas</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Pastas</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#60A5FA" }}>{FOLDERS.length}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#60A5FA" }}>{FOLDERS.length}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <FileText size={14} className="text-[#34D399]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Arquivos</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Arquivos</span>
           </div>
-          <div className="nexus-metric-value text-xl text-[#34D399]">{totalFiles}+</div>
+          <div className="intelligence-os-metric-value text-xl text-[#34D399]">{totalFiles}+</div>
         </div>
       </div>
 

@@ -65,8 +65,8 @@ function NovoClienteModal({ open, onClose }: { open: boolean; onClose: () => voi
   if (!open) return null;
 
   return (
-    <div className="nexus-modal-overlay" onClick={onClose}>
-      <div className="nexus-modal" onClick={(e) => e.stopPropagation()}>
+    <div className="intelligence-os-modal-overlay" onClick={onClose}>
+      <div className="intelligence-os-modal" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-semibold text-[#E8EDF2] font-['Clash_Display',system-ui,sans-serif]">
             Novo Cliente
@@ -78,30 +78,30 @@ function NovoClienteModal({ open, onClose }: { open: boolean; onClose: () => voi
         <div className="space-y-4">
           <div>
             <label className="block text-xs font-medium text-[#6B7280] mb-1">Nome Completo</label>
-            <input className="nexus-input w-full" placeholder="Ex: João Silva" />
+            <input className="intelligence-os-input w-full" placeholder="Ex: João Silva" />
           </div>
           <div>
             <label className="block text-xs font-medium text-[#6B7280] mb-1">Empresa</label>
-            <input className="nexus-input w-full" placeholder="Ex: TechStart" />
+            <input className="intelligence-os-input w-full" placeholder="Ex: TechStart" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-medium text-[#6B7280] mb-1">Telefone</label>
-              <input className="nexus-input w-full" placeholder="(11) 99999-0000" />
+              <input className="intelligence-os-input w-full" placeholder="(11) 99999-0000" />
             </div>
             <div>
               <label className="block text-xs font-medium text-[#6B7280] mb-1">Email</label>
-              <input className="nexus-input w-full" placeholder="email@exemplo.com" />
+              <input className="intelligence-os-input w-full" placeholder="email@exemplo.com" />
             </div>
           </div>
           <div>
             <label className="block text-xs font-medium text-[#6B7280] mb-1">Valor Potencial</label>
-            <input className="nexus-input w-full" placeholder="R$ 0,00" />
+            <input className="intelligence-os-input w-full" placeholder="R$ 0,00" />
           </div>
         </div>
         <div className="flex items-center justify-end gap-2 mt-6 pt-4 border-t border-[rgba(201,162,39,0.06)]">
-          <button onClick={onClose} className="nexus-btn-outline text-xs px-4 py-2">Cancelar</button>
-          <button className="nexus-btn-primary text-xs px-4 py-2">
+          <button onClick={onClose} className="intelligence-os-btn-outline text-xs px-4 py-2">Cancelar</button>
+          <button className="intelligence-os-btn-primary text-xs px-4 py-2">
             <Check size={14} />
             Salvar Cliente
           </button>
@@ -121,7 +121,7 @@ function StatusBadge({ status }: { status: string }) {
       className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium"
       style={{ background: s.bg, color: s.color }}
     >
-      <span className={`nexus-status-dot ${s.dot}`} />
+      <span className={`intelligence-os-status-dot ${s.dot}`} />
       {status}
     </span>
   );
@@ -152,16 +152,16 @@ export default function ClientesPage() {
   };
 
   return (
-    <div className="p-4 lg:p-6 min-h-full nexus-grid-bg">
+    <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="nexus-section-title text-2xl">Clientes</h1>
-          <p className="nexus-section-subtitle mt-1">
+          <h1 className="intelligence-os-section-title text-2xl">Clientes</h1>
+          <p className="intelligence-os-section-subtitle mt-1">
             Gerencie sua base de clientes e pacientes
           </p>
         </div>
-        <button className="nexus-btn-primary" onClick={() => setModalOpen(true)}>
+        <button className="intelligence-os-btn-primary" onClick={() => setModalOpen(true)}>
           <Plus size={16} />
           Novo Cliente
         </button>
@@ -169,45 +169,45 @@ export default function ClientesPage() {
 
       {/* ── Stats Cards ─────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Users size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Total</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total</span>
           </div>
-          <div className="nexus-metric-value text-xl">{stats.total}</div>
+          <div className="intelligence-os-metric-value text-xl">{stats.total}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <UserCheck size={14} className="text-[#34D399]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Ativos</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Ativos</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#34D399" }}>{stats.ativos}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#34D399" }}>{stats.ativos}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <UserPlus size={14} className="text-[#FBBF24]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Novos (Leads)</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Novos (Leads)</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#FBBF24" }}>{stats.novos}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#FBBF24" }}>{stats.novos}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Taxa Conversão</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Taxa Conversão</span>
           </div>
-          <div className="nexus-metric-value text-xl">{stats.conversao}%</div>
+          <div className="intelligence-os-metric-value text-xl">{stats.conversao}%</div>
         </div>
       </div>
 
       {/* ── Search & Table ──────────────────────────────────────────────── */}
-      <div className="nexus-card">
+      <div className="intelligence-os-card">
         <div className="p-4 border-b border-[rgba(201,162,39,0.06)]">
           <div className="relative">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280]" />
             <input
               type="text"
               placeholder="Buscar por nome ou empresa..."
-              className="nexus-input w-full sm:w-80 pl-9 pr-3 py-2 text-sm"
+              className="intelligence-os-input w-full sm:w-80 pl-9 pr-3 py-2 text-sm"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
             />
@@ -215,7 +215,7 @@ export default function ClientesPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="nexus-table">
+          <table className="intelligence-os-table">
             <thead>
               <tr>
                 <th>Nome</th>

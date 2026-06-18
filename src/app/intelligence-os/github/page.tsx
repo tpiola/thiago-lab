@@ -72,15 +72,15 @@ const REPOS: Repo[] = [
   },
   {
     id: "r4",
-    name: "nexus-crm",
-    description: "NEXUS Omni CRM — plataforma principal",
+    name: "intelligence-os-crm",
+    description: "Intelligence OS CRM — plataforma principal",
     branch: "main",
     lastCommit: "30 min atrás",
     lastCommitMsg: "feat: adiciona página de automações",
     status: "Clean",
     language: "TypeScript",
     stars: 45,
-    url: "https://github.com/thiagolab/nexus-crm",
+    url: "https://github.com/thiagolab/intelligence-os-crm",
   },
   {
     id: "r5",
@@ -134,7 +134,7 @@ function RepoRow({ repo }: { repo: Repo }) {
   const StatusIcon = sc.icon;
 
   return (
-    <div className="nexus-card p-4 hover:border-[rgba(201,162,39,0.12)] transition-all duration-200">
+    <div className="intelligence-os-card p-4 hover:border-[rgba(201,162,39,0.12)] transition-all duration-200">
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3 flex-1 min-w-0">
           <div className="w-9 h-9 rounded-lg bg-[rgba(201,162,39,0.08)] border border-[rgba(201,162,39,0.06)] flex items-center justify-center flex-shrink-0">
@@ -201,12 +201,12 @@ export default function GithubPage() {
   };
 
   return (
-    <div className="p-4 lg:p-6 min-h-full nexus-grid-bg">
+    <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="nexus-section-title text-2xl">GitHub Sync</h1>
-          <p className="nexus-section-subtitle mt-1">
+          <h1 className="intelligence-os-section-title text-2xl">GitHub Sync</h1>
+          <p className="intelligence-os-section-subtitle mt-1">
             Monitore e sincronize seus repositórios
           </p>
         </div>
@@ -218,7 +218,7 @@ export default function GithubPage() {
           <button
             onClick={handleSync}
             disabled={syncing}
-            className="nexus-btn-primary"
+            className="intelligence-os-btn-primary"
           >
             <RefreshCw size={16} className={syncing ? "animate-spin" : ""} />
             {syncing ? "Sincronizando..." : "Sync All"}
@@ -228,33 +228,33 @@ export default function GithubPage() {
 
       {/* ── Stats ────────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <GitBranch size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Total</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total</span>
           </div>
-          <div className="nexus-metric-value text-xl">{REPOS.length}</div>
+          <div className="intelligence-os-metric-value text-xl">{REPOS.length}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle size={14} className="text-[#34D399]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Clean</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Clean</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#34D399" }}>{cleanCount}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#34D399" }}>{cleanCount}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <FileWarning size={14} className="text-[#FBBF24]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Uncommitted</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Uncommitted</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#FBBF24" }}>{uncommittedCount}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#FBBF24" }}>{uncommittedCount}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <AlertCircle size={14} className="text-[#EF4444]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Behind</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Behind</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#EF4444" }}>{behindCount}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#EF4444" }}>{behindCount}</div>
         </div>
       </div>
 

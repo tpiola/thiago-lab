@@ -52,7 +52,7 @@ const EMAILS: Email[] = [
     from: "GitHub",
     email: "noreply@github.com",
     avatar: "GH",
-    subject: "[nexus-crm] Pull request #42 merged",
+    subject: "[intelligence-os-crm] Pull request #42 merged",
     preview: "O pull request 'feat: adiciona página de automações' foi merged na branch main...",
     date: "09:15",
     read: false,
@@ -76,8 +76,8 @@ const EMAILS: Email[] = [
     from: "Vercel",
     email: "noreply@vercel.app",
     avatar: "V",
-    subject: "Deploy bem-sucedido - nexus-crm",
-    preview: "Seu deploy do projeto nexus-crm na branch main foi concluído com sucesso...",
+    subject: "Deploy bem-sucedido - intelligence-os-crm",
+    preview: "Seu deploy do projeto intelligence-os-crm na branch main foi concluído com sucesso...",
     date: "Ontem",
     read: true,
     important: false,
@@ -89,7 +89,7 @@ const EMAILS: Email[] = [
     email: "maria@email.com",
     avatar: "MS",
     subject: "Lead qualificado - Potencial parceria",
-    preview: "Encontrei seu trabalho e tenho interesse em saber mais sobre o NEXUS CRM...",
+    preview: "Encontrei seu trabalho e tenho interesse em saber mais sobre o Intelligence OS CRM...",
     date: "2 dias atrás",
     read: true,
     important: false,
@@ -213,13 +213,13 @@ export default function EmailPage() {
   const importantCount = EMAILS.filter((e) => e.important).length;
 
   return (
-    <div className="flex flex-col h-full nexus-grid-bg">
+    <div className="flex flex-col h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="p-4 lg:p-6 pb-0">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div>
-            <h1 className="nexus-section-title text-2xl">Email & Inbox</h1>
-            <p className="nexus-section-subtitle mt-1">
+            <h1 className="intelligence-os-section-title text-2xl">Email & Inbox</h1>
+            <p className="intelligence-os-section-subtitle mt-1">
               Gerencie suas mensagens e comunicações
             </p>
           </div>
@@ -227,40 +227,40 @@ export default function EmailPage() {
 
         {/* ── Stats ──────────────────────────────────────────────────────── */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-          <div className="nexus-metric">
+          <div className="intelligence-os-metric">
             <div className="flex items-center gap-2 mb-2">
               <Inbox size={14} className="text-[#C9A227]" />
-              <span className="nexus-metric-label" style={{ margin: 0 }}>Total</span>
+              <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total</span>
             </div>
-            <div className="nexus-metric-value text-xl">{EMAILS.length}</div>
+            <div className="intelligence-os-metric-value text-xl">{EMAILS.length}</div>
           </div>
-          <div className="nexus-metric">
+          <div className="intelligence-os-metric">
             <div className="flex items-center gap-2 mb-2">
               <Mail size={14} className="text-[#FBBF24]" />
-              <span className="nexus-metric-label" style={{ margin: 0 }}>Não Lidos</span>
+              <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Não Lidos</span>
             </div>
-            <div className="nexus-metric-value text-xl" style={{ color: "#FBBF24" }}>{unreadCount}</div>
+            <div className="intelligence-os-metric-value text-xl" style={{ color: "#FBBF24" }}>{unreadCount}</div>
           </div>
-          <div className="nexus-metric">
+          <div className="intelligence-os-metric">
             <div className="flex items-center gap-2 mb-2">
               <Star size={14} className="text-[#C9A227]" />
-              <span className="nexus-metric-label" style={{ margin: 0 }}>Importantes</span>
+              <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Importantes</span>
             </div>
-            <div className="nexus-metric-value text-xl" style={{ color: "#C9A227" }}>{importantCount}</div>
+            <div className="intelligence-os-metric-value text-xl" style={{ color: "#C9A227" }}>{importantCount}</div>
           </div>
-          <div className="nexus-metric">
+          <div className="intelligence-os-metric">
             <div className="flex items-center gap-2 mb-2">
               <Send size={14} className="text-[#34D399]" />
-              <span className="nexus-metric-label" style={{ margin: 0 }}>Enviados Hoje</span>
+              <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Enviados Hoje</span>
             </div>
-            <div className="nexus-metric-value text-xl text-[#34D399]">12</div>
+            <div className="intelligence-os-metric-value text-xl text-[#34D399]">12</div>
           </div>
         </div>
       </div>
 
       {/* ── Email List ───────────────────────────────────────────────────── */}
-      <div className="flex-1 px-4 lg:px-6 pb-4 overflow-y-auto nexus-scrollbar">
-        <div className="nexus-card overflow-hidden">
+      <div className="flex-1 px-4 lg:px-6 pb-4 overflow-y-auto intelligence-os-scrollbar">
+        <div className="intelligence-os-card overflow-hidden">
           {/* Search & Filters */}
           <div className="p-4 border-b border-[rgba(201,162,39,0.06)] space-y-3">
             <div className="relative">
@@ -268,7 +268,7 @@ export default function EmailPage() {
               <input
                 type="text"
                 placeholder="Buscar emails..."
-                className="nexus-input w-full pl-9 pr-3 py-2 text-sm"
+                className="intelligence-os-input w-full pl-9 pr-3 py-2 text-sm"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />

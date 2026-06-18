@@ -105,7 +105,7 @@ function KanbanCard({ card }: { card: CardData }) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="nexus-kanban-card mb-2" {...attributes} {...listeners}>
+    <div ref={setNodeRef} style={style} className="intelligence-os-kanban-card mb-2" {...attributes} {...listeners}>
       <div className="flex items-start justify-between mb-2">
         <h4 className="text-sm font-semibold text-[#E8EDF2]">{card.title}</h4>
         <GripVertical size={14} className="text-[#6B7280] flex-shrink-0 mt-0.5" />
@@ -146,7 +146,7 @@ function KanbanCard({ card }: { card: CardData }) {
    ═══════════════════════════════════════════════════════════════════════════ */
 function KanbanColumn({ column }: { column: ColumnData }) {
   return (
-    <div className="nexus-kanban-col">
+    <div className="intelligence-os-kanban-col">
       <div className="flex items-center justify-between mb-3 px-1">
         <div className="flex items-center gap-2">
           <div
@@ -239,28 +239,28 @@ export default function PipelinesPage() {
   const totalLeads = columns.reduce((acc, col) => acc + col.items.length, 0);
 
   return (
-    <div className="p-4 lg:p-6 min-h-full nexus-grid-bg">
+    <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="nexus-section-title text-2xl">Pipelines</h1>
-          <p className="nexus-section-subtitle mt-1">
+          <h1 className="intelligence-os-section-title text-2xl">Pipelines</h1>
+          <p className="intelligence-os-section-subtitle mt-1">
             Gerencie seus leads em cada etapa do funil
           </p>
         </div>
-        <button className="nexus-btn-primary">
+        <button className="intelligence-os-btn-primary">
           <Plus size={16} />
           Novo Lead
         </button>
       </div>
 
       {/* ── Progress Bar ────────────────────────────────────────────────── */}
-      <div className="nexus-card p-4 mb-6">
+      <div className="intelligence-os-card p-4 mb-6">
         <div className="flex items-center justify-between text-xs mb-2">
           <span className="text-[#9BA3B8] font-medium">Progresso do Pipeline</span>
           <span className="text-[#6B7280]">{totalLeads} leads ativos</span>
         </div>
-        <div className="nexus-progress" style={{ height: 8 }}>
+        <div className="intelligence-os-progress" style={{ height: 8 }}>
           {columns.map((col) => {
             const pct = totalLeads > 0 ? (col.items.length / totalLeads) * 100 : 0;
             return (
@@ -294,14 +294,14 @@ export default function PipelinesPage() {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-4 nexus-scrollbar" style={{ minHeight: 500 }}>
+        <div className="flex gap-4 overflow-x-auto pb-4 intelligence-os-scrollbar" style={{ minHeight: 500 }}>
           {columns.map((col) => (
             <KanbanColumn key={col.id} column={col} />
           ))}
         </div>
         <DragOverlay>
           {activeCard ? (
-            <div className="nexus-kanban-card shadow-xl opacity-90" style={{ width: 240 }}>
+            <div className="intelligence-os-kanban-card shadow-xl opacity-90" style={{ width: 240 }}>
               <h4 className="text-sm font-semibold text-[#E8EDF2] mb-2">{activeCard.title}</h4>
               <p className="text-xs text-[#6B7280]">{activeCard.name} · {activeCard.value}</p>
             </div>

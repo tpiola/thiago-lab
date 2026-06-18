@@ -72,7 +72,7 @@ const AGENTS: Agent[] = [
   },
   {
     id: "nexuschat",
-    name: "NEXUS Chat",
+    name: "Intelligence OS Chat",
     description: "Chat inteligente para suporte ao cliente com respostas contextuais",
     icon: MessageSquare,
     status: "Online",
@@ -101,7 +101,7 @@ const AGENTS: Agent[] = [
     lastRun: "15 min atrás",
     tasksCompleted: 234,
     successRate: 92.7,
-    model: "NEXUS Forge AI",
+    model: "Intelligence OS Forge AI",
   },
 ];
 
@@ -119,8 +119,8 @@ function AgentDetailModal({ agent, open, onClose }: { agent: Agent | null; open:
   const sc = STATUS_CONFIG[agent.status];
 
   return (
-    <div className="nexus-modal-overlay" onClick={onClose}>
-      <div className="nexus-modal max-w-lg" onClick={(e) => e.stopPropagation()}>
+    <div className="intelligence-os-modal-overlay" onClick={onClose}>
+      <div className="intelligence-os-modal max-w-lg" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-[rgba(201,162,39,0.1)] border border-[rgba(201,162,39,0.12)] flex items-center justify-center">
@@ -131,7 +131,7 @@ function AgentDetailModal({ agent, open, onClose }: { agent: Agent | null; open:
                 {agent.name}
               </h2>
               <span className="inline-flex items-center gap-1.5 mt-1 text-xs font-medium" style={{ color: sc.color }}>
-                <span className={`nexus-status-dot ${sc.dot}`} />
+                <span className={`intelligence-os-status-dot ${sc.dot}`} />
                 {sc.label}
               </span>
             </div>
@@ -144,30 +144,30 @@ function AgentDetailModal({ agent, open, onClose }: { agent: Agent | null; open:
         <p className="text-sm text-[#9BA3B8] mb-6">{agent.description}</p>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="nexus-card p-3">
+          <div className="intelligence-os-card p-3">
             <div className="text-[10px] text-[#6B7280] uppercase tracking-wider mb-1">Modelo</div>
             <div className="text-sm font-medium text-[#E8EDF2]">{agent.model}</div>
           </div>
-          <div className="nexus-card p-3">
+          <div className="intelligence-os-card p-3">
             <div className="text-[10px] text-[#6B7280] uppercase tracking-wider mb-1">Tasks</div>
             <div className="text-sm font-medium text-[#E8EDF2]">{agent.tasksCompleted.toLocaleString()}</div>
           </div>
-          <div className="nexus-card p-3">
+          <div className="intelligence-os-card p-3">
             <div className="text-[10px] text-[#6B7280] uppercase tracking-wider mb-1">Taxa de Sucesso</div>
             <div className="text-sm font-medium text-[#34D399]">{agent.successRate}%</div>
           </div>
-          <div className="nexus-card p-3">
+          <div className="intelligence-os-card p-3">
             <div className="text-[10px] text-[#6B7280] uppercase tracking-wider mb-1">Última Execução</div>
             <div className="text-sm font-medium text-[#E8EDF2]">{agent.lastRun}</div>
           </div>
         </div>
 
         <div className="flex gap-2">
-          <button className="nexus-btn-primary flex-1">
+          <button className="intelligence-os-btn-primary flex-1">
             <Play size={14} />
             Executar Agora
           </button>
-          <button className="nexus-btn-outline flex-1">
+          <button className="intelligence-os-btn-outline flex-1">
             <BarChart3 size={14} />
             Ver Logs
           </button>
@@ -186,7 +186,7 @@ function AgentCard({ agent, onDetail }: { agent: Agent; onDetail: (a: Agent) => 
 
   return (
     <div
-      className="nexus-card p-4 cursor-pointer hover:border-[rgba(201,162,39,0.15)] transition-all duration-200 group"
+      className="intelligence-os-card p-4 cursor-pointer hover:border-[rgba(201,162,39,0.15)] transition-all duration-200 group"
       onClick={() => onDetail(agent)}
     >
       <div className="flex items-start justify-between mb-3">
@@ -197,7 +197,7 @@ function AgentCard({ agent, onDetail }: { agent: Agent; onDetail: (a: Agent) => 
           <div>
             <h3 className="text-sm font-semibold text-[#E8EDF2]">{agent.name}</h3>
             <span className="inline-flex items-center gap-1 text-[10px] font-medium mt-0.5" style={{ color: sc.color }}>
-              <span className={`nexus-status-dot ${sc.dot}`} />
+              <span className={`intelligence-os-status-dot ${sc.dot}`} />
               {sc.label}
             </span>
           </div>
@@ -236,17 +236,17 @@ export default function AgentsPage() {
   const tasksToday = AGENTS.reduce((acc, a) => acc + a.tasksCompleted, 0);
 
   return (
-    <div className="p-4 lg:p-6 min-h-full nexus-grid-bg">
+    <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="nexus-section-title text-2xl">AI Agents</h1>
-          <p className="nexus-section-subtitle mt-1">
+          <h1 className="intelligence-os-section-title text-2xl">AI Agents</h1>
+          <p className="intelligence-os-section-subtitle mt-1">
             Gerencie seus agentes de IA — Hermes, Clarity OS, INEMA e mais
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="nexus-btn-primary">
+          <button className="intelligence-os-btn-primary">
             <Zap size={16} />
             Executar Todos
           </button>
@@ -255,33 +255,33 @@ export default function AgentsPage() {
 
       {/* ── Stats ────────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Bot size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Total Agents</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total Agents</span>
           </div>
-          <div className="nexus-metric-value text-xl">{AGENTS.length}</div>
+          <div className="intelligence-os-metric-value text-xl">{AGENTS.length}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Activity size={14} className="text-[#34D399]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Active</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Active</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#34D399" }}>{activeCount}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#34D399" }}>{activeCount}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Tasks Hoje</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Tasks Hoje</span>
           </div>
-          <div className="nexus-metric-value text-xl">{tasksToday.toLocaleString()}</div>
+          <div className="intelligence-os-metric-value text-xl">{tasksToday.toLocaleString()}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Zap size={14} className="text-[#60A5FA]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Avg Response</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Avg Response</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#60A5FA" }}>1.2s</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#60A5FA" }}>1.2s</div>
         </div>
       </div>
 

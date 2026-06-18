@@ -63,8 +63,8 @@ const PROJECTS: ForgeProject[] = [
   },
   {
     id: "p4",
-    name: "NEXUS CRM (Landing)",
-    url: "https://nexuscrm.com.br",
+    name: "Intelligence OS CRM (Landing)",
+    url: "https://intelligence-os.com.br",
     status: "Deployed",
     template: "Landing Page Premium",
     createdAt: "20/01/2026",
@@ -100,7 +100,7 @@ function ForgeProjectCard({ project }: { project: ForgeProject }) {
   const isDeployed = project.status === "Deployed";
 
   return (
-    <div className="nexus-card p-4 hover:border-[rgba(201,162,39,0.15)] transition-all duration-200 group">
+    <div className="intelligence-os-card p-4 hover:border-[rgba(201,162,39,0.15)] transition-all duration-200 group">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-[rgba(201,162,39,0.08)] border border-[rgba(201,162,39,0.06)] flex items-center justify-center">
@@ -147,7 +147,7 @@ function ForgeProjectCard({ project }: { project: ForgeProject }) {
       </div>
 
       <div className="flex gap-2">
-        <button className="nexus-btn-primary flex-1 text-xs py-2">
+        <button className="intelligence-os-btn-primary flex-1 text-xs py-2">
           <Code size={13} />
           Abrir no Builder
         </button>
@@ -155,7 +155,7 @@ function ForgeProjectCard({ project }: { project: ForgeProject }) {
           href={project.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="nexus-btn-outline flex-1 text-xs py-2 inline-flex items-center justify-center gap-1.5"
+          className="intelligence-os-btn-outline flex-1 text-xs py-2 inline-flex items-center justify-center gap-1.5"
         >
           <ExternalLink size={13} />
           Visitar
@@ -174,18 +174,18 @@ export default function ForgePage() {
   const totalPages = PROJECTS.reduce((acc, p) => acc + p.pages, 0);
 
   return (
-    <div className="p-4 lg:p-6 min-h-full nexus-grid-bg">
+    <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="nexus-section-title text-2xl">NEXUS Forge</h1>
-          <p className="nexus-section-subtitle mt-1">
+          <h1 className="intelligence-os-section-title text-2xl">Intelligence OS Forge</h1>
+          <p className="intelligence-os-section-subtitle mt-1">
             Crie e gerencie sites com inteligência artificial
           </p>
         </div>
         <a
           href="/builder"
-          className="nexus-btn-primary inline-flex items-center gap-1.5"
+          className="intelligence-os-btn-primary inline-flex items-center gap-1.5"
         >
           <Plus size={16} />
           Criar Novo Projeto
@@ -194,33 +194,33 @@ export default function ForgePage() {
 
       {/* ── Stats ────────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Globe size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Total Sites</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total Sites</span>
           </div>
-          <div className="nexus-metric-value text-xl">{PROJECTS.length}</div>
+          <div className="intelligence-os-metric-value text-xl">{PROJECTS.length}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle size={14} className="text-[#34D399]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Deployed</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Deployed</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#34D399" }}>{deployedCount}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#34D399" }}>{deployedCount}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <AlertCircle size={14} className="text-[#FBBF24]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Draft</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Draft</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#FBBF24" }}>{draftCount}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#FBBF24" }}>{draftCount}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <FileText size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Total Pages</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total Pages</span>
           </div>
-          <div className="nexus-metric-value text-xl">{totalPages}+</div>
+          <div className="intelligence-os-metric-value text-xl">{totalPages}+</div>
         </div>
       </div>
 

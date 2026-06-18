@@ -60,7 +60,7 @@ const WORKFLOWS: WorkflowData[] = [
   {
     id: "w3",
     name: "CRM Sync",
-    description: "Sincroniza dados entre NEXUS CRM e plataformas externas",
+    description: "Sincroniza dados entre Intelligence OS CRM e plataformas externas",
     icon: Database,
     status: "Ativo",
     lastRun: "5 min atrás",
@@ -143,7 +143,7 @@ function WorkflowCard({ workflow }: { workflow: WorkflowData }) {
   };
 
   return (
-    <div className="nexus-card p-4 hover:border-[rgba(201,162,39,0.15)] transition-all duration-200">
+    <div className="intelligence-os-card p-4 hover:border-[rgba(201,162,39,0.15)] transition-all duration-200">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div
@@ -204,16 +204,16 @@ export default function AutomacoesPage() {
   const totalExecutions = WORKFLOWS.reduce((acc, w) => acc + w.executions, 0);
 
   return (
-    <div className="p-4 lg:p-6 min-h-full nexus-grid-bg">
+    <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="nexus-section-title text-2xl">Automações n8n</h1>
-          <p className="nexus-section-subtitle mt-1">
+          <h1 className="intelligence-os-section-title text-2xl">Automações n8n</h1>
+          <p className="intelligence-os-section-subtitle mt-1">
             Workflows inteligentes que automatizam seu negócio
           </p>
         </div>
-        <button className="nexus-btn-primary">
+        <button className="intelligence-os-btn-primary">
           <Zap size={16} />
           Nova Automação
         </button>
@@ -221,33 +221,33 @@ export default function AutomacoesPage() {
 
       {/* ── Stats ────────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Workflow size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Total</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total</span>
           </div>
-          <div className="nexus-metric-value text-xl">{WORKFLOWS.length}</div>
+          <div className="intelligence-os-metric-value text-xl">{WORKFLOWS.length}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Play size={14} className="text-[#34D399]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Ativos</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Ativos</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#34D399" }}>{activeCount}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#34D399" }}>{activeCount}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <AlertCircle size={14} className="text-[#EF4444]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Erros</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Erros</span>
           </div>
-          <div className="nexus-metric-value text-xl" style={{ color: "#EF4444" }}>{errorCount}</div>
+          <div className="intelligence-os-metric-value text-xl" style={{ color: "#EF4444" }}>{errorCount}</div>
         </div>
-        <div className="nexus-metric">
+        <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Zap size={14} className="text-[#C9A227]" />
-            <span className="nexus-metric-label" style={{ margin: 0 }}>Execuções Hoje</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Execuções Hoje</span>
           </div>
-          <div className="nexus-metric-value text-xl">{totalExecutions.toLocaleString()}</div>
+          <div className="intelligence-os-metric-value text-xl">{totalExecutions.toLocaleString()}</div>
         </div>
       </div>
 

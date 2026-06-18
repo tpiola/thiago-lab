@@ -92,7 +92,7 @@ const RECENT_ACTIVITIES = [
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload) return null;
   return (
-    <div className="nexus-card p-3 text-xs shadow-xl">
+    <div className="intelligence-os-card p-3 text-xs shadow-xl">
       <p className="text-[#9BA3B8] mb-1">{label}</p>
       {payload.map((p: any, i: number) => (
         <p key={i} style={{ color: p.color }} className="font-medium">
@@ -108,21 +108,21 @@ const CustomTooltip = ({ active, payload, label }: any) => {
    ═══════════════════════════════════════════════════════════════════════════ */
 export default function DashboardPage() {
   return (
-    <div className="p-4 lg:p-6 min-h-full nexus-grid-bg">
+    <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="nexus-section-title text-2xl">Dashboard</h1>
-          <p className="nexus-section-subtitle mt-1">
+          <h1 className="intelligence-os-section-title text-2xl">Dashboard</h1>
+          <p className="intelligence-os-section-subtitle mt-1">
             Visão geral do seu negócio em tempo real
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="nexus-btn-outline">
+          <button className="intelligence-os-btn-outline">
             <Plus size={16} />
             Novo Lead
           </button>
-          <button className="nexus-btn-primary">
+          <button className="intelligence-os-btn-primary">
             <Globe size={16} />
             Gerar Site com IA
           </button>
@@ -134,18 +134,18 @@ export default function DashboardPage() {
         {METRICS.map((m) => {
           const Icon = m.icon;
           return (
-            <div key={m.label} className="nexus-metric">
+            <div key={m.label} className="intelligence-os-metric">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-9 h-9 rounded-lg bg-[rgba(201,162,39,0.08)] border border-[rgba(201,162,39,0.06)] flex items-center justify-center">
                   <Icon size={16} className="text-[#C9A227]" />
                 </div>
-                <span className={`nexus-metric-change ${m.positive ? "positive" : "negative"}`}>
+                <span className={`intelligence-os-metric-change ${m.positive ? "positive" : "negative"}`}>
                   {m.positive ? <ArrowUpRight size={12} className="inline mr-0.5" /> : <ArrowDownRight size={12} className="inline mr-0.5" />}
                   {m.change}
                 </span>
               </div>
-              <div className="nexus-metric-value">{m.value}</div>
-              <div className="nexus-metric-label">{m.label}</div>
+              <div className="intelligence-os-metric-value">{m.value}</div>
+              <div className="intelligence-os-metric-label">{m.label}</div>
             </div>
           );
         })}
@@ -154,7 +154,7 @@ export default function DashboardPage() {
       {/* ── Charts Row ──────────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         {/* Revenue Chart */}
-        <div className="nexus-card p-4 lg:col-span-2">
+        <div className="intelligence-os-card p-4 lg:col-span-2">
           <h3 className="text-sm font-semibold text-[#E8EDF2] mb-4">
             Receita Mensal
           </h3>
@@ -178,7 +178,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Leads by Channel */}
-        <div className="nexus-card p-4">
+        <div className="intelligence-os-card p-4">
           <h3 className="text-sm font-semibold text-[#E8EDF2] mb-4">
             Leads por Canal
           </h3>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
       {/* ── Recent Activity & Pipeline Progress ──────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Recent Activity Timeline */}
-        <div className="nexus-card p-4 lg:col-span-2">
+        <div className="intelligence-os-card p-4 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-[#E8EDF2]">
               Atividade Recente
@@ -213,7 +213,7 @@ export default function DashboardPage() {
             {RECENT_ACTIVITIES.map((a, i) => {
               const Icon = a.icon;
               return (
-                <div key={i} className="nexus-timeline-item last:pb-0">
+                <div key={i} className="intelligence-os-timeline-item last:pb-0">
                   <div className="flex items-start gap-3">
                     <div
                       className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
@@ -233,7 +233,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Pipeline Overview */}
-        <div className="nexus-card p-4">
+        <div className="intelligence-os-card p-4">
           <h3 className="text-sm font-semibold text-[#E8EDF2] mb-4">
             Pipeline Geral
           </h3>
@@ -249,9 +249,9 @@ export default function DashboardPage() {
                   <span className="text-[#9BA3B8]">{s.stage}</span>
                   <span className="text-[#6B7280]">{s.count} leads</span>
                 </div>
-                <div className="nexus-progress">
+                <div className="intelligence-os-progress">
                   <div
-                    className="nexus-progress-bar"
+                    className="intelligence-os-progress-bar"
                     style={{ width: `${s.pct}%`, background: s.color }}
                   />
                 </div>

@@ -28,23 +28,23 @@ import {
 
 /* ── Navegação ──────────────────────────────────────────────────────────── */
 const NAV_ITEMS = [
-  { label: "Dashboard",   icon: LayoutDashboard, href: "/nexus" },
-  { label: "Pipelines",   icon: KanbanSquare,    href: "/nexus/pipelines" },
-  { label: "Clientes",    icon: Users,           href: "/nexus/clientes" },
-  { label: "AI Agents",   icon: Bot,             href: "/nexus/agents" },
-  { label: "Automações",  icon: Workflow,        href: "/nexus/automacoes" },
-  { label: "NEXUS Forge", icon: Globe,           href: "/nexus/forge" },
-  { label: "GitHub Sync", icon: GitBranch,       href: "/nexus/github" },
-  { label: "Knowledge",   icon: BookOpen,        href: "/nexus/knowledge" },
-  { label: "Google Drive",icon: HardDrive,       href: "/nexus/drive" },
-  { label: "Email",       icon: Mail,            href: "/nexus/email" },
+  { label: "Dashboard",   icon: LayoutDashboard, href: "/intelligence-os" },
+  { label: "Pipelines",   icon: KanbanSquare, href: "/intelligence-os/pipelines" },
+  { label: "Clientes",    icon: Users, href: "/intelligence-os/clientes" },
+  { label: "AI Agents",   icon: Bot, href: "/intelligence-os/agents" },
+  { label: "Automações",  icon: Workflow, href: "/intelligence-os/automacoes" },
+  { label: "Site Forge",  icon: Globe, href: "/intelligence-os/forge" },
+  { label: "GitHub Sync", icon: GitBranch, href: "/intelligence-os/github" },
+  { label: "Knowledge",   icon: BookOpen, href: "/intelligence-os/knowledge" },
+  { label: "Google Drive",icon: HardDrive, href: "/intelligence-os/drive" },
+  { label: "Email",       icon: Mail, href: "/intelligence-os/email" },
 ];
 
 /* ── Status Badge ────────────────────────────────────────────────────────── */
 function StatusBadge() {
   return (
-    <span className="nexus-badge">
-      <span className="nexus-status-dot active" style={{ width: 6, height: 6 }} />
+    <span className="intelligence-os-badge">
+      <span className="intelligence-os-status-dot active" style={{ width: 6, height: 6 }} />
       Online
     </span>
   );
@@ -52,14 +52,14 @@ function StatusBadge() {
 
 /* ─── Recents (placeholder) ─────────────────────────────────────────────── */
 const RECENT_PAGES = [
-  { label: "Pipeline Vendas", href: "/nexus/pipelines" },
-  { label: "Clientes Ativos", href: "/nexus/clientes" },
+  { label: "Pipeline Vendas", href: "/intelligence-os/pipelines" },
+  { label: "Clientes Ativos", href: "/intelligence-os/clientes" },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   NEXUS LAYOUT
+   Intelligence OS LAYOUT
    ═══════════════════════════════════════════════════════════════════════════ */
-export default function NexusLayout({ children }: { children: React.ReactNode }) {
+export default function IntelligenceOSLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -67,7 +67,7 @@ export default function NexusLayout({ children }: { children: React.ReactNode })
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   const isActive = (href: string) => {
-    if (href === "/nexus") return pathname === "/nexus";
+    if (href === "/intelligence-os") return pathname === "/intelligence-os";
     return pathname.startsWith(href);
   };
 
@@ -102,7 +102,7 @@ export default function NexusLayout({ children }: { children: React.ReactNode })
             {!collapsed && (
               <div className="truncate">
                 <div className="text-sm font-semibold text-[#E8EDF2] font-['Clash_Display',system-ui,sans-serif] leading-tight">
-                  NEXUS
+                  Intelligence OS
                 </div>
                 <div className="text-[10px] text-[#6B7280] font-medium tracking-wider uppercase">
                   Omni CRM
@@ -113,7 +113,7 @@ export default function NexusLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* ── Navigation ────────────────────────────────────────────────── */}
-        <nav className="flex-1 overflow-y-auto px-2 py-4 nexus-scrollbar space-y-1">
+        <nav className="flex-1 overflow-y-auto px-2 py-4 intelligence-os-scrollbar space-y-1">
           {NAV_ITEMS.map((item) => {
             const active = isActive(item.href);
             return (
@@ -174,7 +174,7 @@ export default function NexusLayout({ children }: { children: React.ReactNode })
           ══════════════════════════════════════════════════════════════════ */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* ── Top Bar ──────────────────────────────────────────────────── */}
-        <header className="nexus-glass h-16 flex items-center justify-between px-4 lg:px-6 border-b border-[rgba(201,162,39,0.06)] flex-shrink-0">
+        <header className="intelligence-os-glass h-16 flex items-center justify-between px-4 lg:px-6 border-b border-[rgba(201,162,39,0.06)] flex-shrink-0">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
@@ -189,7 +189,7 @@ export default function NexusLayout({ children }: { children: React.ReactNode })
               <input
                 type="text"
                 placeholder="Buscar leads, clientes, automações..."
-                className="nexus-input w-64 lg:w-80 pl-9 pr-3 py-2 text-sm"
+                className="intelligence-os-input w-64 lg:w-80 pl-9 pr-3 py-2 text-sm"
               />
             </div>
           </div>
@@ -218,7 +218,7 @@ export default function NexusLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* ── Page Content ─────────────────────────────────────────────── */}
-        <main className="flex-1 overflow-y-auto nexus-scrollbar">
+        <main className="flex-1 overflow-y-auto intelligence-os-scrollbar">
           {children}
         </main>
       </div>
