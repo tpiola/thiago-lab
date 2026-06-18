@@ -29,12 +29,18 @@ import {
   AppWindow,
   MapPin,
   Copy,
+  BarChart3,
+  Crosshair,
+  Megaphone,
 } from "lucide-react";
 
 /* -- Navegação ------------------------------------------------------------ */
 const NAV_ITEMS = [
   { label: "Dashboard",   icon: LayoutDashboard, href: "/intelligence-os" },
+  { label: "Analytics",   icon: BarChart3, href: "/intelligence-os/analytics" },
   { label: "Dashboards Customizáveis", icon: LayoutGrid, href: "/intelligence-os/dashboards" },
+  { label: "Competidores", icon: Crosshair, href: "/intelligence-os/competitors" },
+  { label: "Campanhas Ads", icon: Megaphone, href: "/intelligence-os/ads" },
   { label: "Pipelines",   icon: KanbanSquare, href: "/intelligence-os/pipelines" },
   { label: "Clientes",    icon: Users, href: "/intelligence-os/clientes" },
   { label: "AI Agents",   icon: Bot, href: "/intelligence-os/agents" },
@@ -49,7 +55,6 @@ const NAV_ITEMS = [
   { label: "Gemini",      icon: Sparkles, href: "/intelligence-os/gemini" },
   { label: "NotebookLM",  icon: NotebookPen, href: "/intelligence-os/notebook" },
   { label: "Workspace",   icon: AppWindow, href: "/intelligence-os/workspace" },
-  /* === GOOGLE MAPS — novo item === */
   { label: "Google Maps", icon: MapPin, href: "/intelligence-os/maps" },
 ];
 
@@ -65,8 +70,10 @@ function StatusBadge() {
 
 /* --- Recents (placeholder) ----------------------------------------------- */
 const RECENT_PAGES = [
-  { label: "Pipeline Vendas", href: "/intelligence-os/pipelines" },
-  { label: "Clientes Ativos", href: "/intelligence-os/clientes" },
+  { label: "Analytics",    href: "/intelligence-os/analytics" },
+  { label: "Campanhas Ads", href: "/intelligence-os/ads" },
+  { label: "Competidores", href: "/intelligence-os/competitors" },
+  { label: "Google Maps",  href: "/intelligence-os/maps" },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════

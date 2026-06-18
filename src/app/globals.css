@@ -1518,3 +1518,119 @@ h1, h2, h3 {
   border-radius: 50%;
   margin-right: 0.375rem;
 }
+
+/* ── Analytics / BI ─────────────────────────────────────────────────────── */
+.intelligence-os-kpi-card {
+  background: linear-gradient(135deg, rgba(15,31,54,0.9) 0%, rgba(10,22,40,0.9) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.1);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.intelligence-os-kpi-card:hover {
+  border-color: rgba(201, 162, 39, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.08);
+}
+.intelligence-os-chart-container {
+  background: linear-gradient(135deg, rgba(15,31,54,0.9) 0%, rgba(10,22,40,0.9) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.08);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+}
+
+/* ── Competitors ────────────────────────────────────────────────────────── */
+.intelligence-os-swot-card {
+  background: linear-gradient(135deg, rgba(15,31,54,0.9) 0%, rgba(10,22,40,0.9) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  min-height: 120px;
+  transition: border-color 0.2s ease;
+}
+.intelligence-os-swot-card:hover {
+  border-color: rgba(201, 162, 39, 0.25);
+}
+.intelligence-os-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.intelligence-os-table th {
+  text-align: left;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6B7280;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.06);
+}
+.intelligence-os-table td {
+  padding: 0.625rem 0.75rem;
+  font-size: 0.8125rem;
+  color: #9BA3B8;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.04);
+}
+.intelligence-os-table tr:hover td {
+  background: rgba(201, 162, 39, 0.03);
+}
+
+/* ── Ads Manager ────────────────────────────────────────────────────────── */
+.intelligence-os-ad-card {
+  background: linear-gradient(135deg, rgba(15,31,54,0.9) 0%, rgba(10,22,40,0.9) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.08);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.intelligence-os-ad-card:hover {
+  border-color: rgba(201, 162, 39, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ── Google Maps Business Reports ──────────────────────────────────────── */
+.intelligence-os-report-card {
+  background: linear-gradient(135deg, rgba(15,31,54,0.9) 0%, rgba(10,22,40,0.9) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.08);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.intelligence-os-report-card:hover {
+  border-color: rgba(201, 162, 39, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ── Scrollbar Global ───────────────────────────────────────────────────── */
+.intelligence-os-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.intelligence-os-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.intelligence-os-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(201, 162, 39, 0.15);
+  border-radius: 4px;
+}
+.intelligence-os-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 162, 39, 0.3);
+}
+
+/* ── Animations ─────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* ── Gold Pulse ─────────────────────────────────────────────────────────── */
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.15); }
+  50% { box-shadow: 0 0 0 8px rgba(201, 162, 39, 0); }
+}
+.animate-gold-pulse {
+  animation: goldPulse 2s ease-in-out infinite;
+}

@@ -20,6 +20,8 @@ import {
   TrendingUp,
   Users,
   CheckCircle,
+  Image,
+  Send,
 } from "lucide-react";
 import {
   getMyBusinessStats,
@@ -28,6 +30,9 @@ import {
   type MyBusinessLocation,
   type PlaceResult,
 } from "@/lib/maps";
+import {
+  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip
+} from "recharts";
 
 /* ── Constants ──────────────────────────────────────────────────────────── */
 const MAP_LIBRARIES: ("places" | "geometry" | "drawing" | "visualization")[] = ["places"];
@@ -235,6 +240,23 @@ export default function MapsPage() {
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [mapCenter, setMapCenter] = useState(DEFAULT_CENTER);
   const [searchValue, setSearchValue] = useState("");
+  const [reportPeriod, setReportPeriod] = useState("Mensal");
+
+  /* ── Mock Performance Data ─────────────────────────────────────────────── */
+  const PERFORMANCE_DATA = [
+    { mes: "Jan", pesquisas: 4200, visualizacoes: 2800 },
+    { mes: "Fev", pesquisas: 4800, visualizacoes: 3100 },
+    { mes: "Mar", pesquisas: 5100, visualizacoes: 3400 },
+    { mes: "Abr", pesquisas: 4900, visualizacoes: 3200 },
+    { mes: "Mai", pesquisas: 5600, visualizacoes: 3800 },
+    { mes: "Jun", pesquisas: 6100, visualizacoes: 4100 },
+    { mes: "Jul", pesquisas: 6800, visualizacoes: 4500 },
+    { mes: "Ago", pesquisas: 7200, visualizacoes: 4900 },
+    { mes: "Set", pesquisas: 7800, visualizacoes: 5200 },
+    { mes: "Out", pesquisas: 8100, visualizacoes: 5600 },
+    { mes: "Nov", pesquisas: 7900, visualizacoes: 5400 },
+    { mes: "Dez", pesquisas: 8432, visualizacoes: 5700 },
+  ];
 
   /* ── Load Google Maps ────────────────────────────────────────────────── */
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -508,6 +530,130 @@ export default function MapsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* ── Business Reports ────────────────────────────────────────────── */}
+      <div className="mt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-[#E8EDF2] font-['Clash_Display',system-ui,sans-serif]">
+            Relatórios de Negócio
+          </h2>
+          <div className="flex gap-1 bg-[rgba(10,22,40,0.8)] rounded-lg p-0.5 border border-[rgba(201,162,39,0.08)]">
+            {["Semanal","Mensal","Trimestral"].map((p) => (
+              <button key={p}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                  reportPeriod === p ? "bg-[rgba(201,162,39,0.15)] text-[#C9A227]" : "text-[#6B7280] hover:text-[#9BA3B8]"
+                }`}
+                onClick={() => setReportPeriod(p)}
+              >{p}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* Insights Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+          {[
+            { icon: Search, label: "Pesquisas no Mapa", value: "8.432", change: "+23%", color: "#60A5FA" },
+            { icon: Navigation, label: "Solic. Rotas", value: "2.156", change: "+15%", color: "#34D399" },
+            { icon: Phone, label: "Ligações", value: "847", change: "+31%", color: "#C9A227" },
+            { icon: Globe, label: "Visitas ao Site", value: "3.921", change: "+18%", color: "#A78BFA" },
+          ].map((item, i) => (
+            <div key={i} className="intelligence-os-report-card">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  style={{ background: `${item.color}15`, border: `1px solid ${item.color}30` }}>
+                  <item.icon size={15} style={{ color: item.color }} />
+                </div>
+              </div>
+              <div className="text-[10px] font-medium uppercase tracking-wider text-[#6B7280] mb-0.5">{item.label}</div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-xl font-bold text-[#E8EDF2]">{item.value}</span>
+                <span className="text-xs font-medium text-[#34D399]">{item.change}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Gráfico de Performance */}
+        <div className="intelligence-os-chart-container mb-4">
+          <h3 className="text-sm font-semibold text-[#E8EDF2] mb-4">Performance Google My Business</h3>
+          <div className="h-48 md:h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={PERFORMANCE_DATA}>
+                <defs>
+                  <linearGradient id="searchG" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#60A5FA" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="viewG" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#34D399" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#34D399" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(201,162,39,0.06)" />
+                <XAxis dataKey="mes" stroke="#6B7280" tick={{ fontSize: 10 }} />
+                <YAxis stroke="#6B7280" tick={{ fontSize: 10 }} />
+                <Tooltip contentStyle={{ background: "#0A1628", border: "1px solid rgba(201,162,39,0.15)", borderRadius: 8, color: "#E8EDF2" }} />
+                <Area type="monotone" dataKey="pesquisas" stroke="#60A5FA" fill="url(#searchG)" name="Pesquisas" strokeWidth={2} />
+                <Area type="monotone" dataKey="visualizacoes" stroke="#34D399" fill="url(#viewG)" name="Visualizações" strokeWidth={2} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* SEO Local + Otimização */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+          <div className="intelligence-os-report-card">
+            <h3 className="text-sm font-semibold text-[#E8EDF2] mb-3">Otimização de Ficha</h3>
+            <div className="space-y-3">
+              {[
+                { label: "Fotos", current: 12, total: 20, color: "#60A5FA" },
+                { label: "Categorias", current: 3, total: 5, color: "#34D399" },
+                { label: "Palavras-chave", current: 7, total: 10, color: "#C9A227" },
+                { label: "Posts", current: 4, total: 8, color: "#A78BFA" },
+                { label: "Q&A Respondidas", current: 6, total: 6, color: "#F97316" },
+              ].map((item) => (
+                <div key={item.label}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs text-[#9BA3B8]">{item.label}</span>
+                    <span className="text-xs text-[#6B7280]">{item.current}/{item.total}</span>
+                  </div>
+                  <div className="h-1.5 bg-[rgba(201,162,39,0.06)] rounded-full overflow-hidden">
+                    <div className="h-full rounded-full transition-all duration-1000"
+                      style={{ width: `${(item.current/item.total)*100}%`, background: item.color }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="intelligence-os-report-card">
+            <h3 className="text-sm font-semibold text-[#E8EDF2] mb-3">Recomendações</h3>
+            <div className="space-y-2">
+              {[
+                { text: "Adicione 8 fotos para completar seu perfil", priority: "Alta", icon: Image },
+                { text: "Responda às últimas 3 avaliações", priority: "Alta", icon: MessageSquare },
+                { text: "Publique 1 post semanal para engajar", priority: "Média", icon: Send },
+                { text: "Atualize horário de funcionamento", priority: "Média", icon: Clock },
+                { text: "Verifique concorrentes na região", priority: "Baixa", icon: Search },
+              ].map((rec, i) => (
+                <div key={i} className="flex items-start gap-3 p-2.5 rounded-lg bg-[rgba(10,22,40,0.5)] border border-[rgba(201,162,39,0.04)]">
+                  <div className="w-7 h-7 rounded-lg bg-[rgba(201,162,39,0.08)] flex items-center justify-center flex-shrink-0">
+                    <rec.icon size={13} className="text-[#C9A227]" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-[#9BA3B8]">{rec.text}</p>
+                    <span className={`text-[10px] font-medium mt-0.5 inline-block ${
+                      rec.priority === "Alta" ? "text-[#F97316]" : rec.priority === "Média" ? "text-[#C9A227]" : "text-[#6B7280]"
+                    }`}>
+                      Prioridade: {rec.priority}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
