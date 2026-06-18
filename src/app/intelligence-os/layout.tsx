@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -27,9 +27,11 @@ import {
   LayoutGrid,
   NotebookPen,
   AppWindow,
+  MapPin,
+  Copy,
 } from "lucide-react";
 
-/* ── Navegação ──────────────────────────────────────────────────────────── */
+/* -- Navegação ------------------------------------------------------------ */
 const NAV_ITEMS = [
   { label: "Dashboard",   icon: LayoutDashboard, href: "/intelligence-os" },
   { label: "Dashboards Customizáveis", icon: LayoutGrid, href: "/intelligence-os/dashboards" },
@@ -38,6 +40,8 @@ const NAV_ITEMS = [
   { label: "AI Agents",   icon: Bot, href: "/intelligence-os/agents" },
   { label: "Automações",  icon: Workflow, href: "/intelligence-os/automacoes" },
   { label: "Site Forge",  icon: Globe, href: "/intelligence-os/forge" },
+  { label: "Site Cloner", icon: Copy, href: "/intelligence-os/cloner" },
+  { label: "Repositórios",icon: Globe, href: "/intelligence-os/repos" },
   { label: "GitHub Sync", icon: GitBranch, href: "/intelligence-os/github" },
   { label: "Knowledge",   icon: BookOpen, href: "/intelligence-os/knowledge" },
   { label: "Google Drive",icon: HardDrive, href: "/intelligence-os/drive" },
@@ -45,9 +49,11 @@ const NAV_ITEMS = [
   { label: "Gemini",      icon: Sparkles, href: "/intelligence-os/gemini" },
   { label: "NotebookLM",  icon: NotebookPen, href: "/intelligence-os/notebook" },
   { label: "Workspace",   icon: AppWindow, href: "/intelligence-os/workspace" },
+  /* === GOOGLE MAPS — novo item === */
+  { label: "Google Maps", icon: MapPin, href: "/intelligence-os/maps" },
 ];
 
-/* ── Status Badge ────────────────────────────────────────────────────────── */
+/* -- Status Badge ---------------------------------------------------------- */
 function StatusBadge() {
   return (
     <span className="intelligence-os-badge">
@@ -57,7 +63,7 @@ function StatusBadge() {
   );
 }
 
-/* ─── Recents (placeholder) ─────────────────────────────────────────────── */
+/* --- Recents (placeholder) ----------------------------------------------- */
 const RECENT_PAGES = [
   { label: "Pipeline Vendas", href: "/intelligence-os/pipelines" },
   { label: "Clientes Ativos", href: "/intelligence-os/clientes" },
@@ -70,6 +76,26 @@ export default function IntelligenceOSLayout({ children }: { children: React.Rea
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [viewport, setViewport] = useState<"mobile" | "tablet" | "desktop">("desktop");
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  /* -- Detect Viewport --------------------------------------------------- */
+  useEffect(() => {
+    const check = () => {
+      const w = window.innerWidth;
+      if (w < 768) setViewport("mobile");
+      else if (w < 1024) setViewport("tablet");
+      else setViewport("desktop");
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  /* -- Auto-collapse sidebar on tablet ----------------------------------- */
+  useEffect(() => {
+    if (viewport === "tablet") setCollapsed(true);
+  }, [viewport]);
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
@@ -78,12 +104,14 @@ export default function IntelligenceOSLayout({ children }: { children: React.Rea
     return pathname.startsWith(href);
   };
 
+  const isCollapsed = viewport === "tablet" ? true : collapsed;
+
   return (
     <div className="flex h-screen w-screen overflow-hidden" style={{ background: "#050D1A" }}>
-      {/* ── Overlay Mobile ─────────────────────────────────────────────── */}
+      {/* -- Overlay Mobile ----------------------------------------------- */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
           onClick={closeMobile}
         />
       )}
@@ -93,20 +121,21 @@ export default function IntelligenceOSLayout({ children }: { children: React.Rea
           ══════════════════════════════════════════════════════════════════ */}
       <aside
         className={`
-          fixed md:relative z-50 h-full flex flex-col
+          fixed lg:relative z-50 h-full flex flex-col
           transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-          ${collapsed ? "md:w-[68px]" : "md:w-[240px]"}
+          ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+          ${isCollapsed ? "lg:w-[68px]" : "lg:w-[240px]"}
+          ${viewport === "tablet" ? "w-[68px]" : ""}
           bg-[#050D1A] border-r border-[rgba(201,162,39,0.1)]
         `}
       >
-        {/* ── Logo ──────────────────────────────────────────────────────── */}
+        {/* -- Logo -------------------------------------------------------- */}
         <div className="flex items-center h-16 px-4 border-b border-[rgba(201,162,39,0.08)]">
           <div className="flex items-center gap-3 min-w-0">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#C9A227] to-[#B8911E] flex items-center justify-center flex-shrink-0">
               <Sparkles size={16} className="text-[#050D1A]" />
             </div>
-            {!collapsed && (
+            {!isCollapsed && (
               <div className="truncate">
                 <div className="text-sm font-semibold text-[#E8EDF2] font-['Clash_Display',system-ui,sans-serif] leading-tight">
                   Intelligence OS
@@ -117,9 +146,18 @@ export default function IntelligenceOSLayout({ children }: { children: React.Rea
               </div>
             )}
           </div>
+          {/* Close button on mobile */}
+          {mobileOpen && (
+            <button
+              onClick={closeMobile}
+              className="ml-auto p-1 text-[#6B7280] hover:text-[#E8EDF2] rounded transition-colors lg:hidden"
+            >
+              <X size={18} />
+            </button>
+          )}
         </div>
 
-        {/* ── Navigation ────────────────────────────────────────────────── */}
+        {/* -- Navigation -------------------------------------------------- */}
         <nav className="flex-1 overflow-y-auto px-2 py-4 intelligence-os-scrollbar space-y-1">
           {NAV_ITEMS.map((item) => {
             const active = isActive(item.href);
@@ -135,19 +173,19 @@ export default function IntelligenceOSLayout({ children }: { children: React.Rea
                     ? "bg-[rgba(201,162,39,0.1)] text-[#C9A227] border border-[rgba(201,162,39,0.15)]"
                     : "text-[#6B7280] hover:text-[#E8EDF2] hover:bg-[rgba(201,162,39,0.04)] border border-transparent"
                   }
-                  ${collapsed ? "justify-center" : ""}
+                  ${isCollapsed ? "justify-center" : ""}
                 `}
-                title={collapsed ? item.label : undefined}
+                title={isCollapsed ? item.label : undefined}
               >
                 <item.icon size={18} className="flex-shrink-0" />
-                {!collapsed && <span className="truncate">{item.label}</span>}
+                {!isCollapsed && <span className="truncate">{item.label}</span>}
               </Link>
             );
           })}
         </nav>
 
-        {/* ── Recents ──────────────────────────────────────────────────── */}
-        {!collapsed && (
+        {/* -- Recents ---------------------------------------------------- */}
+        {!isCollapsed && (
           <div className="px-4 py-3 border-t border-[rgba(201,162,39,0.06)]">
             <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280] mb-2">
               Recentes
@@ -165,13 +203,13 @@ export default function IntelligenceOSLayout({ children }: { children: React.Rea
           </div>
         )}
 
-        {/* ── Footer ────────────────────────────────────────────────────── */}
-        <div className={`px-2 py-3 border-t border-[rgba(201,162,39,0.06)] ${collapsed ? "flex flex-col items-center gap-2" : ""}`}>
+        {/* -- Footer ------------------------------------------------------ */}
+        <div className={`px-2 py-3 border-t border-[rgba(201,162,39,0.06)] ${isCollapsed ? "flex flex-col items-center gap-2" : ""}`}>
           <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:flex items-center justify-center w-full gap-2 px-3 py-2 text-xs text-[#6B7280] hover:text-[#E8EDF2] rounded-lg hover:bg-[rgba(201,162,39,0.04)] transition-colors"
+            onClick={() => setCollapsed(!isCollapsed)}
+            className="hidden lg:flex items-center justify-center w-full gap-2 px-3 py-2 text-xs text-[#6B7280] hover:text-[#E8EDF2] rounded-lg hover:bg-[rgba(201,162,39,0.04)] transition-colors"
           >
-            {collapsed ? <ChevronRight size={16} /> : <><ChevronLeft size={14} /> Recolher</>}
+            {isCollapsed ? <ChevronRight size={16} /> : <><ChevronLeft size={14} /> Recolher</>}
           </button>
         </div>
       </aside>
@@ -180,28 +218,37 @@ export default function IntelligenceOSLayout({ children }: { children: React.Rea
           MAIN CONTENT
           ══════════════════════════════════════════════════════════════════ */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* ── Top Bar ──────────────────────────────────────────────────── */}
+        {/* -- Top Bar ---------------------------------------------------- */}
         <header className="intelligence-os-glass h-16 flex items-center justify-between px-4 lg:px-6 border-b border-[rgba(201,162,39,0.06)] flex-shrink-0">
           <div className="flex items-center gap-3">
+            {/* Hamburger - visible on mobile/tablet */}
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden p-2 text-[#6B7280] hover:text-[#E8EDF2] rounded-lg hover:bg-[rgba(201,162,39,0.04)]"
+              className="flex lg:hidden p-2 text-[#6B7280] hover:text-[#E8EDF2] rounded-lg hover:bg-[rgba(201,162,39,0.04)]"
             >
               <Menu size={20} />
             </button>
 
-            {/* Search */}
-            <div className="relative hidden sm:block">
+            {/* Search - hidden on mobile unless toggled, shown on tablet/desktop */}
+            <div className="hidden sm:block relative">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280]" />
               <input
                 type="text"
                 placeholder="Buscar leads, clientes, automações..."
-                className="intelligence-os-input w-64 lg:w-80 pl-9 pr-3 py-2 text-sm"
+                className="intelligence-os-input w-48 lg:w-72 xl:w-80 pl-9 pr-3 py-2 text-sm"
               />
             </div>
           </div>
 
           <div className="flex items-center gap-2 lg:gap-3">
+            {/* Search toggle for mobile */}
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="sm:hidden p-2 text-[#6B7280] hover:text-[#E8EDF2] rounded-lg hover:bg-[rgba(201,162,39,0.04)] transition-colors"
+            >
+              <Search size={18} />
+            </button>
+
             <StatusBadge />
 
             <button className="p-2 text-[#6B7280] hover:text-[#E8EDF2] rounded-lg hover:bg-[rgba(201,162,39,0.04)] transition-colors relative">
@@ -224,9 +271,26 @@ export default function IntelligenceOSLayout({ children }: { children: React.Rea
           </div>
         </header>
 
-        {/* ── Page Content ─────────────────────────────────────────────── */}
+        {/* -- Mobile Search Bar (shown when toggled) -------------------- */}
+        {searchOpen && (
+          <div className="sm:hidden px-4 py-3 bg-[#050D1A] border-b border-[rgba(201,162,39,0.06)]">
+            <div className="relative">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280]" />
+              <input
+                type="text"
+                placeholder="Buscar leads, clientes, automações..."
+                className="intelligence-os-input w-full pl-9 pr-3 py-2 text-sm"
+                autoFocus
+              />
+            </div>
+          </div>
+        )}
+
+        {/* -- Page Content ----------------------------------------------- */}
         <main className="flex-1 overflow-y-auto intelligence-os-scrollbar">
-          {children}
+          <div className="animate-fade-in">
+            {children}
+          </div>
         </main>
       </div>
     </div>
