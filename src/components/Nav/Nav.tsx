@@ -15,6 +15,7 @@ const NAV_PAGES = [
   { label: 'INEMA', href: '/inema' },
   { label: 'IA', href: '/ia' },
   { label: 'Biblioteca', href: '/biblioteca' },
+  { label: 'Notas', href: '/app' },
 ];
 
 /* ─── Component ─── */
