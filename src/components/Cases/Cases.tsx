@@ -102,8 +102,9 @@ function CaseCard({
         delay: index * 0.15,
         ease: [0.19, 1, 0.22, 1],
       }}
-      className={`card-surface group relative flex flex-col overflow-hidden border-l-2 ${c.border}`}
+      className={`card-3d card-surface group relative flex flex-col overflow-hidden border-l-2 ${c.border}`}
     >
+      <div className="card-3d-inner flex flex-col flex-1">
       {/* Header */}
       <div className="flex items-start justify-between border-b border-ios-border/50 p-5">
         <div className="flex items-center gap-3">
@@ -158,6 +159,7 @@ function CaseCard({
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-ios-accent/50" />
           {c.tech}
         </div>
+      </div>
       </div>
     </motion.div>
   );

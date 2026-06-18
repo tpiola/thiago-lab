@@ -1,17 +1,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Layout, Grid3x3 } from 'lucide-react';
 
 /* ─── Navigation Links ─── */
-const NAV_LINKS = [
-  { label: 'Plataforma', href: '#plataforma' },
-  { label: 'Áreas', href: '#areas' },
-  { label: 'Casos', href: '#casos' },
-  { label: 'Lab Pro', href: '#lab-pro' },
-];
+interface NavLink {
+  label: string;
+  href: string;
+  icon?: React.ComponentType<{ size?: number }>;
+}
 
-const NAV_PAGES = [
+const NAV_PAGES: NavLink[] = [
+  { label: 'Builder', href: '/builder', icon: Layout },
+  { label: 'Templates', href: '/templates', icon: Grid3x3 },
   { label: 'INEMA', href: '/inema' },
   { label: 'IA', href: '/ia' },
   { label: 'Biblioteca', href: '/biblioteca' },
@@ -29,7 +30,7 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* Close mobile menu on route change / resize */
+  /* Close mobile menu on resize */
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768) setMenuOpen(false);
@@ -58,20 +59,9 @@ export function Nav() {
           <span className="hidden sm:inline">THIAGO LAB</span>
         </a>
 
-        {/* ── Desktop Links — Páginas ── */}
+        {/* ── Desktop Links ── */}
         <ul className="hidden items-center gap-1 md:flex">
           {NAV_PAGES.map((link) => (
-            <li key={link.label}>
-              <a
-                href={link.href}
-                className="rounded-md px-3 py-2 text-sm font-medium text-ios-text-secondary transition-colors hover:bg-ios-accent/5 hover:text-ios-text"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-          <li className="mx-1 h-4 w-px bg-ios-border/40" />
-          {NAV_LINKS.map((link) => (
             <li key={link.label}>
               <a
                 href={link.href}
@@ -113,30 +103,21 @@ export function Nav() {
       >
         <div className="border-t border-ios-border/30 bg-ios-surface/95 px-4 py-4 backdrop-blur-xl">
           <ul className="flex flex-col gap-1">
-            {/* Pages first */}
-            {NAV_PAGES.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block rounded-md px-3 py-2.5 text-sm font-medium text-ios-accent transition-colors hover:bg-ios-accent/5 hover:text-ios-text"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-            <li className="my-1 h-px bg-ios-border/30" />
-            {NAV_LINKS.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block rounded-md px-3 py-2.5 text-sm font-medium text-ios-text-secondary transition-colors hover:bg-ios-accent/5 hover:text-ios-text"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
+            {NAV_PAGES.map((link) => {
+              const Icon = link.icon;
+              return (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium text-ios-accent transition-colors hover:bg-ios-accent/5 hover:text-ios-text"
+                  >
+                    {Icon && <Icon size={16} />}
+                    {link.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
           <a
             href="/ia"

@@ -617,6 +617,146 @@ body {
 }
 
 /* ==========================================================================
+   PARALLAX BACKGROUND
+   ========================================================================== */
+.parallax-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-bg > .parallax-layer {
+  position: absolute;
+  inset: -20%;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+  transform: translateZ(0);
+  z-index: 0;
+}
+
+/* ==========================================================================
+   SCROLL-DRIVEN REVEAL (CSS animation-timeline)
+   ========================================================================== */
+@keyframes scrollReveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.scroll-reveal {
+  animation: scrollReveal linear forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+@keyframes scrollRevealLeft {
+  from { opacity: 0; transform: translateX(-60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.scroll-reveal-left {
+  animation: scrollRevealLeft linear forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+@keyframes scrollRevealRight {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.scroll-reveal-right {
+  animation: scrollRevealRight linear forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+@keyframes scrollRevealScale {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.scroll-reveal-scale {
+  animation: scrollRevealScale linear forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+/* ==========================================================================
+   COUNTER ANIMATE
+   ========================================================================== */
+.counter-animate {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   GSAP REVEAL (preparado para GSAP ScrollTrigger)
+   ========================================================================== */
+.gsap-reveal {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.gsap-reveal.gsap-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ==========================================================================
+   SPLIT TEXT
+   ========================================================================== */
+.split-text .split-char {
+  display: inline-block;
+  white-space: pre;
+}
+
+.split-text .split-word {
+  display: inline-block;
+}
+
+/* ==========================================================================
+   PROGRESS BAR (global scroll progress)
+   ========================================================================== */
+@keyframes progressBar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+.progress-bar-global {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3DF5C5, #2BCC9E);
+  z-index: 100;
+  transform-origin: left;
+  animation: progressBar linear forwards;
+  animation-timeline: scroll();
+}
+
+/* ==========================================================================
+   CARD 3D HOVER
+   ========================================================================== */
+.card-3d {
+  perspective: 1000px;
+}
+
+.card-3d-inner {
+  transition: transform 0.5s var(--ease-out-expo);
+  transform-style: preserve-3d;
+}
+
+.card-3d:hover .card-3d-inner {
+  transform: rotateY(-3deg) rotateX(2deg) scale(1.02);
+}
+
+/* ==========================================================================
    PREFERS-REDUCED-MOTION
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
@@ -642,6 +782,47 @@ body {
   .terminal-cursor::after {
     animation: none;
     opacity: 0.7;
+  }
+
+  .card-3d-inner {
+    transition: none;
+  }
+
+  .card-3d:hover .card-3d-inner {
+    transform: none;
+  }
+
+  .reveal-fade,
+  .reveal-scale,
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .scroll-reveal,
+  .scroll-reveal-left,
+  .scroll-reveal-right,
+  .scroll-reveal-scale {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .split-text .split-char,
+  .split-text .split-word {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .progress-bar-global {
+    display: none;
+  }
+
+  .gsap-reveal {
+    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -675,25 +856,6 @@ h1, h2, h3, h4, h5, h6, p {
 
 h1, h2, h3 {
   text-wrap: balance;
-}
-
-/* ==========================================================================
-   CARD 3D TILT
-   ========================================================================== */
-
-/* ── Card 3D Tilt ───────────────────────────────────────────────────────── */
-.card-3d {
-  perspective: 1000px;
-}
-
-.card-3d-inner {
-  transition: transform 0.5s var(--ease-out-expo);
-  transform-style: preserve-3d;
-}
-
-.card-3d:hover .card-3d-inner,
-.card-3d-inner:hover {
-  transform: rotateY(-3deg) rotateX(2deg) scale(1.02);
 }
 
 /* ── Image Zoom on Hover ────────────────────────────────────────────────── */
@@ -733,31 +895,4 @@ h1, h2, h3 {
 .reveal-scale.visible {
   opacity: 1;
   transform: scale(1);
-}
-
-/* ── prefers-reduced-motion: desativa animações ─────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .card-3d-inner {
-    transition: none;
-  }
-
-  .card-3d:hover .card-3d-inner,
-  .card-3d-inner:hover {
-    transform: none;
-  }
-
-  .img-zoom img {
-    transition: none;
-  }
-
-  .img-zoom:hover img {
-    transform: none;
-  }
-
-  .reveal-fade,
-  .reveal-scale {
-    transition: none;
-    opacity: 1;
-    transform: none;
-  }
 }
