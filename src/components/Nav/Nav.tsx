@@ -15,6 +15,7 @@ const NAV_PAGES: NavLink[] = [
   { label: 'Templates', href: '/templates', icon: Grid3x3 },
   { label: 'INEMA', href: '/inema' },
   { label: 'IA', href: '/ia' },
+  { label: 'AI Builder', href: '/ai-builder' },
   { label: 'Biblioteca', href: '/biblioteca' },
   { label: 'Notas', href: '/app' },
 ];

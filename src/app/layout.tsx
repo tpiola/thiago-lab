@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/lib/auth-context";
 
 /* ── Geist Sans (primary sans) ──────────────────────────────────────────── */
 const geistSans = Geist({
@@ -121,7 +122,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col grain">
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
 
         {/* IntersectionObserver — ativa reveal-fade, reveal-scale e reveal no viewport */}
         <script
