@@ -24,11 +24,15 @@ import {
   HelpCircle,
   LogOut,
   Sparkles,
+  LayoutGrid,
+  NotebookPen,
+  AppWindow,
 } from "lucide-react";
 
 /* ── Navegação ──────────────────────────────────────────────────────────── */
 const NAV_ITEMS = [
   { label: "Dashboard",   icon: LayoutDashboard, href: "/intelligence-os" },
+  { label: "Dashboards Customizáveis", icon: LayoutGrid, href: "/intelligence-os/dashboards" },
   { label: "Pipelines",   icon: KanbanSquare, href: "/intelligence-os/pipelines" },
   { label: "Clientes",    icon: Users, href: "/intelligence-os/clientes" },
   { label: "AI Agents",   icon: Bot, href: "/intelligence-os/agents" },
@@ -38,6 +42,9 @@ const NAV_ITEMS = [
   { label: "Knowledge",   icon: BookOpen, href: "/intelligence-os/knowledge" },
   { label: "Google Drive",icon: HardDrive, href: "/intelligence-os/drive" },
   { label: "Email",       icon: Mail, href: "/intelligence-os/email" },
+  { label: "Gemini",      icon: Sparkles, href: "/intelligence-os/gemini" },
+  { label: "NotebookLM",  icon: NotebookPen, href: "/intelligence-os/notebook" },
+  { label: "Workspace",   icon: AppWindow, href: "/intelligence-os/workspace" },
 ];
 
 /* ── Status Badge ────────────────────────────────────────────────────────── */
