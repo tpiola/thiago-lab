@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { ReactLenis } from "lenis/react";
 
 /* ── Geist Sans (primary sans) ──────────────────────────────────────────── */
 const geistSans = Geist({
@@ -122,14 +121,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col grain">
-        {/* Scroll Progress Bar — CSS scroll-driven */}
-        <div className="scroll-progress" aria-hidden="true" />
+        {children}
 
-        <ReactLenis root options={{ lerp: 0.08, duration: 1.2 }}>
-          {children}
-        </ReactLenis>
-
-        {/* IntersectionObserver — ativa reveal-fade e reveal-scale no viewport */}
+        {/* IntersectionObserver — ativa reveal-fade, reveal-scale e reveal no viewport */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){
@@ -140,7 +134,7 @@ export default function RootLayout({
                   if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
                 });
               }, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
-              document.querySelectorAll('.reveal-fade,.reveal-scale').forEach(function(el){ obs.observe(el); });
+              document.querySelectorAll('.reveal-fade,.reveal-scale,.reveal').forEach(function(el){ obs.observe(el); });
             })();`,
           }}
         />

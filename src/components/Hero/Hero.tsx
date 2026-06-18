@@ -2,8 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { ArrowRight, ChevronRight } from 'lucide-react';
-import { SplineScene } from './SplineScene';
-import { GoldParticles } from './GoldParticles';
 
 /* ─── Pipeline Steps ─── */
 const PIPELINE_STEPS = [
@@ -48,14 +46,6 @@ export function Hero() {
       {/* ── Background Gradient ── */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,rgba(61,245,197,0.04),transparent_70%)]" />
       <div className="pointer-events-none absolute left-1/2 top-1/3 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ios-accent/3 blur-[120px]" />
-
-      {/* ── Spline 3D Background (lazy) ── */}
-      <div className="pointer-events-none absolute inset-0 z-[1] opacity-[0.35] motion-reduce:hidden">
-        <SplineScene sceneUrl="https://prod.spline.design/6w7YwO1J6CzH3ZLX/scene.splinecode" />
-      </div>
-
-      {/* ── Gold Particles Canvas ── */}
-      <GoldParticles />
 
       <div className="container-ios relative z-10 flex flex-col items-center py-28 text-center sm:py-36">
         {/* ── Badge ── */}

@@ -18,18 +18,16 @@ export default function HomePage() {
       {/* Navigation fixa com glassmorphism */}
       <Nav />
 
-      {/* 1. Hero + Pipeline de validação visual — parallax */}
-      <div className="parallax-bg">
-        <Hero />
-      </div>
+      {/* 1. Hero — Pipeline de validação visual */}
+      <Hero />
 
       {/* 2. Prova de que entende de IA — Stack Log */}
       <div className="reveal-fade">
         <StackLog />
       </div>
 
-      {/* 3. Manifesto — parallax-layer sutil */}
-      <div className="parallax-layer">
+      {/* 3. Manifesto — visão do laboratório */}
+      <div className="reveal-fade">
         <Manifesto />
       </div>
 
