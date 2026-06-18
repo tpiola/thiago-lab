@@ -71,7 +71,7 @@ const AGENTS: Agent[] = [
     model: "INEMA Monitor",
   },
   {
-    id: "nexuschat",
+    id: "ai-agent",
     name: "Intelligence OS Chat",
     description: "Chat inteligente para suporte ao cliente com respostas contextuais",
     icon: MessageSquare,
