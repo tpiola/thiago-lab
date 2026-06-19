@@ -2,7 +2,7 @@
 
 /* ==========================================================================
    useN8nLeads — React hook para buscar leads do n8n webhook
-   Cache de 30s, atualização automática, fallback para dados mock
+   Cache de 30s, atualização automática
    Intelligence OS — thiagolab.com
    ========================================================================== */
 
@@ -30,23 +30,6 @@ export interface N8nLeadsResult {
   fetchedAt: string | null;
   refetch: () => void;
 }
-
-/* ─── Mock Data (fallback) ────────────────────────────────────────── */
-
-const CLIENTES_MOCK: Cliente[] = [
-  { id: 1, nome: 'Carlos Silva', empresa: 'Empresa XYZ', telefone: '(11) 99999-0001', email: 'carlos@xyz.com', status: 'Ativo', ultimoContato: '18/06/2026', valor: 'R$ 12.000' },
-  { id: 2, nome: 'Ana Costa', empresa: 'TechStart', telefone: '(11) 99999-0002', email: 'ana@techstart.com', status: 'Lead', ultimoContato: '17/06/2026', valor: 'R$ 8.500' },
-  { id: 3, nome: 'Pedro Santos', empresa: 'GlobalWeb', telefone: '(21) 99999-0003', email: 'pedro@globalweb.com', status: 'Ativo', ultimoContato: '16/06/2026', valor: 'R$ 22.000' },
-  { id: 4, nome: 'Julia Lima', empresa: 'NovaTech', telefone: '(31) 99999-0004', email: 'julia@novatech.com', status: 'Lead', ultimoContato: '15/06/2026', valor: 'R$ 5.000' },
-  { id: 5, nome: 'Roberto Alves', empresa: 'Acme Corp', telefone: '(11) 99999-0005', email: 'roberto@acme.com', status: 'Ativo', ultimoContato: '17/06/2026', valor: 'R$ 35.000' },
-  { id: 6, nome: 'Marina Dias', empresa: 'BetaTech', telefone: '(41) 99999-0006', email: 'marina@betatech.com', status: 'Lead', ultimoContato: '16/06/2026', valor: 'R$ 18.000' },
-  { id: 7, nome: 'Lucas Nunes', empresa: 'Sigma Soluções', telefone: '(51) 99999-0007', email: 'lucas@sigma.com', status: 'Inativo', ultimoContato: '14/06/2026', valor: 'R$ 9.000' },
-  { id: 8, nome: 'Fernanda Torres', empresa: 'MegaCorp', telefone: '(11) 99999-0008', email: 'fernanda@megacorp.com', status: 'Ativo', ultimoContato: '16/06/2026', valor: 'R$ 65.000' },
-  { id: 9, nome: 'Rafael Costa', empresa: 'DataFlow', telefone: '(21) 99999-0009', email: 'rafael@dataflow.com', status: 'Ativo', ultimoContato: '15/06/2026', valor: 'R$ 28.000' },
-  { id: 10, nome: 'Camila Rocha', empresa: 'WebDev Ltda', telefone: '(31) 99999-0010', email: 'camila@webdev.com', status: 'Ativo', ultimoContato: '10/06/2026', valor: 'R$ 42.000' },
-  { id: 11, nome: 'Thiago Martins', empresa: 'Startup A', telefone: '(11) 99999-0011', email: 'thiago@startupa.com', status: 'Inativo', ultimoContato: '12/06/2026', valor: 'R$ 15.000' },
-  { id: 12, nome: 'Amanda Oliveira', empresa: 'InovaTech', telefone: '(61) 99999-0012', email: 'amanda@inovatech.com', status: 'Lead', ultimoContato: '11/06/2026', valor: 'R$ 7.500' },
-];
 
 /* ─── Cache ────────────────────────────────────────────────────────── */
 
@@ -135,39 +118,39 @@ export function useN8nLeads(): N8nLeadsResult {
         setSource(dataSource);
         setFetchedAt(data.fetchedAt || null);
       } else {
-        // No data from API — use mock
+        // No data from API — empty state
         cache = {
-          data: CLIENTES_MOCK,
+          data: [],
           live: false,
-          source: 'mock',
+          source: 'error',
           fetchedAt: new Date().toISOString(),
           timestamp: Date.now(),
         };
 
-        setLeads(CLIENTES_MOCK);
+        setLeads([]);
         setLive(false);
-        setSource('mock');
+        setSource('error');
         setFetchedAt(null);
       }
     } catch (err) {
       if (!mountedRef.current) return;
 
-      console.warn('[useN8nLeads] Erro ao buscar leads, usando fallback mock:', (err as Error).message);
+      console.warn('[useN8nLeads] Erro ao buscar leads:', (err as Error).message);
 
-      // Use mock data on error
+      // Empty state on error
       cache = {
-        data: CLIENTES_MOCK,
+        data: [],
         live: false,
-        source: 'mock',
+        source: 'error',
         fetchedAt: new Date().toISOString(),
         timestamp: Date.now(),
       };
 
-      setLeads(CLIENTES_MOCK);
+      setLeads([]);
       setLive(false);
-      setSource('mock');
+      setSource('error');
       setFetchedAt(null);
-      setError(null); // Error silencioso — fallback mock
+      setError('Não foi possível conectar à fonte de dados. Configure o n8n webhook.');
     } finally {
       if (mountedRef.current) {
         setLoading(false);

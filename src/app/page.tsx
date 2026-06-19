@@ -33,21 +33,21 @@ const PLATFORM_MODULES = [
   { icon: AppWindow, label: "Workspace", href: "/intelligence-os/workspace", desc: "Gmail, Drive, Calendar, Meet", color: "#84CC16" },
 ];
 
+// KPI_DATA — valores ilustrativos para demonstração do layout
 const KPI_DATA = [
-  { label: "Receita Total", value: "R$ 847.320", change: "+23.5%", icon: DollarSign, positive: true },
-  { label: "Projetos Ativos", value: "47", change: "+8", icon: Activity, positive: true },
-  { label: "Clientes", value: "234", change: "+12.8%", icon: Users, positive: true },
-  { label: "Automações", value: "156", change: "+31", icon: Zap, positive: true },
-  { label: "Tempo Médio", value: "6.2d", change: "-18%", icon: Clock, positive: true },
-  { label: "ROI Médio", value: "4.7x", change: "+0.8x", icon: Target, positive: true },
+  { label: "Receita Total", value: "—", change: "Em breve", icon: DollarSign, positive: true },
+  { label: "Projetos Ativos", value: "—", change: "Em breve", icon: Activity, positive: true },
+  { label: "Clientes", value: "—", change: "Em breve", icon: Users, positive: true },
+  { label: "Automações", value: "—", change: "Em breve", icon: Zap, positive: true },
+  { label: "Tempo Médio", value: "—", change: "Em breve", icon: Clock, positive: true },
+  { label: "ROI Médio", value: "—", change: "Em breve", icon: Target, positive: true },
 ];
 
+// Demonstração — dados ilustrativos
 const RECENT_ACTIVITY = [
-  { action: "Projeto entregue", project: "Rei das Vendas — Automação de vendas", time: "2h atrás", color: "#34D399" },
-  { action: "Dashboard atualizado", project: "Intelligence OS — Analytics BI", time: "5h atrás", color: "#60A5FA" },
-  { action: "Cliente aprovou", project: "SaúdeGPT — Ficha cadastral multi-step", time: "1d atrás", color: "#C9A227" },
-  { action: "Deploy realizado", project: "thiagolab.com — VPS Hostinger", time: "1d atrás", color: "#A78BFA" },
-  { action: "Novo módulo", project: "Campanhas Ads — Google + Facebook", time: "2d atrás", color: "#F97316" },
+  { action: "Em construção", project: "Plataforma em desenvolvimento", time: "—", color: "#6B7280" },
+  { action: "Em construção", project: "Módulos sendo implementados", time: "—", color: "#6B7280" },
+  { action: "Em construção", project: "Dados reais em breve", time: "—", color: "#6B7280" },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
