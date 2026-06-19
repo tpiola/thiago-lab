@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Bot,
   Play,
@@ -14,9 +14,12 @@ import {
   MessageSquare,
   Database,
   Globe,
-  Code,
   BarChart3,
+  Loader2,
+  Wifi,
+  WifiOff,
 } from "lucide-react";
+import ChatInterface from "./chat-interface";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    TYPES
@@ -33,10 +36,16 @@ interface Agent {
   model: string;
 }
 
+interface OmniRouteHealth {
+  online: boolean;
+  models: number;
+  latency?: string;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   MOCK DATA
+   STATIC AGENT DEFINITIONS (core agents, always shown)
    ═══════════════════════════════════════════════════════════════════════════ */
-const AGENTS: Agent[] = [
+const CORE_AGENTS: Agent[] = [
   {
     id: "hermes",
     name: "Hermes Agent",
@@ -71,15 +80,15 @@ const AGENTS: Agent[] = [
     model: "INEMA Monitor",
   },
   {
-    id: "ai-agent",
-    name: "Intelligence OS Chat",
-    description: "Chat inteligente para suporte ao cliente com respostas contextuais",
+    id: "omniroute-chat",
+    name: "OmniRoute Chat",
+    description: "Chat com modelos de IA via OmniRoute Gateway — DeepSeek, GPT-5, Claude e mais",
     icon: MessageSquare,
     status: "Online",
-    lastRun: "10 min atrás",
-    tasksCompleted: 3451,
-    successRate: 94.2,
-    model: "GPT-4o",
+    lastRun: "Agora",
+    tasksCompleted: 0,
+    successRate: 100,
+    model: "Multi-Model",
   },
   {
     id: "dataforge",
@@ -163,10 +172,20 @@ function AgentDetailModal({ agent, open, onClose }: { agent: Agent | null; open:
         </div>
 
         <div className="flex gap-2">
-          <button className="intelligence-os-btn-primary flex-1">
-            <Play size={14} />
-            Executar Agora
-          </button>
+          {agent.id === "omniroute-chat" ? (
+            <button
+              className="intelligence-os-btn-primary flex-1"
+              onClick={() => document.getElementById("omniroute-chat-section")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              <MessageSquare size={14} />
+              Abrir Chat
+            </button>
+          ) : (
+            <button className="intelligence-os-btn-primary flex-1">
+              <Play size={14} />
+              Executar Agora
+            </button>
+          )}
           <button className="intelligence-os-btn-outline flex-1">
             <BarChart3 size={14} />
             Ver Logs
@@ -231,9 +250,45 @@ function AgentCard({ agent, onDetail }: { agent: Agent; onDetail: (a: Agent) => 
    ═══════════════════════════════════════════════════════════════════════════ */
 export default function AgentsPage() {
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
+  const [health, setHealth] = useState<OmniRouteHealth | null>(null);
+  const [loadingHealth, setLoadingHealth] = useState(true);
+  const [showChat, setShowChat] = useState(false);
 
-  const activeCount = AGENTS.filter((a) => a.status === "Online").length;
-  const tasksToday = AGENTS.reduce((acc, a) => acc + a.tasksCompleted, 0);
+  // Fetch real OmniRoute health
+  useEffect(() => {
+    fetch("/api/omniroute/models")
+      .then((r) => r.json())
+      .then((data) => {
+        setHealth({
+          online: !data.fallback,
+          models: data.total || data.models?.length || 0,
+          latency: data.error ? undefined : "~50ms",
+        });
+      })
+      .catch(() => {
+        setHealth({ online: false, models: 0 });
+      })
+      .finally(() => setLoadingHealth(false));
+  }, []);
+
+  // Dynamically update OmniRoute Chat agent model
+  const agents = CORE_AGENTS.map((a) => {
+    if (a.id === "omniroute-chat" && health) {
+      return {
+        ...a,
+        tasksCompleted: health.models,
+        lastRun: health.online ? "Online agora" : "Offline",
+        status: health.online ? "Online" as const : "Offline" as const,
+        model: `${health.models} modelos disponíveis`,
+        description: health.online
+          ? `Chat com ${health.models} modelos de IA via OmniRoute Gateway`
+          : "Chat com IA — modo fallback (OmniRoute offline)",
+      };
+    }
+    return a;
+  });
+
+  const activeCount = agents.filter((a) => a.status === "Online").length;
 
   return (
     <div className="p-4 lg:p-6 min-h-full intelligence-os-grid-bg">
@@ -242,13 +297,30 @@ export default function AgentsPage() {
         <div>
           <h1 className="intelligence-os-section-title text-2xl">AI Agents</h1>
           <p className="intelligence-os-section-subtitle mt-1">
-            Gerencie seus agentes de IA — Hermes, Clarity OS, INEMA e mais
+            Gerencie seus agentes de IA — Hermes, Clarity OS, INEMA e OmniRoute Chat
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="intelligence-os-btn-primary">
-            <Zap size={16} />
-            Executar Todos
+          {loadingHealth ? (
+            <span className="flex items-center gap-2 text-xs text-[#6B7280]">
+              <Loader2 size={12} className="animate-spin" />
+              Verificando OmniRoute...
+            </span>
+          ) : (
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold"
+              style={{
+                background: health?.online ? "rgba(52,211,153,0.1)" : "rgba(239,68,68,0.1)",
+                color: health?.online ? "#34D399" : "#ef4444",
+              }}
+            >
+              {health?.online ? <Wifi size={12} /> : <WifiOff size={12} />}
+              OmniRoute {health?.online ? `(${health.models} modelos)` : "Offline"}
+            </span>
+          )}
+          <button className="intelligence-os-btn-primary" onClick={() => setShowChat(true)}>
+            <MessageSquare size={16} />
+            Chat OmniRoute
           </button>
         </div>
       </div>
@@ -260,36 +332,65 @@ export default function AgentsPage() {
             <Bot size={14} className="text-[#C9A227]" />
             <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Total Agents</span>
           </div>
-          <div className="intelligence-os-metric-value text-xl">{AGENTS.length}</div>
+          <div className="intelligence-os-metric-value text-xl">{agents.length}</div>
         </div>
         <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
             <Activity size={14} className="text-[#34D399]" />
-            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Active</span>
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Online</span>
           </div>
           <div className="intelligence-os-metric-value text-xl" style={{ color: "#34D399" }}>{activeCount}</div>
         </div>
         <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
-            <CheckCircle size={14} className="text-[#C9A227]" />
-            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Tasks Hoje</span>
+            <Zap size={14} className="text-[#C9A227]" />
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Modelos OmniRoute</span>
           </div>
-          <div className="intelligence-os-metric-value text-xl">{tasksToday.toLocaleString()}</div>
+          <div className="intelligence-os-metric-value text-xl">
+            {loadingHealth ? "..." : health?.models || "N/A"}
+          </div>
         </div>
         <div className="intelligence-os-metric">
           <div className="flex items-center gap-2 mb-2">
-            <Zap size={14} className="text-[#60A5FA]" />
-            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Avg Response</span>
+            <CheckCircle size={14} className="text-[#60A5FA]" />
+            <span className="intelligence-os-metric-label" style={{ margin: 0 }}>Gateway Status</span>
           </div>
-          <div className="intelligence-os-metric-value text-xl" style={{ color: "#60A5FA" }}>1.2s</div>
+          <div
+            className="intelligence-os-metric-value text-sm"
+            style={{ color: health?.online ? "#34D399" : "#ef4444" }}
+          >
+            {loadingHealth ? "Verificando..." : health?.online ? "Online" : "Offline (fallback ativo)"}
+          </div>
         </div>
       </div>
 
       {/* ── Agent Grid ───────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {AGENTS.map((agent) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        {agents.map((agent) => (
           <AgentCard key={agent.id} agent={agent} onDetail={setSelectedAgent} />
         ))}
+      </div>
+
+      {/* ── OmniRoute Chat Section ───────────────────────────────────────── */}
+      <div id="omniroute-chat-section" className="mt-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="intelligence-os-section-title">Chat OmniRoute</h2>
+            <p className="intelligence-os-section-subtitle mt-1">
+              Conectado ao OmniRoute Gateway — converse com modelos de IA em tempo real
+            </p>
+          </div>
+        </div>
+        <div
+          className="rounded-2xl border overflow-hidden"
+          style={{
+            background: "rgba(12, 15, 21, 0.75)",
+            borderColor: "rgba(61, 245, 197, 0.08)",
+            height: "520px",
+          }}
+        >
+          <ChatInterface embedded />
+        </div>
       </div>
 
       {/* ── Detail Modal ─────────────────────────────────────────────────── */}

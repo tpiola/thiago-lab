@@ -1,15 +1,92 @@
 /* ==========================================================================
    /api/projects — Listar e criar projetos
+   Conecta com repositórios reais do GitHub
    Intelligence OS — thiagolab.com
    ========================================================================== */
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { createAnonClient } from '@/lib/supabase-server';
+import { fetchGitHubRepos } from '@/lib/api-real';
 
+export const dynamic = 'force-dynamic';
+
+/**
+ * GET /api/projects — Lista projetos
+ * GET /api/projects?source=github — Lista repositórios do GitHub
+ * GET /api/projects?source=all — Lista projetos + GitHub combinados
+ */
 export async function GET(request: NextRequest) {
   try {
-    // Autenticar via cookie/session
+    const { searchParams } = new URL(request.url);
+    const source = searchParams.get('source') || 'db';
+
+    // ── GitHub repos ───────────────────────────────────────────
+    if (source === 'github') {
+      const { data, error } = await fetchGitHubRepos();
+      if (error) {
+        return NextResponse.json({ error: 'GitHub unavailable', detail: error }, { status: 502 });
+      }
+      return NextResponse.json({
+        projects: data?.map((repo) => ({
+          id: repo.name,
+          name: repo.name,
+          description: repo.description || '',
+          url: repo.url,
+          language: repo.language,
+          stars: repo.stars,
+          forks: repo.forks,
+          updatedAt: repo.updatedAt,
+          source: 'github',
+        })) || [],
+        total: data?.length || 0,
+        source: 'github',
+      });
+    }
+
+    // ── Supabase projects + GitHub ─────────────────────────────
+    if (source === 'all') {
+      // Tenta GitHub (fallback se não disponível)
+      const ghResult = await fetchGitHubRepos();
+      const ghProjects = ghResult.data?.map((repo) => ({
+        id: repo.name,
+        name: repo.name,
+        description: repo.description || '',
+        url: repo.url,
+        language: repo.language,
+        stars: repo.stars,
+        forks: repo.forks,
+        updatedAt: repo.updatedAt,
+        source: 'github',
+      })) || [];
+
+      // Tenta Supabase
+      let dbProjects: any[] = [];
+      try {
+        const supabase = createAnonClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data } = await supabase
+            .from('projects')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('updated_at', { ascending: false })
+            .limit(50);
+          if (data) dbProjects = data.map((p) => ({ ...p, source: 'database' }));
+        }
+      } catch {
+        // Supabase pode não estar configurado
+      }
+
+      const allProjects = [...ghProjects, ...dbProjects];
+      return NextResponse.json({
+        projects: allProjects,
+        total: allProjects.length,
+        source: 'all',
+      });
+    }
+
+    // ── Apenas banco de dados local ────────────────────────────
     const supabase = createAnonClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
@@ -20,7 +97,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { searchParams } = new URL(request.url);
     const limit = Math.min(Number(searchParams.get('limit')) || 50, 100);
     const offset = Number(searchParams.get('offset')) || 0;
     const sortBy = searchParams.get('sort') || 'updated_at';
@@ -37,16 +113,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json({ projects: data, total: count });
+    return NextResponse.json({ projects: data, total: count, source: 'database' });
   } catch (err) {
     console.error('[GET /api/projects]', err);
     return NextResponse.json(
-      { error: 'Erro interno do servidor.' },
+      { error: 'Erro interno do servidor.', detail: err instanceof Error ? err.message : String(err) },
       { status: 500 },
     );
   }
 }
 
+/**
+ * POST /api/projects — Cria projeto no Supabase
+ */
 export async function POST(request: NextRequest) {
   try {
     const supabase = createAnonClient();

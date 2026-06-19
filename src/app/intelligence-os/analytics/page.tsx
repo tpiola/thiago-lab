@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   TrendingUp,
@@ -17,6 +17,13 @@ import {
   UserCheck,
   Receipt,
   Banknote,
+  Wifi,
+  WifiOff,
+  GitBranch,
+  Workflow,
+  Globe,
+  Cpu,
+  Loader2,
 } from "lucide-react";
 import {
   AreaChart,
@@ -48,58 +55,30 @@ const C = {
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MOCK DATA
+   SERVICE METRIC TYPE
+   ═══════════════════════════════════════════════════════════════════════════ */
+interface ServiceMetric {
+  label: string;
+  value: number | string;
+  unit: string;
+  status: "online" | "degraded" | "error";
+  sublabel?: string;
+  icon?: React.ElementType;
+  error?: string;
+}
+
+interface ServiceStats {
+  timestamp: string;
+  overall: string;
+  summary: string;
+  metrics: ServiceMetric[];
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOCK FALLBACK DATA
    ═══════════════════════════════════════════════════════════════════════════ */
 
-const METRICS = [
-  {
-    label: "MRR",
-    value: "R$ 284.500",
-    change: "+12.4%",
-    up: true,
-    icon: DollarSign,
-    sub: "Receita Recorrente Mensal",
-  },
-  {
-    label: "ARR",
-    value: "R$ 3.414.000",
-    change: "+18.2%",
-    up: true,
-    icon: Banknote,
-    sub: "Receita Recorrente Anual",
-  },
-  {
-    label: "Churn",
-    value: "2.1%",
-    change: "-0.8pp",
-    up: false,
-    icon: Users,
-    sub: "Taxa de Cancelamento",
-  },
-  {
-    label: "LTV",
-    value: "R$ 18.450",
-    change: "+8.6%",
-    up: true,
-    icon: Target,
-    sub: "Lifetime Value Médio",
-  },
-];
-
-const MONTHS = [
-  "Jan",
-  "Fev",
-  "Mar",
-  "Abr",
-  "Mai",
-  "Jun",
-  "Jul",
-  "Ago",
-  "Set",
-  "Out",
-  "Nov",
-  "Dez",
-];
+const MONTHS = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
 
 const revenueData = MONTHS.map((m, i) => ({
   month: m,
@@ -148,28 +127,28 @@ const cohortData = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   ICON MAP
+   ═══════════════════════════════════════════════════════════════════════════ */
+const SERVICE_ICONS: Record<string, React.ElementType> = {
+  "Modelos OmniRoute Ativos": Cpu,
+  "Repositórios GitHub": GitBranch,
+  "Workflows n8n": Workflow,
+  "Cenários Make.com": Globe,
+  "Status dos Sites": Activity,
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════
    COMPONENTES REUTILIZÁVEIS
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function GlassCard({
-  children,
-  className = "",
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
+function GlassCard({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: [0.19, 1, 0.22, 1] }}
-      className={`rounded-2xl border backdrop-blur-xl transition-all duration-300 hover:border-[${C.accent}]/30 hover:shadow-[0_0_30px_rgba(61,245,197,0.06)] ${className}`}
-      style={{
-        background: C.glass,
-        borderColor: C.border,
-      }}
+      className={`rounded-2xl border backdrop-blur-xl transition-all duration-300 hover:border-[rgba(61,245,197,0.3)] hover:shadow-[0_0_30px_rgba(61,245,197,0.06)] ${className}`}
+      style={{ background: C.glass, borderColor: C.border }}
     >
       {children}
     </motion.div>
@@ -180,77 +159,67 @@ function CardHeader({ title, subtitle, icon: Icon }: { title: string; subtitle?:
   return (
     <div className="flex items-center gap-3 mb-4">
       {Icon && (
-        <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: C.accentDim }}
-        >
+        <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: C.accentDim }}>
           <Icon size={18} style={{ color: C.accent }} />
         </div>
       )}
       <div>
-        <h3 className="text-sm font-semibold" style={{ color: C.text }}>
-          {title}
-        </h3>
-        {subtitle && (
-          <p className="text-xs" style={{ color: C.muted }}>
-            {subtitle}
-          </p>
-        )}
+        <h3 className="text-sm font-semibold" style={{ color: C.text }}>{title}</h3>
+        {subtitle && <p className="text-xs" style={{ color: C.muted }}>{subtitle}</p>}
       </div>
     </div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MÉTRICAS DO TOPO (MetricCard)
+   SERVICE METRIC CARD
    ═══════════════════════════════════════════════════════════════════════════ */
+function ServiceMetricCard({ metric, delay }: { metric: ServiceMetric; delay: number }) {
+  const Icon = SERVICE_ICONS[metric.label] || Activity;
+  const isOnline = metric.status === "online";
+  const statusColor = isOnline ? "#34D399" : metric.status === "degraded" ? "#F59E0B" : "#EF4444";
 
-function MetricCard({
-  label,
-  value,
-  change,
-  up,
-  icon: Icon,
-  sub,
-  delay,
-}: (typeof METRICS)[number] & { delay: number }) {
   return (
     <GlassCard delay={delay} className="p-5 group">
       <div className="flex items-start justify-between mb-3">
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(61,245,197,0.15)]"
-          style={{ background: C.accentDim }}
+          className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+          style={{ background: `${statusColor}15` }}
         >
-          <Icon size={20} style={{ color: C.accent }} />
+          <Icon size={20} style={{ color: statusColor }} />
         </div>
         <span
-          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold ${
-            up
-              ? "text-green-400 bg-green-500/10"
-              : "text-red-400 bg-red-500/10"
-          }`}
+          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
+          style={{
+            background: isOnline ? "rgba(52,211,153,0.1)" : "rgba(245,158,11,0.1)",
+            color: statusColor,
+          }}
         >
-          {up ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
-          {change}
+          {isOnline ? <Wifi size={10} /> : <WifiOff size={10} />}
+          {isOnline ? "Online" : metric.status}
         </span>
       </div>
       <p className="text-[11px] font-medium uppercase tracking-wider mb-1" style={{ color: C.muted }}>
-        {label}
+        {metric.label}
       </p>
       <p className="text-2xl font-bold tracking-tight" style={{ color: C.text }}>
-        {value}
+        {typeof metric.value === 'number' ? metric.value.toLocaleString() : metric.value}
       </p>
-      <p className="text-xs mt-1" style={{ color: C.muted }}>
-        {sub}
-      </p>
+      <div className="flex items-center justify-between mt-1">
+        <p className="text-xs" style={{ color: C.muted }}>{metric.unit}</p>
+        {metric.sublabel && (
+          <span className="text-[10px] font-semibold" style={{ color: C.accent }}>
+            {metric.sublabel}
+          </span>
+        )}
+      </div>
     </GlassCard>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   GRÁFICO DE RECEITA (AreaChart)
+   GRÁFICO DE RECEITA
    ═══════════════════════════════════════════════════════════════════════════ */
-
 function RevenueChart() {
   return (
     <GlassCard className="p-5 col-span-full lg:col-span-2">
@@ -271,32 +240,9 @@ function RevenueChart() {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(122,134,148,0.12)" />
             <XAxis dataKey="month" tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
-            <Tooltip
-              contentStyle={{
-                background: C.surface,
-                border: `1px solid ${C.border}`,
-                borderRadius: 12,
-                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-                color: C.text,
-              }}
-              labelStyle={{ color: C.muted }}
-            />
-            <Area
-              type="monotone"
-              dataKey="custos"
-              stroke="#F55"
-              strokeWidth={2}
-              fill="url(#costGrad)"
-              name="Custos"
-            />
-            <Area
-              type="monotone"
-              dataKey="receita"
-              stroke={C.accent}
-              strokeWidth={2.5}
-              fill="url(#revGrad)"
-              name="Receita"
-            />
+            <Tooltip contentStyle={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.4)", color: C.text }} labelStyle={{ color: C.muted }} />
+            <Area type="monotone" dataKey="custos" stroke="#F55" strokeWidth={2} fill="url(#costGrad)" name="Custos" />
+            <Area type="monotone" dataKey="receita" stroke={C.accent} strokeWidth={2.5} fill="url(#revGrad)" name="Receita" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
@@ -305,9 +251,8 @@ function RevenueChart() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   GRÁFICO DE CHURN (BarChart)
+   GRÁFICO DE CHURN
    ═══════════════════════════════════════════════════════════════════════════ */
-
 function ChurnChart() {
   return (
     <GlassCard className="p-5">
@@ -318,23 +263,10 @@ function ChurnChart() {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(122,134,148,0.12)" />
             <XAxis dataKey="month" tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fill: C.muted, fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${v}%`} />
-            <Tooltip
-              contentStyle={{
-                background: C.surface,
-                border: `1px solid ${C.border}`,
-                borderRadius: 12,
-                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-                color: C.text,
-              }}
-              labelStyle={{ color: C.muted }}
-            />
+            <Tooltip contentStyle={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.4)", color: C.text }} labelStyle={{ color: C.muted }} />
             <Bar dataKey="churn" name="Churn %" radius={[6, 6, 0, 0]} maxBarSize={24}>
               {churnData.map((entry) => (
-                <Cell
-                  key={entry.month}
-                  fill={entry.churn > 3 ? "#F55" : entry.churn > 2 ? "#F5A63D" : C.accent}
-                  fillOpacity={0.8}
-                />
+                <Cell key={entry.month} fill={entry.churn > 3 ? "#F55" : entry.churn > 2 ? "#F5A63D" : C.accent} fillOpacity={0.8} />
               ))}
             </Bar>
           </BarChart>
@@ -345,13 +277,10 @@ function ChurnChart() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TABELA DE CLIENTES ATIVOS
+   TABELA DE CLIENTES
    ═══════════════════════════════════════════════════════════════════════════ */
-
 function ClientesTable() {
-  const statusColor = (s: string) =>
-    s === "Ativo" ? "text-green-400 bg-green-500/10" : "text-red-400 bg-red-500/10";
-
+  const statusColor = (s: string) => s === "Ativo" ? "text-green-400 bg-green-500/10" : "text-red-400 bg-red-500/10";
   const planColor = (p: string) => {
     if (p === "Enterprise+") return "text-purple-400 bg-purple-500/10";
     if (p === "Enterprise") return "text-blue-400 bg-blue-500/10";
@@ -361,7 +290,7 @@ function ClientesTable() {
 
   return (
     <GlassCard className="p-5 col-span-full lg:col-span-2">
-      <CardHeader title="Clientes Ativos" subtitle="8 clientes cadastrados" icon={UserCheck} />
+      <CardHeader title="Clientes Ativos" subtitle={`${clientesAtivos.length} clientes cadastrados`} icon={UserCheck} />
       <div className="overflow-x-auto -mx-5">
         <table className="w-full text-sm" style={{ color: C.text }}>
           <thead>
@@ -383,15 +312,11 @@ function ClientesTable() {
                 style={{ borderColor: C.border }}
               >
                 <td className="px-5 py-3.5 font-medium">{c.nome}</td>
-                <td className="px-4 py-3.5 font-semibold" style={{ color: C.accent }}>
-                  {c.valor}
-                </td>
+                <td className="px-4 py-3.5 font-semibold" style={{ color: C.accent }}>{c.valor}</td>
                 <td className="px-4 py-3.5">
                   <span
                     className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
-                      typeof planColor(c.plano) === "string" && planColor(c.plano).includes("text-")
-                        ? planColor(c.plano)
-                        : ""
+                      typeof planColor(c.plano) === "string" && planColor(c.plano).includes("text-") ? planColor(c.plano) : ""
                     }`}
                     style={
                       typeof planColor(c.plano) !== "string" || !planColor(c.plano).includes("text-")
@@ -403,15 +328,8 @@ function ClientesTable() {
                   </span>
                 </td>
                 <td className="px-4 py-3.5">
-                  <span
-                    className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${statusColor(c.status)}`}
-                  >
-                    <span
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{
-                        background: c.status === "Ativo" ? "#4ade80" : "#f87171",
-                      }}
-                    />
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${statusColor(c.status)}`}>
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: c.status === "Ativo" ? "#4ade80" : "#f87171" }} />
                     {c.status}
                   </span>
                 </td>
@@ -427,10 +345,8 @@ function ClientesTable() {
 /* ═══════════════════════════════════════════════════════════════════════════
    FUNIL DE CONVERSÃO
    ═══════════════════════════════════════════════════════════════════════════ */
-
 function FunilConversao() {
   const maxValor = Math.max(...funilData.map((f) => f.valor));
-
   return (
     <GlassCard className="p-5">
       <CardHeader title="Funil de Conversão" subtitle="Leads → Fechadas" icon={Activity} />
@@ -445,33 +361,21 @@ function FunilConversao() {
               transition={{ delay: i * 0.12, duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
             >
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-sm font-medium" style={{ color: C.text }}>
-                  {item.etapa}
-                </span>
-                <span className="text-sm font-bold" style={{ color: item.cor }}>
-                  {item.valor.toLocaleString()}
-                </span>
+                <span className="text-sm font-medium" style={{ color: C.text }}>{item.etapa}</span>
+                <span className="text-sm font-bold" style={{ color: item.cor }}>{item.valor.toLocaleString()}</span>
               </div>
-              <div
-                className="h-2.5 rounded-full overflow-hidden"
-                style={{ background: "rgba(122,134,148,0.1)" }}
-              >
+              <div className="h-2.5 rounded-full overflow-hidden" style={{ background: "rgba(122,134,148,0.1)" }}>
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${pct}%` }}
                   transition={{ delay: i * 0.12 + 0.3, duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
                   className="h-full rounded-full"
-                  style={{
-                    background: item.cor,
-                    boxShadow: `0 0 12px ${item.cor}44`,
-                  }}
+                  style={{ background: item.cor, boxShadow: `0 0 12px ${item.cor}44` }}
                 />
               </div>
               {i < funilData.length - 1 && (
                 <div className="flex justify-center my-1">
-                  <span className="text-lg" style={{ color: C.muted }}>
-                    ↓
-                  </span>
+                  <span className="text-lg" style={{ color: C.muted }}>↓</span>
                 </div>
               )}
             </motion.div>
@@ -483,14 +387,12 @@ function FunilConversao() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PREVISÃO DE RECEITA (Próximos 30 dias)
+   PREVISÃO DE RECEITA
    ═══════════════════════════════════════════════════════════════════════════ */
-
 function RevenueForecast() {
   const totalPrevisto = forecastData.reduce((s, d) => s + d.previsao, 0);
   const totalOtimista = forecastData.reduce((s, d) => s + d.otimista, 0);
   const totalPessimista = forecastData.reduce((s, d) => s + d.pessimista, 0);
-
   const sampledData = forecastData.filter((_, i) => i % 3 === 0);
 
   return (
@@ -498,24 +400,16 @@ function RevenueForecast() {
       <CardHeader title="Previsão de Receita" subtitle="Próximos 30 dias" icon={CalendarDays} />
       <div className="grid grid-cols-3 gap-3 mb-4">
         <div className="rounded-xl p-3 text-center" style={{ background: "rgba(61,245,197,0.06)" }}>
-          <p className="text-[10px] uppercase tracking-wider font-semibold mb-1" style={{ color: C.muted }}>
-            Pessimista
-          </p>
-          <p className="text-sm font-bold text-red-400">R$ {(totalPessimista / 1000).toFixed(0)}k</p>
-        </div>
-        <div className="rounded-xl p-3 text-center" style={{ background: C.accentDim }}>
-          <p className="text-[10px] uppercase tracking-wider font-semibold mb-1" style={{ color: C.muted }}>
-            Previsto
-          </p>
-          <p className="text-sm font-bold" style={{ color: C.accent }}>
-            R$ {(totalPrevisto / 1000).toFixed(0)}k
-          </p>
+          <p className="text-[10px] uppercase tracking-wider font-semibold mb-1" style={{ color: C.muted }}>Previsto</p>
+          <p className="text-sm font-bold" style={{ color: C.accent }}>R$ {(totalPrevisto / 1000).toFixed(0)}k</p>
         </div>
         <div className="rounded-xl p-3 text-center" style={{ background: "rgba(61,180,245,0.06)" }}>
-          <p className="text-[10px] uppercase tracking-wider font-semibold mb-1" style={{ color: C.muted }}>
-            Otimista
-          </p>
+          <p className="text-[10px] uppercase tracking-wider font-semibold mb-1" style={{ color: C.muted }}>Otimista</p>
           <p className="text-sm font-bold text-blue-400">R$ {(totalOtimista / 1000).toFixed(0)}k</p>
+        </div>
+        <div className="rounded-xl p-3 text-center" style={{ background: "rgba(239,68,68,0.06)" }}>
+          <p className="text-[10px] uppercase tracking-wider font-semibold mb-1" style={{ color: C.muted }}>Pessimista</p>
+          <p className="text-sm font-bold text-red-400">R$ {(totalPessimista / 1000).toFixed(0)}k</p>
         </div>
       </div>
       <div className="h-48">
@@ -524,16 +418,7 @@ function RevenueForecast() {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(122,134,148,0.08)" />
             <XAxis dataKey="dia" tick={{ fill: C.muted, fontSize: 10 }} axisLine={false} tickLine={false} interval={2} />
             <YAxis tick={{ fill: C.muted, fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `R$${(v / 1000).toFixed(0)}k`} />
-            <Tooltip
-              contentStyle={{
-                background: C.surface,
-                border: `1px solid ${C.border}`,
-                borderRadius: 12,
-                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-                color: C.text,
-              }}
-              labelStyle={{ color: C.muted }}
-            />
+            <Tooltip contentStyle={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.4)", color: C.text }} labelStyle={{ color: C.muted }} />
             <Line type="monotone" dataKey="pessimista" stroke="#F55" strokeWidth={1.5} strokeDasharray="4 4" dot={false} name="Pessimista" />
             <Line type="monotone" dataKey="previsao" stroke={C.accent} strokeWidth={2.5} dot={false} name="Previsto" />
             <Line type="monotone" dataKey="otimista" stroke="#3DB8F5" strokeWidth={1.5} strokeDasharray="4 4" dot={false} name="Otimista" />
@@ -547,7 +432,6 @@ function RevenueForecast() {
 /* ═══════════════════════════════════════════════════════════════════════════
    SAÚDE DO NEGÓCIO
    ═══════════════════════════════════════════════════════════════════════════ */
-
 function BusinessHealth() {
   const score = 78;
   const ringCircumference = 2 * Math.PI * 54;
@@ -570,46 +454,24 @@ function BusinessHealth() {
           <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(122,134,148,0.1)" strokeWidth="8" />
             <circle
-              cx="60"
-              cy="60"
-              r="54"
-              fill="none"
-              stroke={color}
-              strokeWidth="8"
-              strokeLinecap="round"
-              strokeDasharray={ringCircumference}
-              strokeDashoffset={ringCircumference - progress}
-              style={{
-                transition: "stroke-dashoffset 1.5s ease-in-out",
-                filter: `drop-shadow(0 0 8px ${color}55)`,
-              }}
+              cx="60" cy="60" r="54" fill="none" stroke={color} strokeWidth="8" strokeLinecap="round"
+              strokeDasharray={ringCircumference} strokeDashoffset={ringCircumference - progress}
+              style={{ transition: "stroke-dashoffset 1.5s ease-in-out", filter: `drop-shadow(0 0 8px ${color}55)` }}
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-3xl font-bold" style={{ color: C.text }}>
-              {score}
-            </span>
+            <span className="text-3xl font-bold" style={{ color: C.text }}>{score}</span>
           </div>
         </div>
-        <p className="text-sm mt-2" style={{ color: C.muted }}>
-          {score >= 80 ? "Excelente" : score >= 60 ? "Bom" : "Atenção"}
-        </p>
+        <p className="text-sm mt-2" style={{ color: C.muted }}>{score >= 80 ? "Excelente" : score >= 60 ? "Bom" : "Atenção"}</p>
       </div>
       <div className="space-y-2">
         {factors.map((f) => (
           <div key={f.label} className="flex items-center justify-between text-sm">
             <span style={{ color: C.muted }}>{f.label}</span>
             <div className="flex items-center gap-2">
-              <span className="font-semibold" style={{ color: C.text }}>
-                {f.value}
-              </span>
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{
-                  background: f.ok ? C.accent : "#F55",
-                  boxShadow: f.ok ? `0 0 6px ${C.accent}66` : "0 0 6px #F55666",
-                }}
-              />
+              <span className="font-semibold" style={{ color: C.text }}>{f.value}</span>
+              <div className="w-2 h-2 rounded-full" style={{ background: f.ok ? C.accent : "#F55", boxShadow: f.ok ? `0 0 6px ${C.accent}66` : "0 0 6px #F55666" }} />
             </div>
           </div>
         ))}
@@ -621,10 +483,8 @@ function BusinessHealth() {
 /* ═══════════════════════════════════════════════════════════════════════════
    COHORT ANALYSIS
    ═══════════════════════════════════════════════════════════════════════════ */
-
 function CohortAnalysis() {
   const months = ["M0", "M1", "M2", "M3", "M4", "M5"];
-
   const getColor = (val: number) => {
     if (val >= 80) return C.accent;
     if (val >= 70) return "#3DB8F5";
@@ -641,11 +501,7 @@ function CohortAnalysis() {
           <thead>
             <tr className="text-left text-xs uppercase tracking-wider" style={{ color: C.muted }}>
               <th className="px-5 pb-3 font-semibold">Mês</th>
-              {months.map((m) => (
-                <th key={m} className="px-3 pb-3 font-semibold text-center">
-                  {m}
-                </th>
-              ))}
+              {months.map((m) => (<th key={m} className="px-3 pb-3 font-semibold text-center">{m}</th>))}
             </tr>
           </thead>
           <tbody>
@@ -658,21 +514,14 @@ function CohortAnalysis() {
                 className="border-t transition-colors duration-200 hover:bg-white/[0.02]"
                 style={{ borderColor: C.border }}
               >
-                <td className="px-5 py-2.5 font-semibold text-xs" style={{ color: C.accent }}>
-                  {row.mes}
-                </td>
+                <td className="px-5 py-2.5 font-semibold text-xs" style={{ color: C.accent }}>{row.mes}</td>
                 {months.map((_, mi) => {
                   const key = `m${mi}` as keyof typeof row;
                   const val = row[key] as number;
                   return (
                     <td key={mi} className="px-3 py-2.5 text-center">
-                      <span
-                        className="inline-flex items-center justify-center w-10 h-8 rounded-md text-xs font-bold"
-                        style={{
-                          background: `${getColor(val)}22`,
-                          color: getColor(val),
-                        }}
-                      >
+                      <span className="inline-flex items-center justify-center w-10 h-8 rounded-md text-xs font-bold"
+                        style={{ background: `${getColor(val)}22`, color: getColor(val) }}>
                         {val}%
                       </span>
                     </td>
@@ -690,21 +539,29 @@ function CohortAnalysis() {
 /* ═══════════════════════════════════════════════════════════════════════════
    PAGE PRINCIPAL
    ═══════════════════════════════════════════════════════════════════════════ */
-
 export default function IntelligenceAnalyticsPage() {
+  const [stats, setStats] = useState<ServiceStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/analytics/stats")
+      .then((r) => r.json())
+      .then((data) => setStats(data))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const serviceMetrics = stats?.metrics || [];
+  const overallStatus = stats?.overall || "degraded";
+  const overallColor = overallStatus === "all-online" ? "#34D399" : overallStatus === "degraded" ? "#F59E0B" : "#EF4444";
+
   const container = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.06 },
-    },
+    show: { opacity: 1, transition: { staggerChildren: 0.06 } },
   };
 
   return (
-    <div
-      className="min-h-screen p-4 sm:p-6 lg:p-8"
-      style={{ background: C.bg, color: C.text }}
-    >
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8" style={{ background: C.bg, color: C.text }}>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}
@@ -712,21 +569,37 @@ export default function IntelligenceAnalyticsPage() {
         transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
         className="mb-6 sm:mb-8"
       >
-        <div className="flex items-center gap-3 mb-1">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{ background: C.accentDim }}
-          >
-            <BarChart3 size={20} style={{ color: C.accent }} />
+        <div className="flex items-start justify-between gap-3 mb-1">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.accentDim }}>
+              <BarChart3 size={20} style={{ color: C.accent }} />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold" style={{ color: C.text }}>
+                Analytics & BI
+              </h1>
+              <p className="text-sm" style={{ color: C.muted }}>
+                Business Intelligence Platform — Métricas e insights em tempo real
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold" style={{ color: C.text }}>
-              Analytics & BI
-            </h1>
-            <p className="text-sm" style={{ color: C.muted }}>
-              Business Intelligence Platform — Métricas e insights em tempo real
-            </p>
-          </div>
+          {loading ? (
+            <span className="flex items-center gap-2 text-xs text-[#6B7280]">
+              <Loader2 size={12} className="animate-spin" />
+              Carregando...
+            </span>
+          ) : (
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold"
+              style={{
+                background: `${overallColor}15`,
+                color: overallColor,
+              }}
+            >
+              {overallStatus === "all-online" ? <Wifi size={12} /> : <WifiOff size={12} />}
+              {stats?.summary || "Status desconhecido"}
+            </span>
+          )}
         </div>
       </motion.div>
 
@@ -737,32 +610,50 @@ export default function IntelligenceAnalyticsPage() {
         animate="show"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5"
       >
-        {/* Métricas do Topo */}
-        {METRICS.map((m, i) => (
-          <MetricCard key={m.label} {...m} delay={i * 0.08} />
+        {/* Service Metrics (REAL DATA) */}
+        {serviceMetrics.map((metric, i) => (
+          <ServiceMetricCard key={metric.label} metric={metric} delay={i * 0.08} />
         ))}
 
-        {/* Gráfico de Receita */}
-        <RevenueChart />
+        {/* Pad remaining slots with standard analytics */}
+        {serviceMetrics.length > 0 && (
+          <>
+            {/* Gráfico de Receita */}
+            <RevenueChart />
 
-        {/* Gráfico de Churn */}
-        <ChurnChart />
+            {/* Gráfico de Churn */}
+            <ChurnChart />
 
-        {/* Funil de Conversão */}
-        <FunilConversao />
+            {/* Funil de Conversão */}
+            <FunilConversao />
 
-        {/* Previsão de Receita */}
-        <RevenueForecast />
+            {/* Previsão de Receita */}
+            <RevenueForecast />
 
-        {/* Saúde do Negócio */}
-        <BusinessHealth />
+            {/* Saúde do Negócio */}
+            <BusinessHealth />
 
-        {/* Tabela de Clientes */}
-        <ClientesTable />
+            {/* Tabela de Clientes */}
+            <ClientesTable />
 
-        {/* Cohort Analysis */}
-        <CohortAnalysis />
+            {/* Cohort Analysis */}
+            <CohortAnalysis />
+          </>
+        )}
       </motion.div>
+
+      {/* Loading state */}
+      {loading && (
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <Loader2 size={32} className="animate-spin mx-auto mb-4" style={{ color: C.accent }} />
+            <p className="text-sm" style={{ color: C.muted }}>Buscando métricas dos serviços...</p>
+            <p className="text-xs mt-1" style={{ color: C.muted }}>
+              OmniRoute · GitHub · n8n · Make.com
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

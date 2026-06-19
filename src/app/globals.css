@@ -908,8 +908,278 @@ h1, h2, h3 {
   transform: scale(1);
 }
 
+/* ── ThiagoBuild design tokens ───────────────────────────────────────────── */
+:root {
+  --thiagobuild-base:       #06080C;
+  --thiagobuild-surface:    #0C0F15;
+  --thiagobuild-surface-2:  #12161E;
+  --thiagobuild-gold:       #D4AF37;
+  --thiagobuild-gold-dim:   rgba(212, 175, 55, 0.12);
+  --thiagobuild-gold-glow:  rgba(212, 175, 55, 0.08);
+  --thiagobuild-border:     rgba(212, 175, 55, 0.15);
+}
+
+.bg-thiagobuild-base       { background-color: var(--thiagobuild-base); }
+.bg-thiagobuild-surface    { background-color: var(--thiagobuild-surface); }
+.text-thiagobuild-gold     { color: var(--thiagobuild-gold); }
+.border-thiagobuild-gold   { border-color: var(--thiagobuild-border); }
+
+/* ── ThiagoBuild glassmorphism ───────────────────────────────────────────── */
+.tbuild-glass {
+  background: rgba(12, 15, 21, 0.75);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+.tbuild-glass-strong {
+  background: rgba(6, 8, 12, 0.92);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+/* ── ThiagoBuild gradient text ───────────────────────────────────────────── */
+.tbuild-text-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5D76E 50%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── ThiagoBuild button primary ──────────────────────────────────────────── */
+.tbuild-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8911E 100%);
+  color: #06080C;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+.tbuild-btn-primary:hover {
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.35);
+  transform: translateY(-1px);
+}
+.tbuild-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ── ThiagoBuild button outline ──────────────────────────────────────────── */
+.tbuild-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background: transparent;
+  color: var(--thiagobuild-gold);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: pointer;
+}
+.tbuild-btn-outline:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.15);
+}
+
+/* ── ThiagoBuild Keyframes ───────────────────────────────────────────────── */
+@keyframes thiagobuildFloat {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  50%      { transform: translateY(-20px) scale(1.05); opacity: 1; }
+}
+
+@keyframes thiagobuildFloatDelayed {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+  50%      { transform: translateY(15px) scale(1.03); opacity: 0.8; }
+}
+
+@keyframes thiagobuildShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes thiagobuildGoldPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.12); }
+  50%      { box-shadow: 0 0 24px rgba(212, 175, 55, 0.3); }
+}
+
+@keyframes thiagobuildScaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes thiagobuildSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Tailwind v4 @theme inline — thiagobuild tokens ──────────────────────── */
+@theme inline {
+  --color-thiagobuild-base:       #06080C;
+  --color-thiagobuild-surface:    #0C0F15;
+  --color-thiagobuild-gold:       #D4AF37;
+
+  --animate-thiagobuild-float:         thiagobuildFloat 6s ease-in-out infinite;
+  --animate-thiagobuild-float-delayed: thiagobuildFloatDelayed 8s ease-in-out infinite;
+  --animate-thiagobuild-shimmer:       thiagobuildShimmer 3s ease-in-out infinite;
+  --animate-thiagobuild-scale-in:      thiagobuildScaleIn 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  --animate-thiagobuild-slide-up:      thiagobuildSlideUp 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ==========================================================================
+   @media queries — Breakpoints responsivos
+   ========================================================================== */
+
+/* ── Mobile first (320px+) ──────────────────────────────────────────────── */
+@media (max-width: 374px) {
+  .container-ios {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .section-padding {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .heading-xl {
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+  .heading-lg {
+    font-size: clamp(1.25rem, 6vw, 1.5rem);
+  }
+}
+
+/* ── Small phones to small tablets ─────────────────────────────────────── */
+@media (max-width: 639px) {
+  .section-padding {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+  .container-ios {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* ── Tablets (768px+) ──────────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  .container-ios {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* ── Desktop (1280px+) ─────────────────────────────────────────────────── */
+@media (min-width: 1280px) {
+  .section-padding {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  .container-ios {
+    max-width: 1280px;
+  }
+}
+
+/* ==========================================================================
+   Scrollbar customizada — sutil e elegante
+   ========================================================================== */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.15) transparent;
+}
+
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    border: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.15);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.3);
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+/* ==========================================================================
+   Focus styles melhorados
+   ========================================================================== */
+*:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── Focus ring para inputs ─────────────────────────────────────────────── */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 0;
+  border-radius: 8px;
+}
+
+/* ── Selection melhorado ────────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(212, 175, 55, 0.25);
+  color: #E8EDF2;
+}
+
+/* ==========================================================================
+   Responsive card heights consistency
+   ========================================================================== */
+.card-equal-height {
+  display: flex;
+  flex-direction: column;
+}
+.card-equal-height > *:last-child {
+  margin-top: auto;
+}
+
+/* Grid fallback for very small screens */
+@media (max-width: 374px) {
+  .grid-cols-responsive {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Prevent overflow on very small screens ─────────────────────────────── */
+img, video, iframe, pre, code {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+pre, code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   NEXUS Omni CRM — Design Tokens (Navy + Gold)
+   PREFERS-REDUCED-MOTION
    ═══════════════════════════════════════════════════════════════════════════ */
 :root {
   --nexus-navy:       #0A1628;
