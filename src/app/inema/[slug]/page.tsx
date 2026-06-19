@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import {
   ArrowLeft,
   ExternalLink,
-  Github,
+  GitFork,
   Globe,
   Tag,
   Code2,
@@ -138,7 +138,7 @@ export default function InemaDetailPage() {
                 rel="noopener noreferrer"
                 className="btn-accent inline-flex items-center gap-2 text-sm"
               >
-                <Github size={16} />
+                <GitFork size={16} />
                 Ver no GitHub
                 <ExternalLink size={13} />
               </a>
@@ -275,7 +275,7 @@ export default function InemaDetailPage() {
             className="group flex items-center gap-4 rounded-xl border border-ios-border/50 bg-ios-surface p-5 transition-all hover:border-ios-accent/30 hover:shadow-ios-glow-sm"
           >
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-ios-accent-dim">
-              <Github size={22} className="text-ios-accent" />
+              <GitFork size={22} className="text-ios-accent" />
             </div>
             <div className="flex-1">
               <h3 className="font-mono text-sm font-bold text-ios-text group-hover:text-ios-accent">Repositório GitHub</h3>

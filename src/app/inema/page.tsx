@@ -15,7 +15,6 @@ import {
   GraduationCap,
   Wrench,
   BookMarked,
-  Github,
   Layers,
   Tag,
 } from 'lucide-react';
