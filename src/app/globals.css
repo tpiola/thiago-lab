@@ -1904,3 +1904,373 @@ pre, code {
 .animate-gold-pulse {
   animation: goldPulse 2s ease-in-out infinite;
 }
+
+/* ==========================================================================
+   THIAGOLAB — Emerald / Sage Design Tokens
+   ========================================================================== */
+:root {
+  --emerald-50:   #ECFDF5;
+  --emerald-100:  #D1FAE5;
+  --emerald-200:  #A7F3D0;
+  --emerald-300:  #6EE7B7;
+  --emerald-400:  #34D399;
+  --emerald-500:  #10B981;
+  --emerald-600:  #059669;
+  --emerald-700:  #047857;
+  --emerald-800:  #065F46;
+  --emerald-900:  #064E3B;
+  --sage-50:      #F4F7F2;
+  --sage-100:     #E2E8DE;
+  --sage-200:     #C5D1BD;
+  --sage-300:     #A8BA9C;
+  --sage-400:     #8BA37B;
+  --sage-500:     #6E8C5A;
+  --sage-600:     #587049;
+  --sage-700:     #425438;
+  --sage-800:     #2C3827;
+  --sage-900:     #161C16;
+  --emerald-glow:  rgba(61, 245, 197, 0.35);
+}
+
+/* ==========================================================================
+   THIAGOLAB — Scroll Progress (IntersectionObserver-friendly)
+   NO animation-timeline — use JS to toggle .visible
+   ========================================================================== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--emerald-400), var(--ios-accent));
+  z-index: 9999;
+  transition: width 0.1s linear;
+  will-change: width;
+}
+
+/* ==========================================================================
+   THIAGOLAB — Parallax Layer (standalone, JS data-speed)
+   ========================================================================== */
+.parallax-layer {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* ==========================================================================
+   THIAGOLAB — Card Magnetic (hover tilt)
+   ========================================================================== */
+.card-magnetic {
+  transition: transform 0.15s var(--ease-out-expo);
+  will-change: transform;
+}
+
+/* ==========================================================================
+   THIAGOLAB — Gradient Border Animation
+   ========================================================================== */
+.gradient-border {
+  position: relative;
+  isolation: isolate;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    var(--ios-accent),
+    var(--emerald-400),
+    transparent,
+    var(--emerald-600),
+    var(--ios-accent)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: gradientBorderSpin 4s linear infinite;
+}
+
+@keyframes gradientBorderSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   THIAGOLAB — Marquee / Marquee Track
+   ========================================================================== */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+.marquee-track {
+  display: inline-flex;
+  gap: 2rem;
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   THIAGOLAB — Orb / Drift Animation
+   ========================================================================== */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  25%      { transform: translate(18px, -26px); }
+  50%      { transform: translate(-12px, 18px); }
+  75%      { transform: translate(14px, 10px); }
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  animation: drift 8s var(--ease-in-out-expo) infinite;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   THIAGOLAB — Aurora / Aurora Float
+   ========================================================================== */
+@keyframes auroraFloat {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.4;
+  }
+  25% {
+    transform: translateX(30px) translateY(-20px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-20px) translateY(15px);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translateX(25px) translateY(-10px);
+    opacity: 0.6;
+  }
+}
+
+.aurora {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(61, 245, 197, 0.25) 0%, transparent 70%);
+  filter: blur(40px);
+  animation: auroraFloat 12s var(--ease-in-out-expo) infinite;
+  will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   THIAGOLAB — Pill / Badge / Button classes
+   ========================================================================== */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ios-text-secondary);
+  transition: all 0.3s var(--ease-out-expo);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid rgba(61, 245, 197, 0.25);
+  background: rgba(61, 245, 197, 0.08);
+  border-radius: 9999px;
+  color: var(--ios-accent);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  font-family: var(--font-mono);
+}
+
+/* ── Emerald Button ──────────────────────────────────────────────────────── */
+.btn-emerald {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background: linear-gradient(135deg, var(--emerald-400) 0%, var(--emerald-600) 100%);
+  color: var(--ios-base);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-ios-md);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(61, 245, 197, 0.2);
+  transition: all 0.3s var(--ease-out-expo);
+  white-space: nowrap;
+}
+.btn-emerald:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 6px 24px rgba(61, 245, 197, 0.35);
+  transform: translateY(-1px);
+}
+.btn-emerald:active {
+  transform: translateY(0);
+}
+
+/* ── Ghost Button ────────────────────────────────────────────────────────── */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ios-text);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-ios-md);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out-expo);
+  white-space: nowrap;
+}
+.btn-ghost:hover {
+  border-color: var(--ios-accent);
+  color: var(--ios-accent);
+  background: rgba(61, 245, 197, 0.06);
+}
+
+/* ==========================================================================
+   THIAGOLAB — Gradient Ring (conic spinner)
+   ========================================================================== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.gradient-ring {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--ios-accent),
+    var(--emerald-400),
+    transparent 60%,
+    var(--emerald-600),
+    var(--ios-accent)
+  );
+  animation: spin 8s linear infinite;
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 3px));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 3px));
+}
+
+/* ==========================================================================
+   THIAGOLAB — Hero Grid Background
+   ========================================================================== */
+.hero-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ==========================================================================
+   THIAGOLAB — Noise Overlay (.noise)
+   ========================================================================== */
+.noise {
+  position: relative;
+}
+.noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.11;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ==========================================================================
+   THIAGOLAB — Page Shell (z-index stacking context)
+   ========================================================================== */
+.page-shell {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   THIAGOLAB — Glass refinements (emerald-tinted)
+   ========================================================================== */
+.glass-emerald {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.glass-strong-emerald {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(61, 245, 197, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* ==========================================================================
+   THIAGOLAB — Animation utility classes (IntersectionObserver-ready)
+   ========================================================================== */
+@keyframes fadeScaleIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-scale-in {
+  animation: fadeScaleIn 0.6s var(--ease-out-expo) forwards;
+}
+
+.animate-slide-up-fade {
+  animation: slideUpFade 0.6s var(--ease-out-expo) forwards;
+}
+
+/* ==========================================================================
+   THIAGOLAB — prefers-reduced-motion additions
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .orb {
+    animation: none;
+  }
+  .aurora {
+    animation: none;
+    opacity: 0.2;
+  }
+  .gradient-border::before {
+    animation: none;
+  }
+  .gradient-ring {
+    animation: none;
+  }
+  .scroll-progress {
+    transition: none;
+  }
+}
