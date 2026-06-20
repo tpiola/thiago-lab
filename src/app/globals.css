@@ -752,6 +752,147 @@ body {
 }
 
 /* ==========================================================================
+   GRADIENT TEXT SHIFT (animated gradient)
+   ========================================================================== */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.text-gradient-shift {
+  background: linear-gradient(135deg, #00C9A7, #3DF5C5, #6EE7B7, #34D399, #00C9A7);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* ==========================================================================
+   SECTION LABEL with green accent line
+   ========================================================================== */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ios-accent);
+  margin-bottom: 1rem;
+}
+
+.section-label::before,
+.section-label::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(61, 245, 197, 0.4), transparent);
+}
+
+.section-label::before {
+  width: 2rem;
+}
+
+.section-label::after {
+  width: 3rem;
+}
+
+/* ==========================================================================
+   COMMAND CENTER MODAL
+   ========================================================================== */
+.command-center-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 3, 3, 0.7);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+}
+
+.command-center-panel {
+  width: 100%;
+  max-width: 540px;
+  max-height: 80vh;
+  background: rgba(12, 15, 21, 0.95);
+  border: 1px solid rgba(61, 245, 197, 0.15);
+  border-radius: 1rem;
+  box-shadow: 0 0 40px rgba(61, 245, 197, 0.08), 0 8px 40px rgba(0,0,0,0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.command-center-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(61, 245, 197, 0.1);
+  padding: 1rem 1.25rem;
+  color: var(--ios-text);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  outline: none;
+  width: 100%;
+}
+
+.command-center-input::placeholder {
+  color: var(--ios-muted);
+  opacity: 0.4;
+}
+
+.command-center-list {
+  overflow-y: auto;
+  padding: 0.5rem;
+  max-height: 50vh;
+}
+
+.command-center-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  color: var(--ios-text-secondary);
+  font-size: 0.85rem;
+  transition: all 0.15s var(--ease-out-expo);
+  cursor: pointer;
+}
+
+.command-center-item:hover,
+.command-center-item.active {
+  background: rgba(61, 245, 197, 0.08);
+  color: var(--ios-text);
+}
+
+.command-center-item kbd {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--ios-muted);
+  background: rgba(255,255,255,0.05);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ==========================================================================
+   COUNT-UP ANIMATION
+   ========================================================================== */
+.count-up-number {
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+
+/* ==========================================================================
    CARD 3D HOVER
    ========================================================================== */
 .card-3d {
@@ -913,9 +1054,10 @@ h1, h2, h3 {
   --thiagobuild-base:       #06080C;
   --thiagobuild-surface:    #0C0F15;
   --thiagobuild-surface-2:  #12161E;
-  --thiagobuild-gold:       #D4AF37;
-  --thiagobuild-gold-dim:   rgba(212, 175, 55, 0.12);
-  --thiagobuild-gold-glow:  rgba(212, 175, 55, 0.08);
+  /* Primary brand switched to green */
+  --thiagobuild-gold:       #00C9A7;
+  --thiagobuild-gold-dim:   rgba(0, 201, 167, 0.12);
+  --thiagobuild-gold-glow:  rgba(0, 201, 167, 0.10);
   --thiagobuild-border:     rgba(212, 175, 55, 0.15);
 }
 
@@ -1028,7 +1170,7 @@ h1, h2, h3 {
 @theme inline {
   --color-thiagobuild-base:       #06080C;
   --color-thiagobuild-surface:    #0C0F15;
-  --color-thiagobuild-gold:       #D4AF37;
+  --color-thiagobuild-gold:       #00C9A7;
 
   --animate-thiagobuild-float:         thiagobuildFloat 6s ease-in-out infinite;
   --animate-thiagobuild-float-delayed: thiagobuildFloatDelayed 8s ease-in-out infinite;
@@ -1187,10 +1329,10 @@ pre, code {
   --nexus-navy-light: #0F1F36;
   --nexus-surface:    #0D1A2E;
   --nexus-surface-2:  #122240;
-  --nexus-gold:       #C9A227;
-  --nexus-gold-light: rgba(201, 162, 39, 0.1);
-  --nexus-gold-dim:   rgba(201, 162, 39, 0.15);
-  --nexus-gold-glow:  rgba(201, 162, 39, 0.08);
+  --nexus-gold:       #00C9A7;
+  --nexus-gold-light: rgba(0, 201, 167, 0.1);
+  --nexus-gold-dim:   rgba(0, 201, 167, 0.15);
+  --nexus-gold-glow:  rgba(0, 201, 167, 0.10);
   --nexus-border:     rgba(201, 162, 39, 0.12);
   --nexus-text:       #E8EDF2;
   --nexus-text-sec:   #9BA3B8;
@@ -1903,6 +2045,46 @@ pre, code {
 }
 .animate-gold-pulse {
   animation: goldPulse 2s ease-in-out infinite;
+}
+
+/* New premium animations */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.text-gradient-animated {
+  background: linear-gradient(270deg, #00C9A7, #0D9488, #00C9A7);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite;
+}
+
+@keyframes floatOrb {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  background: rgba(0,201,167,0.15);
+  animation: floatOrb 8s ease-in-out infinite;
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00C9A7, #0D9488);
+  z-index: 9999;
+  width: 0%;
 }
 
 /* ==========================================================================

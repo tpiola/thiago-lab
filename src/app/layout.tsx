@@ -130,6 +130,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col grain">
+        <div id="scroll-progress" className="scroll-progress" />
         <AuthProvider>
           {children}
         </AuthProvider>
@@ -149,6 +150,14 @@ export default function RootLayout({
             })();`,
           }}
         />
+        <script dangerouslySetInnerHTML={{__html: `(function(){
+          var bar = document.getElementById('scroll-progress');
+          window.addEventListener('scroll', function(){
+            var h = document.documentElement;
+            var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+            if(bar) bar.style.width = (scrolled * 100) + '%';
+          });
+        })();`}} />
       </body>
     </html>
   );
