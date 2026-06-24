@@ -159,6 +159,7 @@ html {
 }
 
 body {
+  overflow-x: hidden;
   background-color: var(--ios-base);
   color: var(--ios-text);
   font-family: var(--font-sans);
