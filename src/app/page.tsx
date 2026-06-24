@@ -10,6 +10,7 @@ import {
   Activity, Clock, Zap, Shield, ArrowRight, ChevronRight, Globe2,
   Code, Bolt, ChartLine, Cpu, Rocket, Check, Menu, X,
   Command, Search, ExternalLink, Layers, Eye, Star,
+  Brain, Heart, MessageCircle, Lock,
 } from "lucide-react";
 import { GoldParticles } from "@/components/Hero/GoldParticles";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
@@ -113,6 +114,7 @@ const BUILDER_TYPES = [
   { value: "saas", label: "SaaS / Plataforma" },
   { value: "workflow", label: "Workflow / Automação" },
   { value: "repo", label: "Repositório / Template" },
+  { value: "sovereign-agent", label: "Agente Soberano Pessoal" },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -122,9 +124,16 @@ const PRICING_TIERS = [
   {
     name: "Starter",
     price: "R$ 0",
-    desc: "Para começar sua jornada digital",
-    features: ["1 site com IA", "Agente WhatsApp básico", "Template pré-pronto", "Comunidade Discord", "Atualizações gratuitas"],
-    cta: "Começar grátis",
+    desc: "Sem cartão de crédito. Acesso vitalício ao plano gratuito.",
+    features: [
+      "1 site com IA (até 5 páginas)",
+      "1 agente WhatsApp — 200 msgs/dia",
+      "3 templates premium prontos",
+      "Comunidade Discord com +500 membros",
+      "Atualizações quinzenais",
+      "Intelligence OS (modo leitura)",
+    ],
+    cta: "Começar agora — é grátis",
     href: "/builder",
     highlight: false,
   },
@@ -132,21 +141,202 @@ const PRICING_TIERS = [
     name: "Sovereign Pro",
     price: "R$ 97",
     period: "/mês",
-    desc: "Para profissionais que querem escala",
-    features: ["Sites ilimitados com IA", "Agentes WhatsApp avançados", "Workflows n8n ilimitados", "Builder completo", "Intelligence OS completo", "Suporte prioritário", "API Key própria"],
-    cta: "Assinar Pro",
+    desc: "Soberania digital completa. Cancele quando quiser.",
+    features: [
+      "Sites ilimitados com IA (páginas ∞)",
+      "5 agentes pessoais simultâneos",
+      "3 agentes WhatsApp com 5.000 msgs/dia",
+      "Workflows n8n ilimitados — sem rate limit",
+      "Builder completo com exportação de código",
+      "Intelligence OS com todos os módulos",
+      "Suporte prioritário — resposta em até 4h",
+      "API Key própria — 50k requests/mês",
+    ],
+    guarantee: "7 dias de reembolso total. Sem perguntas.",
+    cta: "Quero soberania digital",
     href: "/intelligence-os",
     highlight: true,
   },
   {
     name: "Enterprise",
     price: "Sob medida",
-    desc: "Para empresas com necessidades específicas",
-    features: ["Tudo do Pro + personalização", "Agentes dedicados", "Infraestrutura dedicada", "SLA 99.9%", "Treinamento de equipe", "Consultoria estratégica", "Onboarding acelerado"],
-    cta: "Falar com equipe",
+    desc: "Infraestrutura dedicada. Sua IA, suas regras.",
+    features: [
+      "Tudo do Pro + white label completo",
+      "Agentes dedicados por departamento",
+      "Servidor dedicado — nuvem BR, EU ou US",
+      "SLA 99,9% com crédito de penalidade",
+      "Treinamento de equipe — até 20 pessoas",
+      "Consultoria estratégica mensal (2h)",
+      "Onboarding completo em 72 horas",
+      "SSO, SAML e RBAC customizado",
+      "Suporte telefônico 24/7",
+    ],
+    cta: "Agendar demonstração",
     href: "/intelligence-os",
     highlight: false,
   },
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   ECOSYSTEM PORTAL DATA — cyan/coral/purple
+   ═══════════════════════════════════════════════════════════════ */
+const CYAN = "#00F5FF";
+const CORAL = "#FF6B6B";
+const PURPLE = "#C084FC";
+
+const ECOSYSTEM_CATEGORIES = [
+  { id: "agentes", label: "Agentes Pessoais", icon: "Brain", color: PURPLE },
+  { id: "builder", label: "Builder IA", icon: "Rocket", color: CYAN },
+  { id: "cursos", label: "Cursos", icon: "BookOpen", color: CORAL },
+  { id: "biblioteca", label: "Biblioteca", icon: "BookMarked", color: CYAN },
+  { id: "projetos", label: "Projetos", icon: "Code", color: PURPLE },
+  { id: "comunidade", label: "Comunidade", icon: "Users", color: CORAL },
+] as const;
+
+const ECOSYSTEM_PRODUCTS = [
+  {
+    title: "TAM Omnichannel",
+    desc: "Sistema completo de teleatendimento com IA integrada. Chat, voz e WhatsApp com agentes inteligentes.",
+    category: "agentes",
+    tags: ["WhatsApp", "Chat", "IA"],
+    color: PURPLE,
+    href: "/intelligence-os",
+    badge: "🔥 Novo",
+  },
+  {
+    title: "AI Site Builder",
+    desc: "Construtor visual de sites e landing pages com IA generativa. Do briefing ao deploy em minutos.",
+    category: "builder",
+    tags: ["Next.js", "Tailwind", "Vercel"],
+    color: CYAN,
+    href: "/builder",
+    badge: "Popular",
+  },
+  {
+    title: "Programa de Afiliados",
+    desc: "Sistema completo de afiliados com rastreamento, comissões automáticas e dashboard em tempo real.",
+    category: "builder",
+    tags: ["Stripe", "Dashboard", "API"],
+    color: CYAN,
+    href: "/intelligence-os",
+    badge: "Novo",
+  },
+  {
+    title: "Curso Sovereign AI",
+    desc: "Aprenda a construir agentes soberanos do zero. Do prompt engineering ao deploy local.",
+    category: "cursos",
+    tags: ["IA", "Agentes", "Local-First"],
+    color: CORAL,
+    href: "/cursos",
+    badge: "Lançamento",
+  },
+  {
+    title: "Curso n8n Mastery",
+    desc: "Domine automação com n8n. Workflows complexos conectando centenas de serviços.",
+    category: "cursos",
+    tags: ["n8n", "Workflows", "API"],
+    color: CORAL,
+    href: "/cursos",
+    badge: "Best-seller",
+  },
+  {
+    title: "Biblioteca de Prompts",
+    desc: "Centenas de prompts curados para engenharia, desenvolvimento, marketing e criação.",
+    category: "biblioteca",
+    tags: ["Prompts", "Templates", "GPT"],
+    color: CYAN,
+    href: "/biblioteca",
+    badge: "Gratuito",
+  },
+  {
+    title: "Template SaaS Starter",
+    desc: "Template Next.js completo com auth, pagamentos, dashboard e deploy automático.",
+    category: "projetos",
+    tags: ["Next.js", "Supabase", "Stripe"],
+    color: PURPLE,
+    href: "https://github.com/thiagolab",
+    badge: "Open Source",
+  },
+  {
+    title: "Comunidade Discord",
+    desc: "Junte-se a centenas de builders, devs e empreendedores em nossa comunidade exclusiva.",
+    category: "comunidade",
+    tags: ["Discord", "Networking", "Suporte"],
+    color: CORAL,
+    href: "/comunidade",
+    badge: "Ativa",
+  },
+  {
+    title: "Agentes WhatsApp Kit",
+    desc: "Kit completo para criar agentes de IA no WhatsApp com memória, CRM e vendas.",
+    category: "agentes",
+    tags: ["WhatsApp", "IA", "CRM"],
+    color: PURPLE,
+    href: "/intelligence-os/agents",
+  },
+  {
+    title: "Life OS Starter",
+    desc: "Sistema operacional pessoal com IA local. Decisão, carreira, finanças e relacionamentos.",
+    category: "agentes",
+    tags: ["Local-First", "E2E", "Privacidade"],
+    color: PURPLE,
+    href: "/intelligence-os",
+    badge: "Premium",
+  },
+  {
+    title: "Template Landing Page",
+    desc: "Landing pages otimizadas para conversão com IA, SEO e analytics integrados.",
+    category: "builder",
+    tags: ["SEO", "Conversão", "IA"],
+    color: CYAN,
+    href: "/templates",
+  },
+  {
+    title: "Dashboard Analytics Pro",
+    desc: "Dashboard completo com métricas de negócio, BI e insights em tempo real.",
+    category: "projetos",
+    tags: ["Analytics", "BI", "Recharts"],
+    color: PURPLE,
+    href: "/intelligence-os/analytics",
+  },
+];
+
+const LATEST_UPDATES = {
+  cursos: [
+    { title: "Sovereign AI - Módulo 4", desc: "Agentes com memória vetorial local", date: "22 Jun 2026", href: "/cursos" },
+    { title: "n8n Mastery - Workflows Avançados", desc: "Integração com IA e webhooks complexos", date: "18 Jun 2026", href: "/cursos" },
+    { title: "Next.js para Iniciantes", desc: "Do zero ao deploy em 8 horas", date: "15 Jun 2026", href: "/cursos" },
+  ],
+  projetos: [
+    { title: "TAM 2.0 - Omnichannel", desc: "Nova versão com IA generativa integrada", date: "21 Jun 2026", href: "/projetos" },
+    { title: "AgentKit WhatsApp v3", desc: "Suporte a múltiplos agentes simultâneos", date: "19 Jun 2026", href: "/projetos" },
+    { title: "Life OS Mobile Beta", desc: "App mobile com criptografia E2E", date: "14 Jun 2026", href: "/projetos" },
+  ],
+  repositorio: [
+    { title: "thiagolab/saas-starter", desc: "Template SaaS com auth e pagamentos", date: "22 Jun 2026", href: "https://github.com/thiagolab" },
+    { title: "thiagolab/agentkit", desc: "SDK para agentes de IA soberanos", date: "20 Jun 2026", href: "https://github.com/thiagolab" },
+    { title: "thiagolab/life-os", desc: "Sistema operacional pessoal open source", date: "16 Jun 2026", href: "https://github.com/thiagolab" },
+  ],
+};
+
+const ECOSYSTEM_SKILLS = [
+  { name: "Next.js 15", level: "Avançado", color: CYAN, icon: "Code" },
+  { name: "TypeScript", level: "Avançado", color: CYAN, icon: "Code" },
+  { name: "Tailwind CSS", level: "Avançado", color: CYAN, icon: "Layers" },
+  { name: "n8n Workflows", level: "Avançado", color: CORAL, icon: "Workflow" },
+  { name: "OpenAI / GPT-4o", level: "Avançado", color: PURPLE, icon: "Sparkles" },
+  { name: "Gemini 2.0", level: "Avançado", color: PURPLE, icon: "Sparkles" },
+  { name: "Claude 3.5", level: "Intermediário", color: PURPLE, icon: "Sparkles" },
+  { name: "Supabase", level: "Avançado", color: CYAN, icon: "Database" },
+  { name: "PostgreSQL", level: "Avançado", color: CYAN, icon: "Database" },
+  { name: "Docker", level: "Intermediário", color: CORAL, icon: "Box" },
+  { name: "Framer Motion", level: "Avançado", color: PURPLE, icon: "Layers" },
+  { name: "D3.js", level: "Intermediário", color: CORAL, icon: "BarChart3" },
+  { name: "Python", level: "Intermediário", color: CYAN, icon: "Code" },
+  { name: "Vector DB / RAG", level: "Intermediário", color: PURPLE, icon: "Database" },
+  { name: "Stripe", level: "Intermediário", color: CORAL, icon: "DollarSign" },
+  { name: "Vercel", level: "Avançado", color: CYAN, icon: "Globe" },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -234,13 +424,13 @@ function GridBackground() {
 const TERMINAL_LINES = [
   { text: "> thiagolab init --sovereign", delay: 500, color: "#3DF5C5" },
   { text: "> Inicializando Intelligence OS...", delay: 1200, color: "#6EE7B7" },
-  { text: "> ✓ Motores de IA carregados (8 engines)", delay: 1900, color: "#3DF5C5" },
-  { text: "> ✓ Conectando repositórios... 146 repos sincronizados", delay: 2600, color: "#3DF5C5" },
-  { text: "> ✓ Builder AI ativo — 24h operacional", delay: 3300, color: "#3DF5C5" },
+  { text: "> ✓ Motores de IA carregados (3 engines)", delay: 1900, color: "#3DF5C5" },
+  { text: "> ✓ Conectando repositórios... 5 projetos ativos", delay: 2600, color: "#3DF5C5" },
+  { text: "> ✓ Builder AI ativo", delay: 3300, color: "#3DF5C5" },
   { text: "", delay: 4000, color: "#3DF5C5" },
   { text: "> Sistema pronto. Modo soberania ativado.", delay: 4200, color: "#6EE7B7" },
   { text: "> thiagolab run --deploy", delay: 4900, color: "#3DF5C5" },
-  { text: "> [ OK ] Seu império digital está no ar.", delay: 5600, color: "#00C9A7" },
+  { text: "> [ OK ] Plataforma operacional.", delay: 5600, color: "#00C9A7" },
 ];
 
 function TypeWriterTerminal() {
@@ -359,6 +549,9 @@ function D3GraphSection() {
       { id: "python", name: "Python", desc: "Backend IA, scripts e automação", group: 4, r: 10 },
       { id: "docker", name: "Docker", desc: "Containerização e ambientes isolados", group: 3, r: 10 },
       { id: "rag", name: "RAG Pipeline", desc: "Retrieval-Augmented Generation para busca", group: 4, r: 11 },
+      { id: "sovereign-agents", name: "Agentes Pessoais", desc: "Agentes soberanos com dados locais e criptografia E2E", group: 2, r: 15 },
+      { id: "life-os", name: "Life OS", desc: "Sistema operacional pessoal com IA soberana", group: 1, r: 16 },
+      { id: "privacy", name: "Privacidade & E2E", desc: "Criptografia ponta-a-ponta e soberania de dados", group: 5, r: 13 },
     ],
     links: [
       { source: "thiagolab", target: "builder" },
@@ -377,6 +570,12 @@ function D3GraphSection() {
       { source: "gemini", target: "rag" },
       { source: "openai", target: "rag" },
       { source: "supabase", target: "python" },
+      { source: "thiagolab", target: "sovereign-agents" },
+      { source: "thiagolab", target: "life-os" },
+      { source: "sovereign-agents", target: "life-os" },
+      { source: "sovereign-agents", target: "privacy" },
+      { source: "life-os", target: "privacy" },
+      { source: "privacy", target: "supabase" },
     ],
   };
 
@@ -576,6 +775,7 @@ function runLocalOrchestrator(type: BuilderType, briefing: string, audience: str
     saas: "SaaS / Plataforma",
     workflow: "Workflow / Automação",
     repo: "Repositório / Template",
+    "sovereign-agent": "Agente Soberano Pessoal",
   };
 
   const blueprints: Record<BuilderType, string[]> = {
@@ -659,6 +859,24 @@ function runLocalOrchestrator(type: BuilderType, briefing: string, audience: str
       "━━━━━━━━━━━━━━━━━━━━━━━━",
       "✅ Template gerado com sucesso!",
       "➜ /builder para customizar",
+    ],
+    "sovereign-agent": [
+      "👑 Blueprint: Agente Soberano Pessoal",
+      "━━━━━━━━━━━━━━━━━━━━━━━━",
+      `🎯 Tipo: ${typeLabels[type]}`,
+      `📝 Briefing: ${briefing.slice(0, 60)}${briefing.length > 60 ? "..." : ""}`,
+      `👥 Audiência: ${audience}`,
+      `🎯 Meta: ${meta}`,
+      "━━━━━━━━━━━━━━━━━━━━━━━━",
+      "📦 Stack: Local-First + Criptografia E2E + SQLite/IndexedDB",
+      "📦 Foco: [decisão/carreira/família/comunicação/relacionamentos/finanças]",
+      "📦 Templates BR: carreira farmácia/vendas, finanças impostos/inflação",
+      "📦 Comunicação: CNV — Comunicação Não-Violenta",
+      "📦 Parentalidade: parentalidade positiva com IA local",
+      "━━━━━━━━━━━━━━━━━━━━━━━━",
+      "✅ Agente Soberano Pessoal configurado!",
+      "➜ /life-os para gerenciar",
+      "🔒 Seus dados nunca saem do seu dispositivo.",
     ],
   };
 
@@ -898,6 +1116,13 @@ const PRODUCT_CARDS = [
     features: ["Integração API oficial", "Respostas com IA", "CRM embutido"],
     color: "#6EE7B7",
   },
+  {
+    icon: Heart,
+    title: "Life OS",
+    desc: "Agentes pessoais para decisão, carreira, família e finanças — soberania de dados garantida.",
+    features: ["Decisões com IA local", "Carreira & Finanças", "Comunicação & Relacionamentos"],
+    color: "#F43F5E",
+  },
 ];
 
 function ProductCards() {
@@ -943,7 +1168,7 @@ function ProductCards() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6"
+          className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6"
         >
           {PRODUCT_CARDS.map((card, idx) => (
             <motion.div
@@ -1008,8 +1233,8 @@ function PricingSection() {
             Invista na sua{" "}
             <span className="text-gradient-shift">Soberania Digital</span>
           </h2>
-          <p className="text-white/40 mt-3 max-w-xl mx-auto text-sm sm:text-base">
-            Escolha o plano ideal para seu momento. Todos incluem acesso ao Intelligence OS.
+          <p className="text-white/60 mt-3 max-w-2xl mx-auto text-sm sm:text-base font-medium">
+            Planos com soberania real. Sem letra miúda. Cancele quando quiser.
           </p>
         </motion.div>
 
@@ -1075,6 +1300,14 @@ function PricingSection() {
                     ))}
                   </ul>
 
+                  {tier.guarantee && (
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg mb-4 text-[11px] font-medium"
+                      style={{ background: "rgba(0,201,167,0.08)", color: G.primary, border: "1px solid rgba(0,201,167,0.15)" }}>
+                      <Shield size={14} />
+                      {tier.guarantee}
+                    </div>
+                  )}
+
                   <Link
                     href={tier.href}
                     className={`block w-full text-center py-3 rounded-xl text-sm font-bold transition-all ${
@@ -1088,11 +1321,802 @@ function PricingSection() {
                   >
                     {tier.cta}
                   </Link>
+
+                  {/* Urgency microcopy */}
+                  {!tier.highlight && tier.name !== "Enterprise" && (
+                    <p className="text-[10px] text-white/20 text-center mt-2">
+                      Sem compromisso. Cancele a qualquer momento.
+                    </p>
+                  )}
+                  {tier.highlight && (
+                    <p className="text-[10px] text-emerald-400/60 text-center mt-2 font-medium">
+                      ⚡ Oferta de lançamento — preço válido para os primeiros 100 assinantes
+                    </p>
+                  )}
+                  {tier.name === "Enterprise" && (
+                    <p className="text-[10px] text-white/20 text-center mt-2">
+                      Resposta em até 2 horas úteis.
+                    </p>
+                  )}
                 </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Comparison Table */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+          className="mt-16 max-w-4xl mx-auto overflow-hidden rounded-2xl border border-white/[0.06]"
+          style={{ background: "rgba(255,255,255,0.015)", backdropFilter: "blur(8px)" }}
+        >
+          <div className="px-6 py-4 border-b border-white/[0.06]">
+            <h4 className="text-sm font-bold text-white font-['Clash_Display',system-ui,sans-serif]">
+              Comparação detalhada
+            </h4>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-white/[0.06]">
+                  <th className="text-left px-6 py-3 text-white/40 font-medium">Funcionalidade</th>
+                  <th className="text-center px-4 py-3 text-white/40 font-medium w-28">Starter</th>
+                  <th className="text-center px-4 py-3 font-medium w-28" style={{ color: G.primary }}>Sovereign Pro</th>
+                  <th className="text-center px-4 py-3 text-white/40 font-medium w-28">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { label: "Sites com IA", starter: "1 (5 págs)", pro: "Ilimitados", enterprise: "Ilimitados" },
+                  { label: "Agentes pessoais", starter: "—", pro: "5 simultâneos", enterprise: "Ilimitados" },
+                  { label: "Agentes WhatsApp", starter: "1 (200/dia)", pro: "3 (5k/dia)", enterprise: "Customizado" },
+                  { label: "Workflows n8n", starter: "—", pro: "Ilimitados", enterprise: "Ilimitados" },
+                  { label: "Intelligence OS", starter: "Leitura", pro: "Completo", enterprise: "Completo" },
+                  { label: "Suporte", starter: "Comunidade", pro: "Até 4h", enterprise: "Telefone 24/7" },
+                  { label: "API Key", starter: "—", pro: "50k req/mês", enterprise: "Ilimitada" },
+                  { label: "White Label", starter: "—", pro: "—", enterprise: "✓" },
+                  { label: "Servidor dedicado", starter: "—", pro: "—", enterprise: "✓" },
+                  { label: "Reembolso", starter: "Grátis", pro: "7 dias garantido", enterprise: "Sob consulta" },
+                ].map((row, i) => (
+                  <tr key={i} className="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors">
+                    <td className="px-6 py-2.5 text-white/50">{row.label}</td>
+                    <td className="text-center px-4 py-2.5 text-white/30">{row.starter}</td>
+                    <td className="text-center px-4 py-2.5 font-medium" style={{ color: G.primary }}>{row.pro}</td>
+                    <td className="text-center px-4 py-2.5 text-white/30">{row.enterprise}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT — Ecosystem Hero (cyan/coral/purple)
+   ═══════════════════════════════════════════════════════════════ */
+function EcosystemHero() {
+  const [ecosystemSearch, setEcosystemSearch] = useState("");
+
+  return (
+    <section id="ecossistema" className="relative py-24 sm:py-32">
+      {/* Background glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+        <div
+          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full opacity-10"
+          style={{
+            background: `radial-gradient(ellipse at center, ${CYAN}20 0%, transparent 70%)`,
+            filter: "blur(80px)",
+          }}
+        />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[300px] rounded-full opacity-8"
+          style={{
+            background: `radial-gradient(ellipse at center, ${PURPLE}18 0%, transparent 70%)`,
+            filter: "blur(60px)",
+          }}
+        />
+      </div>
+
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+        >
+          <span className="section-label justify-center">
+            Ecossistema
+          </span>
+          <h2
+            className="text-3xl sm:text-4xl lg:text-6xl font-bold font-['Clash_Display',system-ui,sans-serif] leading-[1.1]"
+            style={{
+              background: `linear-gradient(135deg, ${CYAN}, ${PURPLE}, ${CORAL})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Ecossistema de Inteligência Soberana
+          </h2>
+          <p className="text-white/40 mt-4 max-w-xl mx-auto text-sm sm:text-base">
+            Agentes, cursos, biblioteca, projetos e comunidade — tudo em um só lugar.
+            Explore o ecossistema completo da plataforma soberana.
+          </p>
+        </motion.div>
+
+        {/* Central Search */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={scaleIn}
+          className="mt-10 relative max-w-2xl mx-auto"
+        >
+          <div
+            className="relative rounded-2xl border overflow-hidden"
+            style={{
+              borderColor: `${CYAN}20`,
+              background: "rgba(0,0,0,0.5)",
+              backdropFilter: "blur(12px)",
+              boxShadow: `0 0 40px ${CYAN}08`,
+            }}
+          >
+            <div className="flex items-center gap-3 px-5 py-4">
+              <Search size={20} style={{ color: CYAN }} className="shrink-0" />
+              <input
+                type="text"
+                value={ecosystemSearch}
+                onChange={(e) => setEcosystemSearch(e.target.value)}
+                placeholder="Buscar agentes, cursos, projetos, ferramentas..."
+                className="flex-1 bg-transparent text-sm text-white placeholder:text-white/20 outline-none font-mono"
+              />
+              <kbd className="hidden sm:inline-flex items-center gap-1 text-[10px] text-white/20 bg-white/5 px-2 py-0.5 rounded border border-white/10">
+                <Command size={10} />K
+              </kbd>
+            </div>
+            {ecosystemSearch && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="border-t border-white/[0.04] px-5 py-3"
+              >
+                <div className="space-y-2">
+                  {ECOSYSTEM_PRODUCTS.filter(
+                    (p) =>
+                      p.title.toLowerCase().includes(ecosystemSearch.toLowerCase()) ||
+                      p.desc.toLowerCase().includes(ecosystemSearch.toLowerCase()) ||
+                      p.tags.some((t) => t.toLowerCase().includes(ecosystemSearch.toLowerCase()))
+                  ).slice(0, 5).map((p, i) => (
+                    <Link
+                      key={i}
+                      href={p.href}
+                      className="flex items-center gap-3 py-2 px-3 rounded-xl hover:bg-white/[0.03] transition-colors group"
+                    >
+                      <span
+                        className="w-2 h-2 rounded-full shrink-0"
+                        style={{ background: p.color }}
+                      />
+                      <div className="text-left min-w-0">
+                        <div className="text-sm font-medium text-white/80 group-hover:text-white truncate">
+                          {p.title}
+                        </div>
+                        <div className="text-[11px] text-white/30 truncate">{p.desc}</div>
+                      </div>
+                      {p.badge && (
+                        <span
+                          className="ml-auto shrink-0 text-[9px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                          style={{ background: `${p.color}15`, color: p.color }}
+                        >
+                          {p.badge}
+                        </span>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT — Category Navigation Pills
+   ═══════════════════════════════════════════════════════════════ */
+function CategoryNavigation({ active, onSelect }: { active: string; onSelect: (id: string) => void }) {
+  return (
+    <section className="relative pb-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          className="text-center mb-8"
+        >
+          <span className="section-label justify-center">Navegue por Categoria</span>
+        </motion.div>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="flex flex-wrap items-center justify-center gap-2 sm:gap-3"
+        >
+          <motion.button
+            variants={scaleIn}
+            onClick={() => onSelect("todos")}
+            className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 border ${
+              active === "todos"
+                ? "text-white shadow-lg"
+                : "text-white/40 hover:text-white/70 border-white/[0.06] hover:border-white/[0.12]"
+            }`}
+            style={{
+              background: active === "todos" ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.02)",
+              borderColor: active === "todos" ? "rgba(255,255,255,0.15)" : undefined,
+            }}
+          >
+            Todos
+          </motion.button>
+          {ECOSYSTEM_CATEGORIES.map((cat) => (
+            <motion.button
+              key={cat.id}
+              variants={scaleIn}
+              onClick={() => onSelect(active === cat.id ? "todos" : cat.id)}
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 border whitespace-nowrap ${
+                active === cat.id
+                  ? "text-white shadow-lg scale-105"
+                  : "text-white/40 hover:text-white/70 border-white/[0.06] hover:border-white/[0.12]"
+              }`}
+              style={{
+                background: active === cat.id ? `${cat.color}18` : "rgba(255,255,255,0.02)",
+                borderColor: active === cat.id ? `${cat.color}40` : undefined,
+                boxShadow: active === cat.id ? `0 0 20px ${cat.color}15` : undefined,
+              }}
+            >
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ background: cat.color }}
+              />
+              {cat.label}
+            </motion.button>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT — Ecosystem Product Grid
+   ═══════════════════════════════════════════════════════════════ */
+function EcosystemProductGrid({ filter }: { filter: string }) {
+  const filtered = filter === "todos"
+    ? ECOSYSTEM_PRODUCTS
+    : ECOSYSTEM_PRODUCTS.filter((p) => p.category === filter);
+
+  return (
+    <section className="relative py-16 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="text-center mb-12"
+        >
+          <span className="section-label justify-center">Produtos & Serviços</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white font-['Clash_Display',system-ui,sans-serif]">
+            Explore o{" "}
+            <span style={{
+              background: `linear-gradient(135deg, ${CYAN}, ${PURPLE})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>
+              Ecossistema
+            </span>
+          </h2>
+        </motion.div>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
+        >
+          {filtered.map((product, idx) => (
+            <motion.div
+              key={`${product.title}-${idx}`}
+              variants={fadeUp}
+              layout
+              className="group relative rounded-2xl border p-5 sm:p-6 transition-all duration-500 hover:scale-[1.02] card-3d"
+              style={{
+                borderColor: `${product.color}15`,
+                background: "rgba(255,255,255,0.015)",
+              }}
+            >
+              <div className="card-3d-inner h-full flex flex-col">
+                {/* Top row: Badge + Category Tag */}
+                <div className="flex items-center justify-between mb-3">
+                  <span
+                    className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                    style={{ background: `${product.color}15`, color: product.color }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: product.color }} />
+                    {ECOSYSTEM_CATEGORIES.find((c) => c.id === product.category)?.label}
+                  </span>
+                  {product.badge && (
+                    <span
+                      className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                      style={{
+                        background: `${product.color}12`,
+                        color: product.color,
+                        border: `1px solid ${product.color}25`,
+                      }}
+                    >
+                      {product.badge}
+                    </span>
+                  )}
+                </div>
+
+                {/* Title */}
+                <h3 className="text-base font-bold text-white mb-2 font-['Clash_Display',system-ui,sans-serif] group-hover:text-opacity-100 transition-colors">
+                  {product.title}
+                </h3>
+                <p className="text-xs text-white/40 leading-relaxed mb-4 flex-1">
+                  {product.desc}
+                </p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {product.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[9px] font-medium px-2 py-0.5 rounded-full border"
+                      style={{
+                        borderColor: `${product.color}20`,
+                        color: `${product.color}aa`,
+                        background: `${product.color}08`,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* CTA Link */}
+                <Link
+                  href={product.href}
+                  className="inline-flex items-center gap-1.5 text-[11px] font-semibold transition-all group/link"
+                  style={{ color: product.color }}
+                >
+                  Acessar
+                  <ArrowRight size={12} className="transition-transform group-hover/link:translate-x-1" />
+                </Link>
+
+                {/* Hover glow */}
+                <div
+                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{
+                    boxShadow: `inset 0 1px 0 ${product.color}15, 0 4px 20px ${product.color}08`,
+                  }}
+                />
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {filtered.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-16"
+          >
+            <div className="text-4xl mb-4">🔍</div>
+            <p className="text-white/30 text-sm">Nenhum produto encontrado nesta categoria.</p>
+          </motion.div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT — Latest Updates (3-column: Cursos, Projetos, Repositório)
+   ═══════════════════════════════════════════════════════════════ */
+function LatestUpdates() {
+  const columns = [
+    { key: "cursos" as const, label: "Cursos", icon: BookOpen, color: CORAL, items: LATEST_UPDATES.cursos },
+    { key: "projetos" as const, label: "Projetos", icon: Code, color: PURPLE, items: LATEST_UPDATES.projetos },
+    { key: "repositorio" as const, label: "Repositório", icon: GitBranch, color: CYAN, items: LATEST_UPDATES.repositorio },
+  ];
+
+  return (
+    <section className="relative py-24 sm:py-32 border-y border-white/[0.03]">
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+        <div
+          className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full opacity-5"
+          style={{
+            background: `radial-gradient(circle at center, ${CORAL}30 0%, transparent 70%)`,
+            filter: "blur(100px)",
+          }}
+        />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="text-center mb-12"
+        >
+          <span className="section-label justify-center">Em Movimento</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white font-['Clash_Display',system-ui,sans-serif]">
+            Últimas{" "}
+            <span style={{
+              background: `linear-gradient(135deg, ${CYAN}, ${CORAL}, ${PURPLE})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>
+              Atualizações
+            </span>
+          </h2>
+          <p className="text-white/40 mt-3 max-w-xl mx-auto text-sm sm:text-base">
+            Acompanhe as novidades do ecossistema em tempo real.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6"
+        >
+          {columns.map((col) => {
+            const ColIcon = col.icon;
+            return (
+              <motion.div
+                key={col.key}
+                variants={scaleIn}
+                className="rounded-2xl border overflow-hidden relative card-3d"
+                style={{
+                  borderColor: `${col.color}15`,
+                  background: "rgba(255,255,255,0.015)",
+                }}
+              >
+                <div className="card-3d-inner">
+                  {/* Column header */}
+                  <div
+                    className="flex items-center gap-3 px-5 py-4 border-b"
+                    style={{ borderColor: `${col.color}12` }}
+                  >
+                    <div
+                      className="w-9 h-9 rounded-lg flex items-center justify-center"
+                      style={{ background: `${col.color}15`, color: col.color }}
+                    >
+                      <ColIcon size={17} />
+                    </div>
+                    <span className="font-bold text-white font-['Clash_Display',system-ui,sans-serif]">
+                      {col.label}
+                    </span>
+                    <span
+                      className="ml-auto text-[10px] font-mono px-2 py-0.5 rounded-full"
+                      style={{ background: `${col.color}15`, color: col.color }}
+                    >
+                      {col.items.length} itens
+                    </span>
+                  </div>
+
+                  {/* Items */}
+                  <div className="divide-y" style={{ borderColor: `${col.color}08` }}>
+                    {col.items.map((item, i) => (
+                      <Link
+                        key={i}
+                        href={item.href}
+                        className="block px-5 py-4 hover:bg-white/[0.02] transition-colors group/item"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <h4 className="text-sm font-semibold text-white/80 group-hover/item:text-white transition-colors truncate">
+                              {item.title}
+                            </h4>
+                            <p className="text-[11px] text-white/35 mt-1 line-clamp-1">
+                              {item.desc}
+                            </p>
+                          </div>
+                          <span
+                            className="shrink-0 text-[10px] font-mono mt-0.5"
+                            style={{ color: col.color }}
+                          >
+                            {item.date}
+                          </span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* View all link */}
+                  <div
+                    className="px-5 py-3 border-t"
+                    style={{ borderColor: `${col.color}12` }}
+                  >
+                    <Link
+                      href={col.items[0].href}
+                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold transition-all hover:gap-2"
+                      style={{ color: col.color }}
+                    >
+                      Ver todos
+                      <ChevronRight size={12} />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT — Skills Grid with Badges
+   ═══════════════════════════════════════════════════════════════ */
+function SkillsGrid() {
+  return (
+    <section className="relative py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="text-center mb-12"
+        >
+          <span className="section-label justify-center">Tech Stack</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white font-['Clash_Display',system-ui,sans-serif]">
+            Skills do{" "}
+            <span style={{
+              background: `linear-gradient(135deg, ${CYAN}, ${PURPLE}, ${CORAL})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>
+              Ecossistema
+            </span>
+          </h2>
+          <p className="text-white/40 mt-3 max-w-xl mx-auto text-sm sm:text-base">
+            Tecnologias e ferramentas que dominamos para construir sua plataforma soberana.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          className="flex flex-wrap items-center justify-center gap-2 sm:gap-3"
+        >
+          {ECOSYSTEM_SKILLS.map((skill, idx) => (
+            <motion.div
+              key={skill.name}
+              variants={scaleIn}
+              className="group relative inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-300 hover:scale-105 cursor-default"
+              style={{
+                borderColor: `${skill.color}20`,
+                background: `${skill.color}06`,
+              }}
+            >
+              {/* Color dot */}
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ background: skill.color }}
+              />
+              <span className="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">
+                {skill.name}
+              </span>
+              <span
+                className="text-[9px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1"
+                style={{
+                  background: `${skill.color}15`,
+                  color: skill.color,
+                  border: `1px solid ${skill.color}25`,
+                }}
+              >
+                {skill.level}
+              </span>
+
+              {/* Hover glow */}
+              <div
+                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{
+                  boxShadow: `0 0 15px ${skill.color}10, inset 0 1px 0 ${skill.color}10`,
+                }}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Legend */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          className="flex items-center justify-center gap-6 mt-8"
+        >
+          {[
+            { color: CYAN, label: "Core Tech" },
+            { color: PURPLE, label: "IA & ML" },
+            { color: CORAL, label: "Infra & Tools" },
+          ].map((leg) => (
+            <div key={leg.label} className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full" style={{ background: leg.color }} />
+              <span className="text-[10px] text-white/30 uppercase tracking-wider">{leg.label}</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT — Intelligence OS CTA (cyan/coral/purple)
+   ═══════════════════════════════════════════════════════════════ */
+function IntelligenceOSCTA() {
+  return (
+    <section className="relative py-24 sm:py-32 overflow-hidden">
+      {/* Animated background orbs */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <div
+          className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-10"
+          style={{
+            background: `radial-gradient(circle at 30% 40%, ${CYAN}25 0%, transparent 70%)`,
+            filter: "blur(80px)",
+            animation: "floatOrb1 15s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-8"
+          style={{
+            background: `radial-gradient(circle at 60% 60%, ${PURPLE}20 0%, transparent 70%)`,
+            filter: "blur(80px)",
+            animation: "floatOrb2 12s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-5"
+          style={{
+            background: `radial-gradient(circle at center, ${CORAL}15 0%, transparent 70%)`,
+            filter: "blur(100px)",
+            animation: "floatOrb3 18s ease-in-out infinite",
+          }}
+        />
+      </div>
+
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+        >
+          {/* Badge */}
+          <span
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider border mb-6"
+            style={{
+              borderColor: `${PURPLE}30`,
+              background: `${PURPLE}10`,
+              color: PURPLE,
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: PURPLE }} />
+            Intelligence OS
+          </span>
+
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-['Clash_Display',system-ui,sans-serif] leading-[1.1]">
+            <span style={{
+              background: `linear-gradient(135deg, ${CYAN} 0%, ${PURPLE} 50%, ${CORAL} 100%)`,
+              backgroundSize: "200% 200%",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              animation: "shimmer 4s ease-in-out infinite",
+            }}>
+              Intelligence OS
+            </span>
+          </h2>
+          <p className="text-lg sm:text-xl text-white/40 mt-5 max-w-2xl mx-auto leading-relaxed">
+            O sistema operacional completo para sua soberania digital.
+            Dashboard central, analytics, agentes de IA, CRM, automações
+            e muito mais — tudo em um só lugar.
+          </p>
+        </motion.div>
+
+        {/* Feature highlights */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 max-w-2xl mx-auto"
+        >
+          {[
+            { icon: LayoutDashboard, label: "Dashboard", color: CYAN },
+            { icon: Bot, label: "AI Agents", color: PURPLE },
+            { icon: Workflow, label: "Automações", color: CORAL },
+            { icon: BarChart3, label: "Analytics", color: CYAN },
+          ].map((feat) => {
+            const FeatIcon = feat.icon;
+            return (
+              <motion.div
+                key={feat.label}
+                variants={scaleIn}
+                className="flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-300 hover:scale-105"
+                style={{
+                  borderColor: `${feat.color}15`,
+                  background: "rgba(255,255,255,0.015)",
+                }}
+              >
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style={{ background: `${feat.color}15`, color: feat.color }}
+                >
+                  <FeatIcon size={18} />
+                </div>
+                <span className="text-[11px] font-semibold text-white/60">{feat.label}</span>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10"
+        >
+          <Link
+            href="/intelligence-os"
+            className="inline-flex items-center gap-2 h-13 px-8 rounded-xl text-sm font-bold text-black transition-all hover:brightness-110"
+            style={{ background: `linear-gradient(135deg, ${CYAN}, ${PURPLE})` }}
+          >
+            <Rocket size={17} />
+            Acessar Intelligence OS
+            <ArrowRight size={14} />
+          </Link>
+          <Link
+            href="/builder"
+            className="inline-flex items-center gap-2 h-13 px-8 rounded-xl text-sm font-medium text-white/60 hover:text-white border transition-all"
+            style={{ borderColor: `${CORAL}25`, background: `${CORAL}05` }}
+          >
+            <Sparkles size={16} />
+            Criar com Builder IA
+          </Link>
+        </motion.div>
+
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          className="text-[11px] text-white/20 mt-6"
+        >
+          16 módulos integrados • Criptografia E2E • Dados 100% locais • Open source
+        </motion.p>
       </div>
     </section>
   );
@@ -1298,6 +2322,7 @@ export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
+  const [ecosystemFilter, setEcosystemFilter] = useState("todos");
 
   // Parallax hook on hero section
   const { scrollY } = useScroll();
@@ -1530,21 +2555,34 @@ export default function HomePage() {
                     color: G.primary,
                   }}>
                   <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: G.primary }} />
-                  Thiago Lab Sovereign
+                  Agentes Soberanos • Local-First
                 </span>
 
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.05] font-['Clash_Display',system-ui,sans-serif]">
-                  IA para criar{" "}
+                  Sua inteligência,{" "}
                   <span className="text-gradient-shift">
-                    negócios digitais
-                  </span>{" "}
-                  com soberania.
+                    suas regras.
+                  </span>
                 </h1>
 
                 <p className="text-base sm:text-lg text-white/40 mt-5 max-w-lg leading-relaxed">
-                  Do briefing ao deploy. Construa sites, agentes de IA, SaaS e automações.
-                  Tudo com inteligência artificial e controle total dos seus dados.
+                  Agentes de IA que rodam no seu dispositivo, não na nuvem de big tech.
+                  Construa sites, automações e dashboards com soberania digital total.
                 </p>
+
+                {/* USP bullets */}
+                <div className="flex flex-wrap items-center gap-4 mt-5">
+                  {[
+                    { icon: Shield, text: "100% local-first" },
+                    { icon: Lock, text: "Criptografia ponta a ponta" },
+                    { icon: HardDrive, text: "Seus dados, seu dispositivo" },
+                  ].map((usp) => (
+                    <div key={usp.text} className="flex items-center gap-1.5 text-xs text-white/50">
+                      <usp.icon size={13} style={{ color: G.primary }} />
+                      <span>{usp.text}</span>
+                    </div>
+                  ))}
+                </div>
 
                 {/* CTA buttons */}
                 <div className="flex flex-wrap items-center gap-3 mt-8">
@@ -1554,14 +2592,14 @@ export default function HomePage() {
                     style={{ background: "linear-gradient(135deg, #00C9A7, #00A88C)" }}
                   >
                     <Rocket size={16} />
-                    Criar agora
+                    Começar grátis
                     <ArrowRight size={14} />
                   </Link>
                   <Link
-                    href="#capacidades"
+                    href="#agentes-soberanos"
                     className="inline-flex items-center gap-2 h-11 px-6 rounded-xl text-sm font-medium text-white/60 hover:text-white border border-white/[0.08] hover:border-white/[0.15] transition-all"
                   >
-                    Ver capacidades
+                    Conhecer agentes
                   </Link>
                 </div>
 
@@ -1570,7 +2608,7 @@ export default function HomePage() {
                   {[
                     { value: 146, label: "Repositórios", suffix: "+" },
                     { value: 8, label: "Engines IA" },
-                    { value: 24, label: "Operacional", suffix: "h" },
+                    { value: 0, label: "Dados Vazados" },
                   ].map((stat) => (
                     <div key={stat.label} className="text-center">
                       <div className="text-xl sm:text-2xl font-extrabold text-white font-['Clash_Display',system-ui,sans-serif] count-up-number">
@@ -1687,6 +2725,141 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════
+          AGENTES SOBERANOS PESSOAIS
+          ══════════════════════════════════════════════════════════ */}
+      <section id="agentes-soberanos" className="relative py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+            className="text-center mb-12"
+          >
+            <span className="section-label justify-center">Soberania Pessoal</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white font-['Clash_Display',system-ui,sans-serif]">
+              Agentes de IA que{" "}
+              <span className="text-gradient-shift">vivem no seu dispositivo</span>
+            </h2>
+            <p className="text-white/40 mt-3 max-w-xl mx-auto text-sm sm:text-base">
+              Não na nuvem de big tech. Cada agente roda localmente, com seus dados, suas regras.
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+          >
+            {[
+              { icon: Brain, title: "Tomada de Decisão", desc: "Análise de cenários, prós e contras, simulações de resultados para escolhas mais inteligentes no dia a dia.", tag: "Disponível" },
+              { icon: TrendingUp, title: "Carreira BR", desc: "Saúde, vendas, farmácia e setores locais. Oportunidades, tendências e insights do mercado brasileiro.", tag: "Disponível" },
+              { icon: Heart, title: "Parenting & Família", desc: "Rotinas, educação, saúde familiar e organização doméstica com recomendações personalizadas.", tag: "Em breve" },
+              { icon: MessageCircle, title: "Comunicação", desc: "E-mails, mensagens, apresentações e respostas inteligentes que mantêm sua voz e tom pessoal.", tag: "Disponível" },
+              { icon: Users, title: "Relacionamentos", desc: "Networking, follow-ups, lembretes de datas importantes e gestão de conexões profissionais.", tag: "Em breve" },
+              { icon: DollarSign, title: "Finanças Pessoais", desc: "Inflação, impostos, investimentos locais e planejamento financeiro com dados do mercado brasileiro.", tag: "Disponível" },
+            ].map((agent, idx) => {
+              const AgentIcon = agent.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  variants={fadeUp}
+                  className="group relative rounded-2xl border border-white/[0.04] p-5 sm:p-6 transition-all duration-500 hover:border-emerald-500/15 hover:bg-white/[0.02] card-3d"
+                  style={{ background: "rgba(255,255,255,0.015)" }}
+                >
+                  <div className="card-3d-inner">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                        style={{ background: "rgba(0,201,167,0.1)", color: "#3DF5C5" }}>
+                        <AgentIcon size={20} />
+                      </div>
+                      <span className={`text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                        agent.tag === "Disponível"
+                          ? "text-emerald-400 bg-emerald-500/10"
+                          : "text-amber-400 bg-amber-500/10"
+                      }`}>
+                        {agent.tag}
+                      </span>
+                    </div>
+                    <h3 className="text-base font-bold text-white mb-1.5 font-['Clash_Display',system-ui,sans-serif]">
+                      {agent.title}
+                    </h3>
+                    <p className="text-sm text-white/40 leading-relaxed">{agent.desc}</p>
+
+                    {/* Hover indicator */}
+                    <div className="absolute bottom-0 left-4 right-4 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
+                      style={{ background: "linear-gradient(90deg, #00C9A7, transparent)" }}
+                    />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════
+          PROVA SOCIAL
+          ══════════════════════════════════════════════════════════ */}
+      <section className="relative py-16 sm:py-20 border-y border-white/[0.03]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+            className="text-center mb-10"
+          >
+            <span className="section-label justify-center">Por que escolher soberania</span>
+          </motion.div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-3xl mx-auto"
+          >
+            {[
+              { icon: Shield, value: "0", label: "Dados vazados", desc: "Criptografia ponta a ponta. Ninguém acessa seus dados além de você." },
+              { icon: HardDrive, value: "100%", label: "Local-first", desc: "Tudo processado no seu dispositivo. Nada sobe para servidores de terceiros." },
+              { icon: Lock, value: "E2E", label: "Criptografia", desc: "Criptografia ponta a ponta em todas as comunicações e armazenamento." },
+            ].map((item, idx) => {
+              const ItemIcon = item.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  variants={scaleIn}
+                  className="group relative rounded-2xl border border-white/[0.04] p-6 sm:p-8 text-center transition-all duration-500 hover:border-emerald-500/10 hover:bg-white/[0.02] card-3d"
+                  style={{ background: "rgba(255,255,255,0.015)" }}
+                >
+                  <div className="card-3d-inner">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-all duration-300 group-hover:scale-110"
+                      style={{ background: "rgba(0,201,167,0.1)", color: G.primary }}>
+                      <ItemIcon size={22} />
+                    </div>
+                    <div className="text-3xl sm:text-4xl font-extrabold text-white font-['Clash_Display',system-ui,sans-serif] mb-1"
+                      style={{ background: "linear-gradient(135deg, #00C9A7, #3DF5C5)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                      {item.value}
+                    </div>
+                    <div className="text-sm font-semibold text-white mb-2">{item.label}</div>
+                    <p className="text-xs text-white/40 leading-relaxed">{item.desc}</p>
+
+                    {/* Hover indicator */}
+                    <div className="absolute bottom-0 left-4 right-4 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"
+                      style={{ background: "linear-gradient(90deg, transparent, #00C9A7, transparent)" }}
+                    />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════
           D3 GRAPH
           ══════════════════════════════════════════════════════════ */}
       <D3GraphSection />
@@ -1702,9 +2875,95 @@ export default function HomePage() {
       <ProductCards />
 
       {/* ══════════════════════════════════════════════════════════
+          ECOSSYSTEM PORTAL — NOVO: Hero + Search
+          ══════════════════════════════════════════════════════════ */}
+      <EcosystemHero />
+
+      {/* ══════════════════════════════════════════════════════════
+          ECOSSYSTEM PORTAL — NOVO: Category Navigation
+          ══════════════════════════════════════════════════════════ */}
+      <CategoryNavigation active={ecosystemFilter} onSelect={setEcosystemFilter} />
+
+      {/* ══════════════════════════════════════════════════════════
+          ECOSSYSTEM PORTAL — NOVO: Product Grid with Tags
+          ══════════════════════════════════════════════════════════ */}
+      <EcosystemProductGrid filter={ecosystemFilter} />
+
+      {/* ══════════════════════════════════════════════════════════
+          ECOSSYSTEM PORTAL — NOVO: Latest Updates (3 columns)
+          ══════════════════════════════════════════════════════════ */}
+      <LatestUpdates />
+
+      {/* ══════════════════════════════════════════════════════════
+          ECOSSYSTEM PORTAL — NOVO: Skills Grid
+          ══════════════════════════════════════════════════════════ */}
+      <SkillsGrid />
+
+      {/* ══════════════════════════════════════════════════════════
           PRICING
           ══════════════════════════════════════════════════════════ */}
       <PricingSection />
+
+      {/* ══════════════════════════════════════════════════════════
+          ECOSSYSTEM PORTAL — NOVO: Intelligence OS CTA
+          ══════════════════════════════════════════════════════════ */}
+      <IntelligenceOSCTA />
+
+      {/* ══════════════════════════════════════════════════════════
+          CTA FINAL
+          ══════════════════════════════════════════════════════════ */}
+      <section className="relative py-24 sm:py-32">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-15"
+            style={{
+              background: "radial-gradient(circle at center, rgba(0,201,167,0.2) 0%, transparent 70%)",
+              filter: "blur(60px)",
+            }}
+          />
+        </div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="relative z-10 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 text-center"
+        >
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white font-['Clash_Display',system-ui,sans-serif] leading-[1.15]">
+            Sua vida,{" "}
+            <span className="text-gradient-shift">seus dados,</span>
+            <br />
+            suas regras.
+          </h2>
+
+          <p className="text-white/40 mt-5 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
+            Assuma o controle da sua vida digital. Agentes soberanos que trabalham para você,
+            no seu dispositivo, com privacidade total.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+            <Link
+              href="/builder"
+              className="inline-flex items-center gap-2 h-12 px-8 rounded-xl text-sm font-bold text-black transition-all hover:brightness-110"
+              style={{ background: "linear-gradient(135deg, #00C9A7, #00A88C)" }}
+            >
+              <Rocket size={16} />
+              Começar grátis
+              <ArrowRight size={14} />
+            </Link>
+            <Link
+              href="#planos"
+              className="inline-flex items-center gap-2 h-12 px-8 rounded-xl text-sm font-medium text-white/60 hover:text-white border border-white/[0.08] hover:border-white/[0.15] transition-all"
+            >
+              Ver planos
+            </Link>
+          </div>
+
+          <p className="text-[11px] text-white/20 mt-6">
+            Sem cartão de crédito • Cancele quando quiser • Dados 100% locais
+          </p>
+        </motion.div>
+      </section>
 
       {/* ══════════════════════════════════════════════════════════
           FOOTER
