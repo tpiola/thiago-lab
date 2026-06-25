@@ -1219,8 +1219,8 @@ function ProductCards() {
    ═══════════════════════════════════════════════════════════════ */
 function PricingSection() {
   return (
-    <section id="planos" className="relative py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+billingCycleh
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -2555,7 +2555,7 @@ export default function HomePage() {
                     color: G.primary,
                   }}>
                   <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: G.primary }} />
-                  Agentes Soberanos • Local-First
+                  INTELLIGENCE OS V2.0 • LOCAL-FIRST
                 </span>
 
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.05] font-['Clash_Display',system-ui,sans-serif]">
@@ -2566,8 +2566,8 @@ export default function HomePage() {
                 </h1>
 
                 <p className="text-base sm:text-lg text-white/40 mt-5 max-w-lg leading-relaxed">
-                  Agentes de IA que rodam no seu dispositivo, não na nuvem de big tech.
-                  Construa sites, automações e dashboards com soberania digital total.
+                                Do briefing ao deploy. Construa sites, agentes de IA, SaaS e automações.
+                                Tudo com inteligência artificial e controle total dos seus dados.
                 </p>
 
                 {/* USP bullets */}
