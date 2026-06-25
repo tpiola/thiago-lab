@@ -1219,7 +1219,7 @@ function ProductCards() {
    ═══════════════════════════════════════════════════════════════ */
 function PricingSection() {
   return (
-billingCycleh
+            <section id="planos" className="relative py-24 sm:py-32">
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
