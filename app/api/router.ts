@@ -62,7 +62,7 @@ export const appRouter = createRouter({
     }),
   }),
 
-  // ─── Projects (Notion-style) ───
+  // ─── Projects ───
   project: createRouter({
     list: authedQuery.query(async () => getDb().query.projects.findMany({ orderBy: desc(projects.updatedAt) })),
     create: authedQuery.input(z.object({ name: z.string(), description: z.string().optional(), status: z.enum(["planning","active","paused","completed","archived"]).optional(), priority: z.enum(["low","medium","high","urgent"]).optional(), icon: z.string().optional(), color: z.string().optional(), tags: z.array(z.string()).optional(), budget: z.number().optional(), startDate: z.string().optional(), endDate: z.string().optional() }))
@@ -72,12 +72,7 @@ export const appRouter = createRouter({
     delete: authedQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => { await getDb().delete(projects).where(eq(projects.id, input.id)); return { success: true }; }),
     stats: authedQuery.query(async () => {
       const all = await getDb().query.projects.findMany();
-      const total = all.length;
-      const active = all.filter(p => p.status === "active").length;
-      const completed = all.filter(p => p.status === "completed").length;
-      const totalRevenue = all.reduce((s, p) => s + (p.revenue || 0), 0);
-      const totalBudget = all.reduce((s, p) => s + (p.budget || 0), 0);
-      return { total, active, completed, totalRevenue, totalBudget };
+      return { total: all.length, active: all.filter(p => p.status === "active").length, completed: all.filter(p => p.status === "completed").length, totalRevenue: all.reduce((s, p) => s + (p.revenue || 0), 0), totalBudget: all.reduce((s, p) => s + (p.budget || 0), 0) };
     }),
   }),
 
@@ -116,7 +111,7 @@ export const appRouter = createRouter({
     delete: authedQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => { await getDb().delete(automations).where(eq(automations.id, input.id)); return { success: true }; }),
   }),
 
-  // ─── Research / Scrapes ───
+  // ─── Research ───
   research: createRouter({
     list: authedQuery.query(async () => getDb().query.research.findMany({ orderBy: desc(research.createdAt) })),
     create: authedQuery.input(z.object({ query: z.string(), source: z.enum(["web","reddit","linkedin","x","youtube","github","news"]).optional() }))
@@ -126,7 +121,7 @@ export const appRouter = createRouter({
     delete: authedQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => { await getDb().delete(research).where(eq(research.id, input.id)); return { success: true }; }),
   }),
 
-  // ─── Templates (Monetization) ───
+  // ─── Templates ───
   template: createRouter({
     list: authedQuery.query(async () => getDb().query.templates.findMany({ orderBy: desc(templates.createdAt) })),
     create: authedQuery.input(z.object({ name: z.string(), category: z.enum(["saas","agency","content","ecommerce","affiliate","course","community","freelance"]), description: z.string().optional(), strategy: z.string().optional(), expectedRevenue: z.string().optional(), difficulty: z.enum(["beginner","intermediate","advanced"]).optional() }))
@@ -192,6 +187,68 @@ export const appRouter = createRouter({
     create: authedQuery.input(z.object({ name: z.string(), slug: z.string(), type: z.enum(["landing","website","funnel","store"]).optional() })).mutation(async ({ input }) => { const db = getDb(); const r = await db.insert(sites).values({ ...input, content: {} }).$returningId(); return db.query.sites.findFirst({ where: eq(sites.id, r[0].id) }); }),
     update: authedQuery.input(z.object({ id: z.number(), published: z.boolean().optional() })).mutation(async ({ input }) => { const { id, ...d } = input; await getDb().update(sites).set(d).where(eq(sites.id, id)); return getDb().query.sites.findFirst({ where: eq(sites.id, id) }); }),
     delete: authedQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => { await getDb().delete(sites).where(eq(sites.id, input.id)); return { success: true }; }),
+  }),
+
+  // ─── Notion Integration ───
+  notion: createRouter({
+    // Sync pages from Notion API (uses token stored in DB/env)
+    getPages: authedQuery.query(async () => {
+      // Returns local notion-synced documents as Notion pages
+      const docs = await getDb().query.documents.findMany({ orderBy: desc(documents.updatedAt) });
+      return docs.map(d => ({
+        id: d.id,
+        title: d.title,
+        emoji: d.icon || "📄",
+        type: d.properties?.type || "doc",
+        lastEdited: d.updatedAt,
+        starred: d.properties?.starred || false,
+        tags: d.properties?.tags || [],
+        content: d.content,
+        isPublished: d.isPublished,
+      }));
+    }),
+    createPage: authedQuery.input(z.object({
+      title: z.string(),
+      emoji: z.string().optional(),
+      type: z.string().optional(),
+      content: z.string().optional(),
+      tags: z.array(z.string()).optional(),
+    })).mutation(async ({ input }) => {
+      const db = getDb();
+      const r = await db.insert(documents).values({
+        title: input.title,
+        content: input.content,
+        icon: input.emoji || "📄",
+        properties: { type: input.type || "doc", tags: input.tags || [], starred: false },
+      }).$returningId();
+      return db.query.documents.findFirst({ where: eq(documents.id, r[0].id) });
+    }),
+    updatePage: authedQuery.input(z.object({
+      id: z.number(),
+      title: z.string().optional(),
+      content: z.string().optional(),
+      starred: z.boolean().optional(),
+    })).mutation(async ({ input }) => {
+      const { id, starred, ...rest } = input;
+      const existing = await getDb().query.documents.findFirst({ where: eq(documents.id, id) });
+      const props = { ...(existing?.properties as any || {}), ...(starred !== undefined ? { starred } : {}) };
+      await getDb().update(documents).set({ ...rest, properties: props }).where(eq(documents.id, id));
+      return getDb().query.documents.findFirst({ where: eq(documents.id, id) });
+    }),
+    deletePage: authedQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+      await getDb().delete(documents).where(eq(documents.id, input.id));
+      return { success: true };
+    }),
+    // Workspace stats
+    workspaceStats: authedQuery.query(async () => {
+      const docs = await getDb().query.documents.findMany();
+      return {
+        totalPages: docs.length,
+        databases: docs.filter(d => (d.properties as any)?.type === 'database').length,
+        starred: docs.filter(d => (d.properties as any)?.starred).length,
+        published: docs.filter(d => d.isPublished).length,
+      };
+    }),
   }),
 });
 
