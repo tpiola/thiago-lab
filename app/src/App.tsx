@@ -18,6 +18,7 @@ import AIStudio from './pages/AIStudio'
 import Sites from './pages/Sites'
 import Templates from './pages/Templates'
 import Config from './pages/Config'
+import Notion from './pages/Notion'
 
 export default function App() {
   return (
@@ -40,7 +41,8 @@ export default function App() {
       <Route path="/sites" element={<Layout><Sites /></Layout>} />
       <Route path="/templates" element={<Layout><Templates /></Layout>} />
       <Route path="/config" element={<Layout><Config /></Layout>} />
+      <Route path="/notion" element={<Layout><Notion /></Layout>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
-}
+        }
