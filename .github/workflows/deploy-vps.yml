@@ -1,0 +1,29 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 195.200.2.101
+          username: root
+          password: ${{ secrets.VPS_SSH_PASSWORD }}
+          timeout: 300s
+          command_timeout: 280s
+          script: |
+            set -e
+            echo "=== Atualizando codigo ==="
+            cd /opt/data/projects/thiago-lab
+            git fetch origin
+            git reset --hard origin/main
+            echo "=== Rebuild e restart Docker ==="
+            docker compose -p thiagolab down --remove-orphans || true
+            docker compose -p thiagolab up -d --build --force-recreate
+            echo "=== Deploy concluido! ==="
+            docker ps | grep thiagolab
