@@ -2,16 +2,22 @@ FROM node:22-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat git
 WORKDIR /app
-COPY package.json package-lock.json* ./
+
+# Clone latest code from GitHub
+ARG CACHEBUST=1
+RUN git clone https://github.com/tpiola/thiago-lab.git /app/repo && \
+    cp /app/repo/package.json /app/ && \
+    cp /app/repo/package-lock.json /app/ 2>/dev/null || true
 RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY --from=deps /app/repo /app
+
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
