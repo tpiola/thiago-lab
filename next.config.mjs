@@ -1,10 +1,6 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: "standalone",
-  turbopack: {
-    root: "/opt/data/projects/thiago-lab",
-  },
   images: {
     unoptimized: true,
   },
