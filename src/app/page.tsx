@@ -27,9 +27,10 @@ const G = {
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
 
-const Section = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
+const Section = ({ children, className = "", id }: { children: React.ReactNode; className?: string; id?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   return (
+    <section id={id}>
     <motion.div ref={ref} initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -38,6 +39,7 @@ const Section = ({ children, className = "" }: { children: React.ReactNode; clas
     >
       {children}
     </motion.div>
+    </section>
   );
 };
 
