@@ -7,7 +7,7 @@
     "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.ts",
     "start": "next start",
-    "lint": "eslint . --max-warnings=0",
+    "lint": "eslint src --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck",
     "validate": "npm run check && npm run build"
