@@ -1,7 +1,7 @@
 import type { IConfig } from 'next-sitemap';
 
 const config: IConfig = {
-  siteUrl: 'https://thiagolab.com',
+  siteUrl: 'https://www.thiagolabs.com',
   generateRobotsTxt: false, // we serve robots.txt from app route
   outDir: './public',
   generateIndexSitemap: false,
