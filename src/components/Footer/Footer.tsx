@@ -13,7 +13,7 @@ const LEGAL_LINKS = [
   { label: 'Privacidade', href: '/privacidade' },
   { label: 'Termos', href: '/termos' },
   { label: 'llms.txt', href: '/llms.txt' },
-  { label: 'Contato', href: 'mailto:oi@thiagolab.com' },
+  { label: 'Contato', href: 'mailto:oi@thiagolabs.com' },
 ];
 
 /* ─── Component ─── */
@@ -45,24 +45,23 @@ export function Footer() {
             <div className="flex items-center gap-2.5">
               <Terminal size={20} className="text-ios-accent" />
               <span className="font-mono text-sm font-bold tracking-tight text-ios-text">
-                thiagolab
+                ThiagoLabs
               </span>
               <span className="font-mono text-[10px] text-ios-accent">~$</span>
             </div>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-ios-text-secondary">
-              Laboratório terminal de Thiago. IA, automação e produtos
-              digitais — tudo construído de verdade, sem guru. Código aberto,
-              resultados reais, zero hype.
+              Intelligence OS — IA, automação e produtos digitais para negócios
+              locais e operações de alta performance. Código real, conversão
+              real, zero hype.
             </p>
 
             {/* CRF/SP credit */}
             <div className="mt-4 flex items-start gap-2 rounded-lg border border-ios-border/50 bg-ios-surface-2/50 px-3 py-2">
               <Scale size={13} className="mt-0.5 shrink-0 text-ios-muted" />
               <p className="font-mono text-[10px] leading-relaxed text-ios-muted">
-                CRF/SP 12345 — Responsável Técnico: Thiago. As informações
+                CRF/SP — Responsável Técnico: Thiago Piola. As informações
                 disponíveis neste site têm caráter informativo e não
-                substituem a consulta a profissionais habilitados. Consulte
-                sempre um especialista qualificado.
+                substituem a consulta a profissionais habilitados.
               </p>
             </div>
           </motion.div>
@@ -138,7 +137,7 @@ export function Footer() {
           className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-ios-border/30 pt-8 sm:flex-row"
         >
           <p className="font-mono text-xs text-ios-muted">
-            &copy; {year} thiagolab.com —{' '}
+            &copy; {year} thiagolabs.com —{' '}
             <span className="text-ios-accent/60">Intelligence OS</span>
             {'  '}
             <span className="inline-flex items-center gap-1">
@@ -149,7 +148,7 @@ export function Footer() {
 
           <div className="flex items-center gap-4">
             <span className="font-mono text-[10px] text-ios-muted">
-              v{year}.06.17
+              v{year}.08.03
             </span>
             <button
               onClick={scrollToTop}

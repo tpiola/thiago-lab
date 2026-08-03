@@ -1,6 +1,6 @@
-# Thiago Lab — Intelligence OS
+# ThiagoLabs — Intelligence OS
 
-Plataforma de IA, automação e inteligência competitiva do ecossistema tpiola.
+Plataforma de IA, automação e inteligência competitiva do ecossistema ThiagoLabs.
 
 ## Stack
 
@@ -26,4 +26,6 @@ npm run build
 
 ## Deploy
 
-Deploy automático via Vercel (thiagolab.com).
+Deploy via Vercel: **https://www.thiagolabs.com**
+
+Domínio canônico: `thiagolabs.com` / `www.thiagolabs.com`

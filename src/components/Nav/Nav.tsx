@@ -55,9 +55,9 @@ export function Nav() {
           className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-ios-text transition-colors hover:text-ios-accent"
         >
           <span className="flex h-8 w-8 items-center justify-center rounded-md border border-ios-border bg-ios-surface text-sm font-bold text-ios-accent">
-            T
+            TL
           </span>
-          <span className="hidden sm:inline">THIAGO LAB</span>
+          <span className="hidden sm:inline">ThiagoLabs</span>
         </a>
 
         {/* ── Desktop Links ── */}
