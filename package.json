@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prebuild": "node -e \"const fs=require('fs');for (const d of ['app','app_old']){if(fs.existsSync(d)){fs.renameSync(d,'_legacy_'+d);console.log('[prebuild] moved '+d+' -> _legacy_'+d)}}\"",
     "dev": "next dev",
     "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.ts",
