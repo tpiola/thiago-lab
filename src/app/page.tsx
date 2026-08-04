@@ -115,7 +115,7 @@ function Nav() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#00C9A7]/10">
             <Brain size={18} className="text-[#00C9A7]" />
           </div>
-          <span className="text-sm font-bold tracking-tight text-white">Thiago Lab</span>
+          <span className="text-sm font-bold tracking-tight text-white">ThiagoLabs</span>
         </Link>
         <div className="hidden items-center gap-1 md:flex">
           {[
@@ -451,7 +451,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 md:flex-row md:px-12">
           <div className="flex items-center gap-2 text-sm text-white/30">
             <Brain size={14} className="text-[#00C9A7]" />
-            Thiago Lab — Intelligence OS
+            ThiagoLabs — Intelligence OS
           </div>
           <div className="flex gap-6 text-xs text-white/20">
             <Link href="/sobre">Sobre</Link>

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Login Page — thiagolab.com
+   Login Page — www.thiagolabs.com
    Dark theme, terminal aesthetic, Supabase Auth
    ========================================================================== */
 
@@ -97,7 +97,7 @@ export default function LoginPage() {
                 <Terminal size={20} className="text-[#3DF5C5]" />
               </span>
               <span className="font-display text-lg font-bold tracking-tight">
-                THIAGO LAB
+                THIAGOLABS
               </span>
             </Link>
             <h1 className="mt-6 font-display text-2xl font-semibold">
