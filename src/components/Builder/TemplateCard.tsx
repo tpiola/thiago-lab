@@ -29,7 +29,8 @@ export function TemplateCard({ template }: { template: Template }) {
            template.category === 'E-commerce' ? '🛒' :
            template.category === 'Portfolios' ? '👤' :
            template.category === 'Blogs' ? '📝' :
-           template.category === 'Sites' ? '🌐' : '◧'}
+           template.category === 'Sites' ? '🌐' :
+           template.category === 'Negócios Locais' ? '📍' : '◧'}
         </div>
       </div>
       <div className="p-4">

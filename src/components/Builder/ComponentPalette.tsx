@@ -4,7 +4,7 @@ import { COMPONENT_META } from './BuilderTypes';
 import type { BlockType } from './BuilderTypes';
 import { useBuilderStore } from './BuilderStore';
 
-const BLOCK_TYPES: BlockType[] = ['hero', 'features', 'pricing', 'testimonials', 'faq', 'cta', 'stats', 'gallery', 'contact', 'footer'];
+const BLOCK_TYPES: BlockType[] = ['hero', 'features', 'pricing', 'testimonials', 'faq', 'cta', 'stats', 'gallery', 'contact', 'whatsapp', 'localBusiness', 'footer'];
 
 const ICON_MAP: Record<string, string> = {
   Layout: '◧',
@@ -17,6 +17,8 @@ const ICON_MAP: Record<string, string> = {
   BarChart3: '📊',
   Image: '🖼',
   Mail: '✉',
+  MessageCircle: '💬',
+  MapPin: '📍',
 };
 
 export function ComponentPalette() {

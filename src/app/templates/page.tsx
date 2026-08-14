@@ -6,7 +6,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Grid3X3, Layout, ShoppingCart, User, FileText, Globe } from 'lucide-react';
+import { Search, Grid3X3, Layout, ShoppingCart, User, FileText, Globe, MapPin } from 'lucide-react';
 import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { BuilderProvider } from '@/components/Builder/BuilderStore';
@@ -15,6 +15,7 @@ import { TEMPLATES } from '@/components/Builder/BuilderTypes';
 
 const CATEGORIES = [
   { id: 'all', label: 'Todos', icon: Grid3X3 },
+  { id: 'Negócios Locais', label: 'Negócios Locais', icon: MapPin },
   { id: 'Sites', label: 'Sites', icon: Globe },
   { id: 'Apps', label: 'Apps', icon: Layout },
   { id: 'Landing Pages', label: 'Landing Pages', icon: Grid3X3 },

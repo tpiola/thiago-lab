@@ -14,6 +14,8 @@ import { FooterBlock } from './blocks/FooterBlock';
 import { StatsBlock } from './blocks/StatsBlock';
 import { GalleryBlock } from './blocks/GalleryBlock';
 import { ContactBlock } from './blocks/ContactBlock';
+import { WhatsAppBlock } from './blocks/WhatsAppBlock';
+import { LocalBusinessBlock } from './blocks/LocalBusinessBlock';
 
 const BLOCK_RENDERERS: Record<BlockType, (props: { block: BuilderBlock }) => ReactNode> = {
   hero: HeroBlock,
@@ -26,6 +28,8 @@ const BLOCK_RENDERERS: Record<BlockType, (props: { block: BuilderBlock }) => Rea
   stats: StatsBlock,
   gallery: GalleryBlock,
   contact: ContactBlock,
+  whatsapp: WhatsAppBlock,
+  localBusiness: LocalBusinessBlock,
 };
 
 function BlockRenderer({ block, onSelect }: { block: BuilderBlock; onSelect: (id: string) => void }) {

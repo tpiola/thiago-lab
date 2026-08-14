@@ -10,6 +10,8 @@ import {
 
 /* ─── Legal Links ─── */
 const LEGAL_LINKS = [
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Docs', href: '/docs' },
   { label: 'Privacidade', href: '/privacidade' },
   { label: 'Termos', href: '/termos' },
   { label: 'llms.txt', href: '/llms.txt' },

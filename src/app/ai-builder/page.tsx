@@ -63,6 +63,8 @@ const BLOCK_LABELS: Record<BlockType, string> = {
   stats: 'Estatísticas',
   gallery: 'Galeria',
   contact: 'Contato',
+  whatsapp: 'WhatsApp CTA',
+  localBusiness: 'LocalBusiness (SEO)',
 };
 
 /* ─── Mini Preview de um bloco ─── */

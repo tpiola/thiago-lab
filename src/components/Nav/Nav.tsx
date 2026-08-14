@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Menu, X, Layout, Grid3x3 } from 'lucide-react';
+import { Menu, X, Layout, Grid3x3, Sparkles } from 'lucide-react';
 
 /* ─── Navigation Links ─── */
 interface NavLink {
@@ -11,8 +11,10 @@ interface NavLink {
 }
 
 const NAV_PAGES: NavLink[] = [
+  { label: 'Briefing', href: '/briefing', icon: Sparkles },
   { label: 'Builder', href: '/builder', icon: Layout },
   { label: 'Templates', href: '/templates', icon: Grid3x3 },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'INEMA', href: '/inema' },
   { label: 'IA', href: '/ia' },
   { label: 'AI Builder', href: '/ai-builder' },

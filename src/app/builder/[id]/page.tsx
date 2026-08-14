@@ -12,13 +12,14 @@ import { motion } from 'framer-motion';
 import {
   Save, Eye, Download, Undo2, Redo2, ArrowLeft,
   Globe, FileArchive, Loader2, CheckCircle2, ExternalLink,
-  XCircle,
+  XCircle, ShieldCheck,
 } from 'lucide-react';
 import { BuilderProvider, useBuilderStore } from '@/components/Builder/BuilderStore';
 import { ComponentPalette } from '@/components/Builder/ComponentPalette';
 import { BuilderCanvas } from '@/components/Builder/BuilderCanvas';
 import { PropertyPanel } from '@/components/Builder/PropertyPanel';
 import { Preview } from '@/components/Builder/Preview';
+import { QAChecklist } from '@/components/Builder/QAChecklist';
 
 type DeployStatus = 'idle' | 'deploying' | 'success' | 'error';
 
@@ -33,9 +34,10 @@ function EditorContent() {
   const [deployUrl, setDeployUrl] = useState<string>('');
   const [deployError, setDeployError] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
+  const [showQA, setShowQA] = useState(false);
 
   useEffect(() => {
-    if (initialized.current) return;
+    if (initialized.current || !state.projectsLoaded) return;
     initialized.current = true;
     const project = state.projects.find(p => p.id === params.id);
     if (project) {
@@ -47,7 +49,7 @@ function EditorContent() {
         project: { id: params.id as string, name: 'Novo Projeto', createdAt: now, updatedAt: now, blocks: [] },
       });
     }
-  }, [params.id, state.projects, dispatch]);
+  }, [params.id, state.projects, state.projectsLoaded, dispatch]);
 
   const handleSave = useCallback(() => {
     if (state.project) {
@@ -245,6 +247,17 @@ function EditorContent() {
             Preview
           </button>
 
+          {/* QA Clínico */}
+          <button
+            onClick={() => setShowQA(true)}
+            disabled={!state.project || state.project.blocks.length === 0}
+            className="btn-outline gap-1.5 px-3 py-1.5 text-[11px] disabled:opacity-40"
+            title="Checklist de QA Clínico pré-deploy"
+          >
+            <ShieldCheck size={14} />
+            QA
+          </button>
+
           {/* Export ZIP */}
           <button
             onClick={handleExportZip}
@@ -290,6 +303,11 @@ function EditorContent() {
 
       {/* ── Preview Modal ── */}
       {showPreview && <Preview />}
+
+      {/* ── QA Clínico Modal ── */}
+      {showQA && state.project && (
+        <QAChecklist blocks={state.project.blocks} onClose={() => setShowQA(false)} />
+      )}
     </div>
   );
 }
