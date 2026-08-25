@@ -20,7 +20,7 @@ export const maxDuration = 60; // 60s no Vercel
  * Body:
  * ```json
  * {
- *   "url": "https://thiagolab.com",
+ *   "url": "https://thiago-lab.vercel.app",
  *   "depth": 1,
  *   "extractImages": true,
  *   "extractLinks": true,
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * GET /api/scraper/scrape?url=https://thiagolab.com&depth=1
+ * GET /api/scraper/scrape?url=https://thiago-lab.vercel.app&depth=1
  *
  * Versão simplificada via query params para testes rápidos.
  */
@@ -153,7 +153,7 @@ export async function GET(request: NextRequest) {
       {
         success: false,
         error: 'Use ?url=https://...&depth=1',
-        exemplo: '/api/scraper/scrape?url=https://thiagolab.com',
+        exemplo: '/api/scraper/scrape?url=https://thiago-lab.vercel.app',
       },
       { status: 400 },
     );
