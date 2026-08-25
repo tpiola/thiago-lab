@@ -298,7 +298,7 @@ function htmlToMarkdown($: cheerio.CheerioAPI): string {
  *
  * @example
  * ```ts
- * const result = await scrape({ url: 'https://thiagolab.com' });
+ * const result = await scrape({ url: 'https://thiago-lab.vercel.app' });
  * console.log(result.title, result.markdown.slice(0, 200));
  * ```
  */
@@ -351,7 +351,7 @@ export async function scrape(options: ScrapeOptions): Promise<ScrapeResult> {
         timeout: { request: timeout },
         headers: {
           'User-Agent':
-            'Mozilla/5.0 (compatible; Firecrawl-Like/1.0; +https://thiagolab.com)',
+            'Mozilla/5.0 (compatible; Firecrawl-Like/1.0; +https://thiago-lab.vercel.app)',
           Accept:
             'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
           'Accept-Language': 'pt-BR,pt;q=0.9,en;q=0.8',
