@@ -196,7 +196,7 @@ export default function ThaigoBuildPage() {
             </div>
             <nav className="flex items-center gap-4">
               <a
-                href="https://thiagolab.com"
+                href="https://thiago-lab.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-white/40 hover:text-white/70 transition-colors"
