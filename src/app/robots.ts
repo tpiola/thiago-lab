@@ -1,35 +1,20 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from "next";
+
+const SITE_URL = "https://thiago-lab.vercel.app";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://www.thiagolabs.com';
-
   return {
     rules: [
       {
-        userAgent: '*',
-        allow: '/',
-        disallow: [
-          '/api/',
-          '/app/',
-          '/builder/',
-          '/login',
-          '/intelligence-os/*/private',
-        ],
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/app/", "/builder/", "/login", "/auth/"],
       },
-      {
-        userAgent: 'GPTBot',
-        disallow: '/',
-      },
-      {
-        userAgent: 'ChatGPT-User',
-        disallow: '/',
-      },
-      {
-        userAgent: 'Google-Extended',
-        allow: '/',
-      },
+      { userAgent: "OAI-SearchBot", allow: "/" },
+      { userAgent: "ChatGPT-User", allow: "/" },
+      { userAgent: "GPTBot", disallow: "/" },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }
