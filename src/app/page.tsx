@@ -1,463 +1,311 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  Brain, BarChart3, Users, Bot, Workflow, Shield, ArrowRight,
-  Activity, Cpu, Rocket, Check, Menu, X, TrendingUp, Target,
-  DollarSign, Layers, Eye, MessageCircle, Sparkles, Lock,
-  Zap, Globe, ChartLine, Clock, ChevronRight,
-} from "lucide-react";
 
-/* ═══════════════════════════════════════════════════════════════
-   PALETA — SPRINT AI STYLE — HIGHLIGHT CYAN/TEAL
-   ═══════════════════════════════════════════════════════════════ */
-const G = {
-  primary: "#00C9A7",
-  secondary: "#3DF5C5",
-  dark: "#00A88C",
-  glow: "rgba(0, 201, 167, 0.12)",
-  glowMd: "rgba(0, 201, 167, 0.25)",
-  bg: "#030303",
-  surface: "rgba(255,255,255,0.03)",
-  glass: "rgba(255,255,255,0.05)",
-  border: "rgba(255,255,255,0.08)",
-};
+const operationalMap = [
+  {
+    number: "01",
+    label: "Fonte",
+    text: "Planilhas, APIs, formulários e sistemas entram com origem identificada.",
+  },
+  {
+    number: "02",
+    label: "Contexto",
+    text: "Cada evento carrega regra, responsável e impacto esperado.",
+  },
+  {
+    number: "03",
+    label: "Ação",
+    text: "O próximo passo é atribuído, registrado e pode ser automatizado.",
+  },
+  {
+    number: "04",
+    label: "Revisão",
+    text: "A equipe enxerga o que aconteceu e ajusta o fluxo sem adivinhar.",
+  },
+];
 
-const easeOut = [0.16, 1, 0.3, 1] as const;
+const delivery = [
+  {
+    number: "01",
+    title: "Leitura da operação",
+    text: "Mapeamos fontes, decisões recorrentes, gargalos e exceções que hoje dependem de memória.",
+    output: "Saída: mapa de dependências",
+  },
+  {
+    number: "02",
+    title: "Desenho do fluxo",
+    text: "Definimos o que deve ser coletado, interpretado, encaminhado e registrado.",
+    output: "Saída: arquitetura executável",
+  },
+  {
+    number: "03",
+    title: "Ativação",
+    text: "Conectamos as ferramentas necessárias e colocamos o primeiro percurso em funcionamento.",
+    output: "Saída: fluxo publicado",
+  },
+  {
+    number: "04",
+    title: "Ajuste por evidência",
+    text: "Revisamos alertas, tempo de resposta e pontos de intervenção com base no uso real.",
+    output: "Saída: lista de melhorias",
+  },
+];
 
-const Section = ({ children, className = "", id }: { children: React.ReactNode; className?: string; id?: string }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  return (
-    <section id={id}>
-    <motion.div ref={ref} initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, ease: easeOut }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-    </section>
-  );
-};
+const faq = [
+  {
+    question: "Preciso trocar as ferramentas que já uso?",
+    answer:
+      "Não por padrão. O diagnóstico começa pelas fontes atuais e só propõe troca quando a integração ou o custo operacional justificam.",
+  },
+  {
+    question: "O sistema decide sozinho?",
+    answer:
+      "Os fluxos podem executar tarefas definidas, mas decisões críticas mantêm responsável, regra e registro de contexto.",
+  },
+  {
+    question: "Quanto tempo leva para colocar o primeiro fluxo no ar?",
+    answer:
+      "O prazo depende das integrações e do acesso aos dados. A estimativa é fechada depois do mapa inicial, sem prometer cronograma antes de conhecer a operação.",
+  },
+  {
+    question: "Serve para uma equipe pequena?",
+    answer:
+      "Sim. O recorte é feito pelo custo do problema, não pelo tamanho da empresa. Muitas vezes um único fluxo bem escolhido já remove bastante retrabalho.",
+  },
+];
 
-/* ═══════════════════════════════════════════════════════════════
-   SCORE DISPLAY — estilo Sprint AI
-   ═══════════════════════════════════════════════════════════════ */
-function ScoreDisplay({ label, value, max = 100, suffix = "", color = G.primary }: {
-  label: string; value: number; max?: number; suffix?: string; color?: string;
-}) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setInView(true); obs.disconnect(); }
-    }, { threshold: 0.3 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const step = Math.ceil(value / 40);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= value) { setCount(value); clearInterval(timer); }
-      else setCount(start);
-    }, 30);
-    return () => clearInterval(timer);
-  }, [inView, value]);
-
-  const pct = (count / max) * 100;
-  const dash = 2 * Math.PI * 40;
-  const offset = dash - (pct / 100) * dash;
-
-  return (
-    <div ref={ref} className="flex flex-col items-center gap-2">
-      <svg width="96" height="96" viewBox="0 0 100 100" className="drop-shadow-[0_0_20px_rgba(0,201,167,0.15)]">
-        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
-        <circle cx="50" cy="50" r="40" fill="none" stroke={color} strokeWidth="6"
-          strokeLinecap="round" strokeDasharray={dash} strokeDashoffset={inView ? offset : dash}
-          transform="rotate(-90 50 50)" style={{ transition: "stroke-dashoffset 1.5s ease-out" }}
-        />
-        <text x="50" y="52" textAnchor="middle" dominantBaseline="middle"
-          fill="white" fontSize="22" fontWeight="700" fontFamily="Plus Jakarta Sans">
-          {count}{suffix}
-        </text>
-      </svg>
-      <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-white/40">{label}</span>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   STICKY NAV
-   ═══════════════════════════════════════════════════════════════ */
-function Nav() {
-  const [open, setOpen] = useState(false);
-  const { scrollY } = useScroll();
-  const bg = useTransform(scrollY, [0, 80], ["rgba(3,3,3,0)", "rgba(3,3,3,0.95)"]);
-  const border = useTransform(scrollY, [0, 80], ["rgba(255,255,255,0)", "rgba(255,255,255,0.06)"]);
-
-  return (
-    <motion.nav style={{ backgroundColor: bg, borderBottomColor: border }}
-      className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl"
-    >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#00C9A7]/10">
-            <Brain size={18} className="text-[#00C9A7]" />
-          </div>
-          <span className="text-sm font-bold tracking-tight text-white">ThiagoLabs</span>
-        </Link>
-        <div className="hidden items-center gap-1 md:flex">
-          {[
-            { label: "Plataforma", href: "#plataforma" },
-            { label: "Dashboard", href: "#dashboard" },
-            { label: "Processo", href: "#processo" },
-            { label: "FAQ", href: "#faq" },
-          ].map((item) => (
-            <Link key={item.label} href={item.href}
-              className="rounded-lg px-4 py-2 text-sm text-white/50 transition-colors hover:bg-white/5 hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Link href="/login"
-            className="ml-4 inline-flex items-center gap-2 rounded-full bg-[#00C9A7] px-5 py-2 text-sm font-bold text-black transition-all hover:bg-[#3DF5C5]"
-          >
-            Acessar <ArrowRight size={14} />
-          </Link>
-        </div>
-        <button onClick={() => setOpen(!open)} className="md:hidden">
-          {open ? <X size={20} className="text-white" /> : <Menu size={20} className="text-white" />}
-        </button>
-      </div>
-      {open && (
-        <div className="border-t border-white/10 bg-[#030303] px-6 py-4 md:hidden">
-          {["Plataforma", "Dashboard", "Processo", "FAQ"].map((item) => (
-            <Link key={item} href={`#${item.toLowerCase()}`} onClick={() => setOpen(false)}
-              className="block py-3 text-sm text-white/60"
-            >
-              {item}
-            </Link>
-          ))}
-          <Link href="/login" className="mt-3 block rounded-full bg-[#00C9A7] px-5 py-2.5 text-center text-sm font-bold text-black">
-            Acessar
-          </Link>
-        </div>
-      )}
-    </motion.nav>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   PAGE
-   ═══════════════════════════════════════════════════════════════ */
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#030303] font-sans text-white">
-      <Nav />
-
-      {/* ═══════ HERO — SPRINT AI + UNICORN STUDIO ═══════ */}
-      <section className="relative flex min-h-screen items-center overflow-hidden pt-16">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-[#050B08] to-[#030303]" />
-          <div className="absolute inset-0 opacity-[0.04]"
-            style={{ backgroundImage: "radial-gradient(circle at 30% 40%, #00C9A7 0%, transparent 50%), radial-gradient(circle at 70% 60%, #00C9A7 0%, transparent 40%)" }}
-          />
-          <div className="absolute inset-0 opacity-[0.015]"
-            style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)", backgroundSize: "60px 60px" }}
-          />
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 md:px-12 md:py-32">
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: easeOut }}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#00C9A7]/20 bg-[#00C9A7]/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-[#00C9A7]">
-              <Sparkles size={12} /> Intelligence OS — v3.0
+    <div className="min-h-screen bg-[#E9E5DA] text-[#122024]">
+      <header className="sticky top-0 z-40 border-b border-[#9E9A90] bg-[#E9E5DA]">
+        <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-6 px-5 md:px-8">
+          <Link
+            href="/"
+            className="flex items-center gap-3 font-semibold tracking-tight"
+            aria-label="Thiago Lab — início"
+          >
+            <span className="grid h-9 w-9 place-items-center border border-[#122024] font-mono text-xs">
+              TL/
             </span>
-          </motion.div>
+            <span>Thiago Lab</span>
+          </Link>
 
-          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15, ease: easeOut }}
-            className="mt-8 max-w-4xl font-display text-[clamp(2.8rem,7vw,5.5rem)] font-black leading-[0.9] tracking-tighter"
+          <nav
+            className="hidden items-center gap-7 text-sm font-medium md:flex"
+            aria-label="Navegação principal"
           >
-            <span className="block">Sistema de Inteligência</span>
-            <span className="block bg-gradient-to-r from-[#00C9A7] to-[#3DF5C5] bg-clip-text text-transparent">
-              Operacional
-            </span>
-          </motion.h1>
-
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-6 max-w-xl text-base leading-relaxed text-white/40"
-          >
-            Dados centralizados, insights acionáveis e automação inteligente para sua operação. Deixe de apagar incêndio — comece a decidir com clareza.
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-10 flex flex-wrap gap-4"
-          >
-            <Link href="/login"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-[#00C9A7] px-8 py-4 text-sm font-bold text-black transition-all hover:bg-[#3DF5C5] hover:shadow-[0_0_30px_rgba(0,201,167,0.3)]"
-            >
-              Iniciar Diagnóstico <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            <Link href="#arquitetura" className="hover:text-[#087F70]">
+              Arquitetura
             </Link>
-            <Link href="#plataforma"
-              className="inline-flex items-center rounded-full border border-white/15 px-8 py-4 text-sm font-bold text-white/50 transition-all hover:border-white/30 hover:text-white"
-            >
-              Ver Plataforma
+            <Link href="#entrega" className="hover:text-[#087F70]">
+              Entrega
             </Link>
-          </motion.div>
+            <Link href="#duvidas" className="hover:text-[#087F70]">
+              Dúvidas
+            </Link>
+          </nav>
 
-          {/* Score preview — Sprint AI style */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }}
-            className="mt-16 grid grid-cols-2 gap-4 border-t border-white/[0.04] pt-10 md:grid-cols-4"
+          <Link
+            href="/login"
+            className="inline-flex min-h-10 items-center border border-[#122024] bg-[#122024] px-4 text-sm font-semibold text-[#F5F2E9] hover:bg-[#087F70]"
           >
-            {[
-              { label: "Eficiência", value: 94, suffix: "%" },
-              { label: "Automação", value: 87, suffix: "%" },
-              { label: "Cobertura", value: 100, suffix: "%" },
-              { label: "Uptime", value: 99.9, suffix: "%" },
-            ].map((s) => (
-              <div key={s.label}>
-                <p className="text-2xl font-black text-white">{s.value}{s.suffix}</p>
-                <p className="text-xs text-white/30">{s.label}</p>
-              </div>
-            ))}
-          </motion.div>
+            Abrir diagnóstico
+          </Link>
         </div>
-      </section>
+      </header>
 
-      {/* ═══════ SEÇÃO DE PROBLEMA ═══════ */}
-      <Section className="border-t border-white/[0.04] py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#00C9A7]">O Problema</span>
-            <h2 className="mt-4 font-display text-3xl font-black leading-tight md:text-5xl">
-              Você toma decisões<br />
-              <span className="text-[#00C9A7]">no escuro?</span>
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-white/40">
-              Dados espalhados em planilhas, indicadores sem contexto, alertas que nunca chegam. 
-              Sua operação funciona no reativo — e isso custa caro.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {[
-              { icon: <Activity size={20} />, title: "Sem Visibilidade", desc: "Você não sabe o que está funcionando até perder resultado." },
-              { icon: <BarChart3 size={20} />, title: "Dados Parados", desc: "Coleta informação mas não transforma em decisão rápida." },
-              { icon: <Zap size={20} />, title: "Operação Reativa", desc: "Corrige problema em vez de antecipar ele." },
-            ].map((item) => (
-              <div key={item.title} className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all hover:border-[#00C9A7]/20 hover:bg-[#00C9A7]/[0.02]">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#00C9A7]/10 text-[#00C9A7]">
-                  {item.icon}
-                </div>
-                <h3 className="text-lg font-bold text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/40">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ═══════ DASHBOARD / SCORE SECTION — SPRINT AI ═══════ */}
-      <Section id="dashboard" className="border-t border-white/[0.04] py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <div className="grid items-center gap-12 md:grid-cols-2">
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#00C9A7]">Score ao Vivo</span>
-              <h2 className="mt-4 font-display text-3xl font-black leading-tight md:text-5xl">
-                Onde sua operação<br />
-                <span className="text-[#00C9A7]">realmente está</span>
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-white/40">
-                Cada score mede um eixo crítico. Cada número tem contexto, tendência e recomendação. 
-                Você não precisa adivinhar — precisa agir.
+      <main>
+        <section className="border-b border-[#9E9A90]">
+          <div className="mx-auto grid max-w-7xl gap-14 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[1.18fr_0.82fr] lg:items-start">
+            <article>
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#087F70]">
+                Operações digitais / caderno 01
               </p>
-              <div className="mt-8 space-y-4">
-                {[
-                  { label: "Score de Performance", value: "A+", color: "#00C9A7" },
-                  { label: "Risco Operacional", value: "Baixo", color: "#3DF5C5" },
-                  { label: "Potencial de Conversão", value: "84%", color: "#00C9A7" },
-                  { label: "Próxima Ação", value: "Automatizar relatório semanal", color: "rgba(255,255,255,0.4)" },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center justify-between border-b border-white/[0.04] pb-3">
-                    <span className="text-sm text-white/50">{item.label}</span>
-                    <span className="text-sm font-bold text-white" style={{ color: item.color }}>{item.value}</span>
-                  </div>
+              <h1 className="mt-6 max-w-[12ch] text-[clamp(3.5rem,8vw,7rem)] font-semibold leading-[0.88] tracking-[-0.055em]">
+                Dados sem contexto só aumentam o ruído.
+              </h1>
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-[#445156]">
+                O Thiago Lab conecta fontes, regras e responsáveis para que alertas
+                terminem em uma ação verificável — e não em mais um painel que ninguém revisa.
+              </p>
+              <div className="mt-10 flex flex-wrap items-center gap-5">
+                <Link
+                  href="/login"
+                  className="inline-flex min-h-12 items-center border border-[#087F70] bg-[#087F70] px-6 font-semibold text-white hover:bg-[#122024]"
+                >
+                  Mapear minha operação <span aria-hidden="true" className="ml-3">→</span>
+                </Link>
+                <Link
+                  href="#arquitetura"
+                  className="inline-flex min-h-12 items-center border-b border-[#122024] font-semibold"
+                >
+                  Ver o percurso
+                </Link>
+              </div>
+            </article>
+
+            <aside className="border border-[#6F756F]" aria-labelledby="map-title">
+              <div className="flex items-center justify-between border-b border-[#6F756F] bg-[#122024] px-5 py-4 text-[#F5F2E9]">
+                <h2 id="map-title" className="font-mono text-xs uppercase tracking-[0.16em]">
+                  Mapa operacional
+                </h2>
+                <span className="font-mono text-xs text-[#A9B5B1]">TL / 01</span>
+              </div>
+              <ol>
+                {operationalMap.map((item) => (
+                  <li
+                    key={item.number}
+                    className="grid grid-cols-[3rem_1fr] gap-3 border-b border-[#A9A49A] px-5 py-5 last:border-b-0"
+                  >
+                    <span className="font-mono text-xs text-[#087F70]">{item.number}</span>
+                    <div>
+                      <h3 className="font-semibold">{item.label}</h3>
+                      <p className="mt-1 text-sm leading-6 text-[#526066]">{item.text}</p>
+                    </div>
+                  </li>
                 ))}
+              </ol>
+            </aside>
+          </div>
+        </section>
+
+        <section id="arquitetura" className="border-b border-[#9E9A90] bg-[#F5F2E9]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+            <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
+              <div>
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#087F70]">
+                  O recorte
+                </p>
+                <h2 className="mt-4 max-w-[12ch] text-4xl font-semibold leading-[0.98] tracking-[-0.035em] md:text-6xl">
+                  Menos ferramenta. Mais continuidade.
+                </h2>
+              </div>
+
+              <div className="border-t border-[#6F756F]">
+                <div className="grid gap-4 border-b border-[#A9A49A] py-6 sm:grid-cols-[11rem_1fr]">
+                  <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em]">
+                    O que entra
+                  </h3>
+                  <p className="text-lg leading-8 text-[#445156]">
+                    Fontes existentes, regras de negócio, decisões recorrentes, exceções e
+                    o caminho percorrido até alguém agir.
+                  </p>
+                </div>
+                <div className="grid gap-4 border-b border-[#A9A49A] py-6 sm:grid-cols-[11rem_1fr]">
+                  <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em]">
+                    O que sai
+                  </h3>
+                  <p className="text-lg leading-8 text-[#445156]">
+                    Um fluxo nomeado, com responsáveis, registros e automações apenas onde
+                    elas reduzem trabalho sem esconder a decisão.
+                  </p>
+                </div>
+                <div className="grid gap-4 py-6 sm:grid-cols-[11rem_1fr]">
+                  <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em]">
+                    O que não entra
+                  </h3>
+                  <p className="text-lg leading-8 text-[#445156]">
+                    Métricas decorativas, promessas sem medição e integrações criadas só
+                    para aumentar a lista de recursos.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-              <ScoreDisplay label="Performance" value={94} suffix="%" />
-              <ScoreDisplay label="Automação" value={87} suffix="%" />
-              <ScoreDisplay label="Eficiência" value={92} suffix="%" />
-              <ScoreDisplay label="Cobertura" value={78} suffix="%" />
+          </div>
+        </section>
+
+        <section id="entrega" className="border-b border-[#9E9A90]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+            <div className="flex flex-col justify-between gap-6 border-b border-[#6F756F] pb-8 md:flex-row md:items-end">
+              <div>
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#087F70]">
+                  Sequência de trabalho
+                </p>
+                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] md:text-6xl">
+                  Do mapa ao uso real.
+                </h2>
+              </div>
+              <p className="max-w-xl text-base leading-7 text-[#526066]">
+                Cada etapa termina em um artefato que pode ser revisado. Nada avança
+                apenas porque parece pronto em uma apresentação.
+              </p>
+            </div>
+
+            <ol>
+              {delivery.map((item) => (
+                <li
+                  key={item.number}
+                  className="grid gap-5 border-b border-[#A9A49A] py-8 md:grid-cols-[5rem_0.7fr_1.3fr]"
+                >
+                  <span className="font-mono text-sm text-[#087F70]">{item.number}</span>
+                  <h3 className="text-2xl font-semibold tracking-[-0.02em]">{item.title}</h3>
+                  <div>
+                    <p className="leading-7 text-[#526066]">{item.text}</p>
+                    <p className="mt-3 font-mono text-xs font-semibold uppercase tracking-[0.12em]">
+                      {item.output}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section id="duvidas" className="border-b border-[#9E9A90] bg-[#F5F2E9]">
+          <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[0.65fr_1.35fr]">
+            <div>
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#087F70]">
+                Antes de começar
+              </p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] md:text-6xl">
+                Perguntas que mudam o escopo.
+              </h2>
+            </div>
+            <div className="border-t border-[#6F756F]">
+              {faq.map((item) => (
+                <details key={item.question} className="group border-b border-[#A9A49A]">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-lg font-semibold">
+                    {item.question}
+                    <span aria-hidden="true" className="font-mono text-[#087F70] group-open:rotate-45">
+                      +
+                    </span>
+                  </summary>
+                  <p className="max-w-2xl pb-6 leading-7 text-[#526066]">{item.answer}</p>
+                </details>
+              ))}
             </div>
           </div>
-        </div>
-      </Section>
+        </section>
 
-      {/* ═══════ MECANISMO ÚNICO ═══════ */}
-      <Section id="plataforma" className="border-t border-white/[0.04] py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#00C9A7]">Mecanismo</span>
-            <h2 className="mt-4 font-display text-3xl font-black leading-tight md:text-5xl">
-              Dados → Score → <span className="text-[#00C9A7]">Ação</span>
-            </h2>
-          </div>
-          <div className="mt-14 grid gap-6 md:grid-cols-4">
-            {[
-              { icon: <Layers size={22} />, title: "Coleta", desc: "Conecte suas fontes: planilhas, APIs, sensores, ferramentas." },
-              { icon: <Brain size={22} />, title: "Interpretação", desc: "IA analisa padrões, correlações e anomalias em tempo real." },
-              { icon: <Target size={22} />, title: "Score", desc: "Cada métrica vira indicador claro com tendência e alerta." },
-              { icon: <Rocket size={22} />, title: "Ação", desc: "Recomendação inteligente + automação do próximo passo." },
-            ].map((item) => (
-              <div key={item.title} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 text-center transition-all hover:border-[#00C9A7]/20">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#00C9A7]/10 text-[#00C9A7]">
-                  {item.icon}
-                </div>
-                <h3 className="text-base font-bold text-white">{item.title}</h3>
-                <p className="mt-2 text-sm text-white/40">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ═══════ BENEFÍCIOS POR PAPEL ═══════ */}
-      <Section className="border-t border-white/[0.04] py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-3xl font-black leading-tight md:text-5xl">
-              Para cada <span className="text-[#00C9A7]">decisor</span>
-            </h2>
-          </div>
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {[
-              { icon: <Users size={22} />, role: "Gestor", items: ["Visão consolidada da operação", "Alertas antes do problema", "Relatórios automáticos"] },
-              { icon: <Bot size={22} />, role: "Analista", items: ["Automação de tarefas repetitivas", "Pipeline de dados limpa", "Insights com IA"] },
-              { icon: <Eye size={22} />, role: "Cliente", items: ["Transparência em tempo real", "Dashboard dedicado", "Indicadores de resultado"] },
-            ].map((item) => (
-              <div key={item.role} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#00C9A7]/10 text-[#00C9A7]">
-                  {item.icon}
-                </div>
-                <h3 className="text-lg font-bold text-white">{item.role}</h3>
-                <ul className="mt-4 space-y-3">
-                  {item.items.map((i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-white/50">
-                      <Check size={14} className="mt-0.5 shrink-0 text-[#00C9A7]" />
-                      {i}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ═══════ PROCESSO ═══════ */}
-      <Section id="processo" className="border-t border-white/[0.04] py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#00C9A7]">Processo</span>
-            <h2 className="mt-4 font-display text-3xl font-black leading-tight md:text-5xl">
-              Em 4 semanas você <span className="text-[#00C9A7]">decide melhor</span>
-            </h2>
-          </div>
-          <div className="mt-14 space-y-4">
-            {[
-              { step: "01", title: "Diagnóstico", desc: "Mapeamos suas fontes de dados, processos críticos e gaps de informação." },
-              { step: "02", title: "Arquitetura", desc: "Desenhamos o pipeline: coleta → normalização → análise → score → ação." },
-              { step: "03", title: "Ativação", desc: "Conectamos ferramentas, configuramos alertas e treinamos o time." },
-              { step: "04", title: "Operação", desc: "Acompanhamento contínuo. Seus indicadores evoluindo em tempo real." },
-            ].map((item, i) => (
-              <div key={item.step} className="group flex items-start gap-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:border-[#00C9A7]/20 md:p-8">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#00C9A7]/10 font-display text-xl font-black text-[#00C9A7]">
-                  {item.step}
-                </span>
-                <div>
-                  <h3 className="text-lg font-bold text-white">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-white/40">{item.desc}</p>
-                </div>
-                <div className="hidden shrink-0 items-center gap-2 text-sm font-bold text-[#00C9A7] md:flex">
-                  {i < 3 && <><span className="text-white/20">→</span></>}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ═══════ FAQ ═══════ */}
-      <Section id="faq" className="border-t border-white/[0.04] py-20 md:py-28">
-        <div className="mx-auto max-w-3xl px-6 md:px-12">
-          <div className="mb-14 text-center">
-            <h2 className="font-display text-3xl font-black leading-tight md:text-5xl">
-              Dúvidas <span className="text-[#00C9A7]">comuns</span>
-            </h2>
-          </div>
-          <div className="space-y-3">
-            {[
-              { q: "Preciso ter infraestrutura própria?", a: "Não. Trabalhamos 100% em nuvem. Você acessa pelo navegador." },
-              { q: "Quanto tempo leva para implementar?", a: "O ciclo completo de implantação leva de 2 a 4 semanas, dependendo da complexidade." },
-              { q: "Funciona para meu segmento?", a: "A arquitetura é adaptável — já operamos em saúde, educação, comércio e serviços." },
-              { q: "E se eu já tiver ferramentas?", a: "Integramos com suas ferramentas atuais via API. Não precisa trocar tudo." },
-            ].map((item) => (
-              <details key={item.q} className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all hover:border-white/[0.1]">
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-5 text-sm font-bold text-white">
-                  {item.q}
-                  <ChevronRight size={16} className="shrink-0 text-white/30 transition-transform group-open:rotate-90" />
-                </summary>
-                <div className="border-t border-white/[0.04] px-6 py-4 text-sm leading-relaxed text-white/40">
-                  {item.a}
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ═══════ CTA FINAL ═══════ */}
-      <Section className="border-t border-white/[0.04] py-20 md:py-28">
-        <div className="mx-auto max-w-3xl px-6 text-center md:px-12">
-          <h2 className="font-display text-3xl font-black leading-tight md:text-5xl">
-            Pronto para sair do escuro?
-          </h2>
-          <p className="mt-4 mx-auto max-w-md text-base text-white/40">
-            Diagnóstico gratuito. Sem compromisso. Em 30 minutos você entende onde sua operação pode melhorar.
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link href="/login"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-[#00C9A7] px-8 py-4 text-sm font-bold text-black transition-all hover:bg-[#3DF5C5] hover:shadow-[0_0_30px_rgba(0,201,167,0.3)]"
+        <section className="bg-[#122024] text-[#F5F2E9]">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 md:px-8 md:py-24 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#85C7B7]">
+                Próximo passo
+              </p>
+              <h2 className="mt-5 max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.04em] md:text-6xl">
+                Comece pelo ponto onde a operação perde contexto.
+              </h2>
+              <p className="mt-6 max-w-2xl leading-7 text-[#B9C4C1]">
+                O diagnóstico organiza o problema antes de escolher ferramenta, integração
+                ou automação.
+              </p>
+            </div>
+            <Link
+              href="/login"
+              className="inline-flex min-h-12 items-center border border-[#85C7B7] bg-[#85C7B7] px-6 font-semibold text-[#122024] hover:bg-white"
             >
-              Quero Meu Diagnóstico <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              Abrir diagnóstico <span aria-hidden="true" className="ml-3">→</span>
             </Link>
           </div>
-        </div>
-      </Section>
+        </section>
+      </main>
 
-      {/* ═══════ FOOTER ═══════ */}
-      <footer className="border-t border-white/[0.04] py-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 md:flex-row md:px-12">
-          <div className="flex items-center gap-2 text-sm text-white/30">
-            <Brain size={14} className="text-[#00C9A7]" />
-            ThiagoLabs — Intelligence OS
-          </div>
-          <div className="flex gap-6 text-xs text-white/20">
-            <Link href="/sobre">Sobre</Link>
-            <Link href="/privacidade">Privacidade</Link>
-            <Link href="/termos">Termos</Link>
-          </div>
+      <footer className="border-t border-[#2C3A3D] bg-[#122024] text-[#B9C4C1]">
+        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 px-5 py-8 text-sm md:flex-row md:px-8">
+          <p>Thiago Lab — contexto antes da automação.</p>
+          <Link href="/privacidade" className="underline underline-offset-4 hover:text-white">
+            Privacidade
+          </Link>
         </div>
       </footer>
     </div>

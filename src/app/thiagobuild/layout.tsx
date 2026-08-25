@@ -252,7 +252,7 @@ export default function ThiagoBuildLayout({
             <div className="flex items-center gap-4">
               {[
                 { icon: ExternalLink, href: "https://github.com" },
-                { icon: Globe, href: "https://thiagolab.com" },
+                { icon: Globe, href: "https://thiago-lab.vercel.app" },
               ].map(({ icon: Icon, href }, i) => (
                 <Link
                   key={i}

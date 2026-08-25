@@ -172,7 +172,7 @@ export default function RootLayout({
     // ── README.md ──
     zip.file('README.md', `# ${sanitizedName}
 
-Site gerado com [Thiago Lab Builder](https://thiagolab.com/builder).
+Site gerado com [Thiago Lab Builder](https://thiago-lab.vercel.app/builder).
 
 ## Deploy
 

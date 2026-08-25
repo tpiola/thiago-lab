@@ -1,7 +1,7 @@
 import type { IConfig } from 'next-sitemap';
 
 const config: IConfig = {
-  siteUrl: 'https://www.thiagolabs.com',
+  siteUrl: 'https://thiago-lab.vercel.app',
   generateRobotsTxt: false, // we serve robots.txt from app route
   outDir: './public',
   generateIndexSitemap: false,

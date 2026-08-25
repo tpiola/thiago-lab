@@ -1,42 +1,41 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export function CookieConsent() {
-  const [visivel, setVisivel] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const consentido = localStorage.getItem("cookie-consent");
-    if (!consentido) setVisivel(true);
+    setVisible(!localStorage.getItem("cookie-consent"));
   }, []);
 
-  const aceitar = () => {
-    localStorage.setItem("cookie-consent", "true");
-    setVisivel(false);
-  };
-
-  if (!visivel) return null;
+  if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[100] border-t border-border/40 bg-surface/95 backdrop-blur-lg shadow-[0_-8px_40px_rgba(0,0,0,0.12)]">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-4 py-3 sm:flex-row sm:px-6">
-        <p className="flex-1 text-xs leading-relaxed text-muted sm:text-sm">
-          Usamos cookies para melhorar sua experiência.{" "}
-          <a
-            href="/privacidade"
-            className="underline underline-offset-2 hover:text-foreground transition-colors"
-          >
-            Saiba mais
-          </a>
-          .
+    <aside
+      className="fixed inset-x-0 bottom-0 z-[100] border-t border-[#6F756F] bg-[#F5F2E9] text-[#122024]"
+      aria-label="Preferência de armazenamento"
+    >
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:px-8">
+        <p className="flex-1 text-sm leading-6 text-[#526066]">
+          Salvamos sua preferência neste navegador e usamos recursos necessários quando
+          você entra na plataforma.{" "}
+          <Link href="/privacidade" className="font-semibold underline underline-offset-4">
+            Ver detalhes
+          </Link>
         </p>
         <button
-          onClick={aceitar}
-          className="rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-gold-500 min-h-[44px] inline-flex items-center"
+          type="button"
+          onClick={() => {
+            localStorage.setItem("cookie-consent", "acknowledged");
+            setVisible(false);
+          }}
+          className="min-h-11 border border-[#122024] bg-[#122024] px-5 text-sm font-semibold text-white hover:bg-[#087F70]"
         >
-          Aceitar
+          Entendi
         </button>
       </div>
-    </div>
+    </aside>
   );
 }

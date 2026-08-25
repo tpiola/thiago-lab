@@ -33,7 +33,7 @@ interface AnalyzeRequest {
  * Body:
  * ```json
  * {
- *   "url": "https://thiagolab.com",
+ *   "url": "https://thiago-lab.vercel.app",
  *   "tipo": "completo",
  *   "model": "oc/deepseek-v4-flash-free"
  * }
