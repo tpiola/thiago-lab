@@ -19,7 +19,7 @@ const SITES = [
   'https://thiagopiola.com.br',
   'https://saudegpt.com.br',
   'https://reidasvendas.com.br',
-  'https://thiagolab.com',
+  'https://thiago-lab.vercel.app',
 ];
 
 /** Timeout padrão de 5s para chamadas externas */
