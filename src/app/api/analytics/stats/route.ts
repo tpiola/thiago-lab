@@ -96,7 +96,7 @@ export async function GET() {
     // 5. Site status checks
     (async () => {
       const sites = [
-        { name: 'thiagolab.com', url: process.env.NEXT_PUBLIC_APP_URL || 'https://thiagolab.com' },
+        { name: 'thiagolab.com', url: process.env.NEXT_PUBLIC_APP_URL || 'https://thiago-lab.vercel.app' },
         { name: 'OmniRoute API', url: `${OMNIROUTE_URL}/v1/models` },
         { name: 'n8n API', url: N8N_URL },
       ];
