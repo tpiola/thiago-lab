@@ -30,6 +30,11 @@ const nextConfig = {
         destination: "/intelligence-os/github",
         permanent: true,
       },
+      {
+        source: "/soberania",
+        destination: "/intelligence-os",
+        permanent: true,
+      },
     ];
   },
 };
