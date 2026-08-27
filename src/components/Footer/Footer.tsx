@@ -139,6 +139,8 @@ export function Footer() {
           <p className="font-mono text-xs text-ios-muted">
             &copy; {year} thiagolabs.com —{' '}
             <span className="text-ios-accent/60">Intelligence OS</span>
+            {' · '}
+            <span className="text-ios-muted/60">Hermes Agent</span>
             {'  '}
             <span className="inline-flex items-center gap-1">
               feito com <Heart size={11} className="text-ios-accent" />{' '}

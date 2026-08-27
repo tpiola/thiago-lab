@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Thiago Lab | Contexto, automações e agentes em um só fluxo",
   description: DESCRIPTION,
+  generator: "Hermes Agent",
   authors: [{ name: "Thiago Piola", url: "https://thiagopiola.com.br" }],
   creator: "Thiago Lab",
   publisher: "Thiago Lab",
