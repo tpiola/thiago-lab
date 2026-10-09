@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated globe build and runtime cache
+/public/gods-eye-view/app/
+/.gev-cache/
+/vendor/gods-eye-view/node_modules/

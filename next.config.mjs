@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: ["gods-eye-view", "@meri-imperiumi/eccodes-wasm"],
+  outputFileTracingIncludes: {
+    "/api/gods-eye-view/*": ["./vendor/gods-eye-view/config/**/*", "./vendor/gods-eye-view/src/data/local_data/cctv_ground_heights/**/*"],
+  },
   images: {
     unoptimized: true,
   },

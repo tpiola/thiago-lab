@@ -93,6 +93,9 @@ export default function Home() {
             className="hidden items-center gap-7 text-sm font-medium md:flex"
             aria-label="Navegação principal"
           >
+            <Link href="/gods-eye-view" className="hover:text-[#087F70]">
+              Globo interativo
+            </Link>
             <Link href="#arquitetura" className="hover:text-[#087F70]">
               Arquitetura
             </Link>
@@ -128,6 +131,9 @@ export default function Home() {
                 terminem em uma ação verificável — e não em mais um painel que ninguém revisa.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-5">
+                <Link href="/gods-eye-view" className="inline-flex min-h-12 items-center border border-[#122024] px-6 font-semibold hover:bg-[#122024] hover:text-white">
+                  Explorar o globo
+                </Link>
                 <Link
                   href="/login"
                   className="inline-flex min-h-12 items-center border border-[#087F70] bg-[#087F70] px-6 font-semibold text-white hover:bg-[#122024]"
