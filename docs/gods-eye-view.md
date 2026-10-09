@@ -22,6 +22,11 @@ Voos usam exclusivamente adsb.lol em um raio de 250 milhas náuticas do centro
 da câmera, com cache de 15 segundos e identificação de fonte e cobertura.
 Não se consulta OpenSky, cuja licença padrão é não comercial.
 
+Se o WebGL falhar na inicialização, o aplicativo abre automaticamente um mapa
+Leaflet 2D com imagens Esri (OSM como alternativa), voos regionais, satélites
+calculados por SGP4/CelesTrak e terremotos USGS. Os atalhos de câmera funcionam
+nos dois modos. O globo 3D permanece como experiência principal.
+
 ## Limites desta edição
 
 - Não expõe painel de credenciais, login OAuth/Codex, arquivos do servidor ou MCP.

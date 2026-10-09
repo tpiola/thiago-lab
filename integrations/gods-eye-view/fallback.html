@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mapa 2D | Thiago Lab</title></head>
+<body><div id="map" aria-label="Mapa interativo"></div>
+<aside id="panel"><p class="kicker">GOD'S EYE VIEW / MODO 2D</p><h2>O mundo continua aqui.</h2><p class="intro">Este navegador não iniciou o globo 3D. Explore o mapa com as camadas abaixo.</p>
+<div class="switches"><label><input id="flights" type="checkbox" checked> Voos na região</label><label><input id="satellites" type="checkbox"> Satélites / ISS</label><label><input id="earthquakes" type="checkbox"> Terremotos · 24h</label></div>
+<p id="feed-status" role="status">Carregando voos…</p><p id="layer-status" role="status"></p>
+<details><summary>Buscar localização</summary><form id="search"><label for="coordinates">Latitude, longitude</label><div class="search-row"><input id="coordinates" placeholder="-20.5386, -47.4008" required><button type="submit">Ir</button></div></form></details>
+<p class="note">Posições de voos podem ter atraso. Satélites: posições calculadas com elementos orbitais CelesTrak. Cobertura de voos: 250 milhas náuticas.</p><button id="retry" type="button">Tentar globo 3D</button></aside>
+<script type="module" src="/src/hostedFallback.js"></script></body></html>

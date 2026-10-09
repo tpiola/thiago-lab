@@ -35,7 +35,7 @@ export function GlobeWorkspace() {
         </nav>
       </header>
       {help && <section id="globe-help" className="shrink-0 border-b border-white/10 bg-[#15231e] px-5 py-4 text-sm leading-6 text-[#c6d9d0]">
-        <p>Arraste para navegar. Use a roda do mouse ou dois dedos para aproximar. Em <strong>Data Layers</strong>, ative voos, satélites, terremotos e clima. Os voos cobrem a região da câmera e os dados podem ter atraso.</p>
+        <p>Arraste para navegar. Use a roda do mouse ou dois dedos para aproximar. Em <strong>Data Layers</strong>, ative voos, satélites, terremotos e clima. Os voos cobrem a região da câmera e os dados podem ter atraso. Navegadores sem WebGL abrem automaticamente o mapa 2D, com voos, satélites e terremotos.</p>
         <p className="mt-2 text-xs text-[#9bb5a8]">Esta edição usa mapas sem chave. Voz, cidades fotorrealistas, navios e algumas câmeras precisam de configuração adicional. Dados de cabos submarinos e a cena do Nepal foram excluídos por restrições de licença.</p>
         <a href="https://github.com/bilawalsidhu/gods-eye-view" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block underline underline-offset-4">Conhecer o projeto original</a>
       </section>}

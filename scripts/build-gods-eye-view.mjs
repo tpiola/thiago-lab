@@ -29,9 +29,15 @@ config.plugins.push({
 });
 await build({
   ...config, root, base, configFile: false,
-  build: { ...config.build, outDir, emptyOutDir: true },
+  build: { ...config.build, outDir, emptyOutDir: true, rollupOptions: { input: { main: resolve(root, 'index.html'), fallback: resolve(root, 'fallback.html') } } },
 });
 await cp(resolve('node_modules/cesium/Build/Cesium'), resolve(outDir, 'cesium'), { recursive: true });
+// The 2D fallback does not need Cesium's large runtime or widget styles.
+const fallbackPath = resolve(outDir, 'fallback.html');
+const fallbackHtml = await readFile(fallbackPath, 'utf8');
+await writeFile(fallbackPath, fallbackHtml
+  .replace(/\s*<link rel="stylesheet" href="[^"]*cesium\/Widgets\/widgets\.css">/, '')
+  .replace(/\s*<script src="[^"]*cesium\/Cesium\.js"><\/script>/, ''));
 await mkdir(resolve(outDir, 'credits'), { recursive: true });
 for (const file of ['LICENSE', 'DATA_SOURCES.md', 'THIRD_PARTY_NOTICES.md']) {
   await cp(resolve(root, file), resolve(outDir, 'credits', file));

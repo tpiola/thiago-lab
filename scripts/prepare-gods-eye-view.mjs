@@ -7,6 +7,13 @@ const pkg = JSON.parse(await readFile(path('package.json'), 'utf8'));
 pkg.exports['./hosted-providers'] = './hosted-providers.js';
 await writeFile(path('package.json'), JSON.stringify(pkg, null, 2) + '\n');
 await cp(resolve('integrations/gods-eye-view/hosted-providers.js'), path('hosted-providers.js'));
+await cp(resolve('integrations/gods-eye-view/fallback.html'), path('fallback.html'));
+await cp(resolve('integrations/gods-eye-view/fallback.js'), path('src/hostedFallback.js'));
+let main = await readFile(path('src/main.js'), 'utf8');
+if (!main.includes('fallback.html')) {
+  main = main.replace('  console.error(', "  if (/WebGL|CesiumWidget/i.test(describeError(error))) {\n    window.location.replace('./fallback.html' + window.location.hash);\n    return;\n  }\n  console.error(");
+  await writeFile(path('src/main.js'), main);
+}
 
 // Exclude non-commercial datasets before any browser assets are built.
 await rm(path('public/events/bhote-koshi-2026'), { recursive: true, force: true });
